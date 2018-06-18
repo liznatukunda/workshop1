@@ -17,7 +17,7 @@ public class dbconnect extends DOM{
 		     if (connection != null)     
 	         
 		        System.out.println("Database connected via XML");
-		      String insert= "insert into adrestype (id, type) values (321,'536')";
+		      String insert= "insert into adrestype (id, type) values (323,'546')";
 				PreparedStatement preparedStatement = connection.prepareStatement  (insert);
 				preparedStatement.execute();
 
