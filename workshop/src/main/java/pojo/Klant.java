@@ -1,15 +1,20 @@
 package pojo;
 
+import java.util.ArrayList;
+
 public class Klant {
-	private int klantNummer;
+	//private int klantNummer;Deze regel verwijder ik omdat die alleen voor de database is
 	private String voornaam;
 	private String tussenvoegsel;
 	private String achternaam;
-	private Adres adres;		
+	private Adres adres;
+	ArrayList <Bestelling> bestellingen;
 	
-	public void setKlantNummer(int klantNummer) {
-		this.klantNummer=klantNummer;
-	}
+	
+	
+	//public void setKlantNummer(int klantNummer) {
+	//	this.klantNummer=klantNummer;
+	//}
 	public void setVoornaam(String voornaam) {
 		this.voornaam=voornaam;
 	}
@@ -23,9 +28,9 @@ public class Klant {
 		this.adres=adres;
 	}
 	
-	public int getKlantnummer() {
-		return this.klantNummer;
-	}
+	//public int getKlantnummer() {
+	//	return this.klantNummer;
+	//}
 	public String getvoornaam() {
 		return this.voornaam;
 	}
