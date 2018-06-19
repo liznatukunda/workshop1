@@ -8,8 +8,10 @@ public class Adres {
 	private String postcode;
 	private String woonplaats;
 	
-	//Constructors is ook nog een goed idee
+
+	//Constructors is ook nog een goed idee, vind ik ook!
 	//wow
+
 	public void setAdresNummer(int adresNummer) {
 		this.adresNummer=adresNummer;
 	}
