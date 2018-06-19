@@ -10,6 +10,8 @@ public class Adres {
 	
 	//Constructors is ook nog een goed idee, vind ik ook! Pascal
 	
+	//wow=======
+
 	public void setAdresNummer(int adresNummer) {
 		this.adresNummer=adresNummer;
 	}
