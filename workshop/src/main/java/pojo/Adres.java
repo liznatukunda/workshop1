@@ -9,7 +9,7 @@ public class Adres {
 	private String woonplaats;
 	
 	//Constructors is ook nog een goed idee
-	
+	//wow
 	public void setAdresNummer(int adresNummer) {
 		this.adresNummer=adresNummer;
 	}
