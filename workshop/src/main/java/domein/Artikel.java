@@ -2,7 +2,7 @@
 // TO DO: type verwijderen???
 // TO DO: exception voor negatieve prijs
 
-package pojo;
+package domein;
 
 import java.math.BigDecimal;
 

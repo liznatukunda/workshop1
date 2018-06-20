@@ -1,6 +1,6 @@
 // TO DO: BigDecimal
 
-package pojo;
+package domein;
 
 import java.math.BigDecimal;
 

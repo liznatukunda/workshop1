@@ -3,7 +3,7 @@
 // TO DO: moet niet meteen het adrestype opgeslagen worden als een afwijkend adres wordt ingevoerd??
 
 
-package pojo;
+package domein;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

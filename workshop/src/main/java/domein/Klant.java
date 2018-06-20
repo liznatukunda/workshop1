@@ -2,7 +2,7 @@
 // TO DO: account als superklasse instellen??
 // TO DO: toevoegen methode om bestelling te creëren of juist bij account???
 
-package pojo;
+package domein;
 
 import java.util.ArrayList;
 
