@@ -1,3 +1,6 @@
+// TO DO: bijvoegen opties voor klant verwijderen
+// TO DO: toevoegen methode om bestelling te creëren of juist bij klasse klant???
+
 package pojo;
 
 public class Account {
@@ -7,6 +10,7 @@ public class Account {
 	private String userNaam;
 	private String password;
 	private Rol rol;
+	private Klant klant;
 	
 	/**
 	 * Creëert een nieuwe account
@@ -42,4 +46,21 @@ public class Account {
 	public Rol getRol() {
 		return this.rol;
 	}
+	
+	public void voegKlantToe(Klant klant) {
+		this.klant=klant;
+	}
+	
+	public void wijzigKlant(Klant klant, String voornaam, String tussenvoegsel, String achternaam) {
+		this.klant.setVoornaam(voornaam);
+		this.klant.setTussenvoegsel(tussenvoegsel);
+		this.klant.setAchternaam(achternaam);
+	}
+	
+	public void wijzigKlant(Klant klant, String voornaam, String achternaam) {
+		this.klant.setVoornaam(voornaam);
+		this.klant.setTussenvoegsel(null);
+		this.klant.setAchternaam(achternaam);
+	}
+	
 }

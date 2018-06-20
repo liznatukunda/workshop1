@@ -1,3 +1,6 @@
+// TO DO: format postcode controleren, en in getter en constructor gebruiken
+// TO DO: aparte constructor voor postadres, zodat dan meteen het type postadres wordt opgeslagen???
+
 package pojo;
 
 public class Adres {
@@ -5,7 +8,7 @@ public class Adres {
 	public enum AdresType {POSTADRES, FACTUURADRES, BEZORGADRES}
 	
 	private AdresType adresType;
-	// private int adresNummer;
+	// private int adresNummer;Deze regel verwijder ik omdat die alleen voor de database is
 	private String straatnaam;
 	private int huisnummer;
 	private String toevoeging;
@@ -65,9 +68,11 @@ public class Adres {
 	public void setWoonplaats(String woonplaats) {
 		this.woonplaats=woonplaats;
 	}
+	
 	//public int getAdresNummer() {
 	//	return this.adresNummer;
 	//}
+	
 	public String getStraatnaam() {
 		return this.straatnaam;
 	}

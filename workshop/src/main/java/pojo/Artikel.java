@@ -1,3 +1,7 @@
+// TO DO: BigDecimal
+// TO DO: type verwijderen???
+// TO DO: exception voor negatieve prijs
+
 package pojo;
 
 import java.math.BigDecimal;
@@ -33,6 +37,7 @@ public class Artikel {
 	// public void setArtikelNummer (int artikelNummer) {
 	//	this.artikelNummer=artikelNummer;
 	//}
+	
 	public void setNaam (String naam) {
 		this.naam=naam;
 	}
@@ -53,10 +58,11 @@ public class Artikel {
 	 * Wijzigt de voorraad naar de gewenste hoeveelheid artikelen
 	 * @param voorraad de gewenste nieuwe hoeveelheid, die minimaal 0 moet zijn
 	 */
-	public void setVoorraad (int voorraad) {
+	public void setVoorraad (int voorraad) throws Exception {
 		if (voorraad>=0) {
 			this.voorraad=voorraad;
-		}		
+		}
+		else new Exception("Voorraad kan niet negatief zijn");
 	}
 	
 	//public int getArtikelNummer () {
@@ -79,12 +85,12 @@ public class Artikel {
 	 * Verlaagt de voorraad mits de gewenste verlaging een positief aantal is en de verlaging niet groter is dan de huidige voorraad
 	 * @param aantal de hoeveelheid waarmee de voorraad verlaagt moet worden
 	 */
-	public void verlaagVoorraad(int aantal) {
+	public void verlaagVoorraad(int aantal) throws Exception {
 		if (aantal>0) {
-			if ((getVoorraad()-aantal)>=0){
-				setVoorraad(getVoorraad()-aantal);
-			}
-			
+			setVoorraad(getVoorraad()-aantal);
+		}
+		else {
+			throw new Exception ("aantal mag niet negatief zijn");
 		}
 		
 	}

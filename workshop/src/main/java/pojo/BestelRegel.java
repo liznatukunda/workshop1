@@ -1,15 +1,13 @@
+// TO DO: BigDecimal
+
 package pojo;
 
 import java.math.BigDecimal;
 
 public class BestelRegel {
 	
-	
-	// 
 	private Artikel artikel;
-	// private Bestelling bestelling;
-	// De voorgaande regel verwijder ik, omdat ik een ArrayList bestelregels declareer in Bestelling die juist alle bestelregels bijhoudt.
-	// Dat betekent dat de betreffende setters en getters verderop ook verwijderd worden
+	// private Bestelling bestelling; Door een ArrayList in Bestelling te genereren, is dit niet meer nodig
 	private int aantal;
 	private BigDecimal prijs;
 	
@@ -22,27 +20,39 @@ public class BestelRegel {
 	public BestelRegel (Artikel artikel, int aantal) {
 		this.artikel=artikel;
 		this.aantal=aantal;
-		this.prijs=getPrijs();
+		setPrijs();
 	}
 	
 
 	public void setArtikel(Artikel artikel) {
 		this.artikel=artikel;
+		// als er een ander artikel is gekozen, dan heeft dat ook consequenties voor de prijs, dus volgt:
+		setPrijs();
 	}
+	
 	// public void setBestelling(Bestelling bestelling) {
 	// 	this.bestelling= bestelling;
 	// }
+	
 	public void setAantal(int aantal) {
 		this.aantal=aantal;
+		// als er een ander aantal is gekozen, dan heeft dat ook consequenties voor de prijs, dus volgt:
+		setPrijs();
+	}
+	
+	public void setPrijs() {
+		this.prijs=getPrijs();
 	}
 	
 
 	public Artikel getArtikel() {
 		return this.artikel;
 	}
+	
 	// public Bestelling getBestelling() {
 	// 	return this.bestelling;
 	// }
+	
 	public int getAantal() {
 		return this.aantal;
 	}
