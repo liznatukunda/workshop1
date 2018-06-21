@@ -6,7 +6,7 @@ package pojo;
 public class Account {
 	
 	public enum Rol {KLANT, MEDEWERKER, BEHEERDER}
-	
+	private Integer id;
 	private String userNaam;
 	private String password;
 	private Rol rol;
@@ -18,10 +18,19 @@ public class Account {
 	 * @param password het gewenste wachtwoord om mee in te loggen
 	 * @param rol de rol die de betreffende gebruiker krijgt, op basis waarvan diens rechten in de app worden bepaald
 	 */
-	public Account(String userNaam, String password, Rol rol) {
+	
+	public Account() {
+	}
+	
+	public Account(Integer Id, String userNaam, String password, Rol rol) {
+		this.id = Id;
 		this.userNaam=userNaam;
 		this.password=password;
-		this.rol=rol;
+		this.rol=rol;  
+	}
+	
+	public void setId(Integer id) {
+		this.id=id;
 	}
 	
 	public void setUserNaam(String userNaam) {
@@ -34,6 +43,9 @@ public class Account {
 	
 	public void setRol(Rol rol) {
 		this.rol=rol;
+	}
+	public Integer getId() {
+		return this.id;
 	}
 	
 	
