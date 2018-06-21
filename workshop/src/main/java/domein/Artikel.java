@@ -7,9 +7,8 @@ package domein;
 import java.math.BigDecimal;
 
 public class Artikel {
-	// private int artikelNummer; Deze regel verwijder ik omdat die alleen voor de database is
+	private int id; 
 	private String naam;
-	private String type;
 	private BigDecimal prijs;
 	// Moeten we de BigDecimal niet nog verder definiëren, zodat het daadwerkelijk een prijs met 2 cijfers achter de komma wordt??
 	private int voorraad;
@@ -22,12 +21,11 @@ public class Artikel {
 	 * @param prijs de stukprijs van het artikel, die niet negatief mag zijn
 	 * @param voorraad de hoeveelheid artikelen die op voorraad zijn, die niet negatief mag zijn
 	 */
-	public Artikel(String naam, String type, BigDecimal prijs, int voorraad) {
+	public Artikel(String naam, BigDecimal prijs, int voorraad) {
 		if (voorraad>=0) 
 		// Hier moet nog aan toegevoegd worden dat prijs ook groter of gelijk aan 0 is
 		{
 			this.naam=naam;
-			this.type=type;
 			this.prijs=prijs;
 			this.voorraad=voorraad;
 		}
@@ -41,9 +39,13 @@ public class Artikel {
 	public void setNaam (String naam) {
 		this.naam=naam;
 	}
-	public void setType (String type) {
-		this.type=type;
+	
+	
+	public void setId(int id) {
+		
+		this.id=id;
 	}
+	
 	
 	/**
 	 * Wijzigt de prijs naar de gewenste stuksprijs van het artikel
@@ -58,22 +60,19 @@ public class Artikel {
 	 * Wijzigt de voorraad naar de gewenste hoeveelheid artikelen
 	 * @param voorraad de gewenste nieuwe hoeveelheid, die minimaal 0 moet zijn
 	 */
-	public void setVoorraad (int voorraad) throws Exception {
-		if (voorraad>=0) {
-			this.voorraad=voorraad;
-		}
-		else new Exception("Voorraad kan niet negatief zijn");
+	public void setVoorraad (int voorraad)  {
+		this.voorraad=voorraad;
 	}
 	
-	//public int getArtikelNummer () {
-	//	return this.artikelNummer;
-	//}
+	public int getId () {
+		return this.id;
+	}
+	
+	
 	public String getNaam() {
 		return this.naam;
 	}
-	public String getType() {
-		return this.type;
-	}
+	
 	public BigDecimal getPrijs() {
 		return this.prijs;
 	}
@@ -94,5 +93,7 @@ public class Artikel {
 		}
 		
 	}
+
+	
 }
 	
