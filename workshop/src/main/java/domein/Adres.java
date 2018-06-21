@@ -1,7 +1,7 @@
 // TO DO: format postcode controleren, en in getter en constructor gebruiken
 // TO DO: aparte constructor voor postadres, zodat dan meteen het type postadres wordt opgeslagen???
 
-package pojo;
+package domein;
 
 public class Adres {
 	

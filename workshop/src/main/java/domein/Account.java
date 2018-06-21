@@ -1,7 +1,7 @@
 // TO DO: bijvoegen opties voor klant verwijderen
 // TO DO: toevoegen methode om bestelling te creëren of juist bij klasse klant???
 
-package pojo;
+package domein;
 
 public class Account {
 	
