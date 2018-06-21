@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class ConnectieDatabase extends DOM{
 	
-	 private Connection con=null;
+	 private static Connection con=null;
 	 
 	 public ConnectieDatabase() {
 		 
@@ -41,7 +41,7 @@ public class ConnectieDatabase extends DOM{
 	    
 	  }
 	  
-	  public Connection getConnection(){
+	  public static Connection getConnection(){
 		  return con;
 	  }
 	 

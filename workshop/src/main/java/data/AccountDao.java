@@ -1,20 +1,21 @@
-package Dao;
+package data;
 
 import java.sql.*;
 import java.sql.Connection;
-import databaseconnection.dbconnect;
-import pojo.Account;
 
-public class AccountDao {
+import domein.Account;
+import domein.Account.Rol;
+
+public class AccountDao implements AccountDaoInterface {
 	
-private dbconnect connection = new dbconnect();
+private  static Connection con = ConnectieDatabase.getConnection();
 private PreparedStatement stmt = null;
 	
-	public Integer createAccount(Account account){
-		Integer insertId = 0;
+	public int createAccount(Account account){
+		int insertId = 0;
 		String sql = "INSERT INTO Account (username, password, rol) VALUES (?,?,?);";
 		try {
-			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setObject(1, account.getUserNaam());
 			stmt.setObject(2, account.getPassword()); 
 			stmt.setObject(3, account.getRol());
@@ -32,19 +33,25 @@ private PreparedStatement stmt = null;
 		return insertId;
 	}
 	
-	public Account getAccount(Integer id){
+	public Account getAccount(int id){
 		String sql = "SELECT * FROM Account WHERE id=?";
-		Account returnedAccount = new Account();
+		Account returnedAccount = null;
 		try {
-			PreparedStatement stmt = connection.prepareStatement(sql);
+			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setObject(1, id);
 			ResultSet resultSet = stmt.executeQuery();
             if (resultSet.isBeforeFirst()) {
                 resultSet.next();
-                returnedAccount.setId(resultSet.getInt(1));
-                returnedAccount.setUserNaam(resultSet.getString(2));
-                returnedAccount.setPassword(resultSet.getString(3));
-                returnedAccount.setRol(resultSet.getString(4));
+              
+               int id1 = resultSet.getInt(1);
+                String userNaam =  resultSet.getString(2);
+                String password =  resultSet.getString(3);
+               Rol rol = (Rol) resultSet.getObject(4);
+                 returnedAccount = new Account (userNaam,password,rol);
+                
+                returnedAccount.setId(id1);
+               		
+                
                 System.out.println("User gevonden: " + returnedAccount.getUserNaam()); 
             }
             else{
@@ -52,17 +59,17 @@ private PreparedStatement stmt = null;
             }
             
 		} catch (SQLException e) {
-			e.printStackTrace();
+			e.printStackTrace(); 
 		}
 		
 		return returnedAccount;
 	}
 	
-	public boolean updateAccount(Integer id, String userNaam, String password,Rol rol ){
+	public boolean updateAccount(int id, String userNaam, String password,Rol rol ){
 		String sql = "UPDATE Account SET userNaam = ?, password = ?, rol = ? WHERE id = ?";
 		int rows = -1;
 		try {
-			PreparedStatement stmt = connection.prepareStatement(sql);
+			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setObject(1, id);
 			stmt.setObject(2, userNaam);
 			stmt.setObject(3, password);
@@ -81,11 +88,11 @@ private PreparedStatement stmt = null;
 		return updateAccount( nieuwAccount.getId(),nieuwAccount.getUserNaam(), nieuwAccount.getPassword(), nieuwAccount.getRol());
 	}
 	
-	public boolean deleteAccount(Integer id){
+	public boolean deleteAccount(int id){
 		String sql = "DELETE FROM Account WHERE id = ?";
 		int rows = -1;
 		try {
-			PreparedStatement stmt = connection.prepareStatement(sql);
+			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setObject(1, id);
 			rows = stmt.executeUpdate();
 		} catch (SQLException e) {
@@ -99,6 +106,4 @@ private PreparedStatement stmt = null;
 	}
 }
 
-/* ALTER TABLE Account
-ADD CONSTRAINT check_Role
-  CHECK (role IN ('Administrator', 'medewerker', 'Klant'));  */
+
