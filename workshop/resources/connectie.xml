@@ -1,5 +1,5 @@
 <connectie>
-	<url>jdbc:mysql://localhost:3306/workshop1?useLegacyDatetimeCode=false&amp;serverTimezone=UTC&amp;verifyServerCertificate=false&amp;useSSL=true</url>
+	<url>jdbc:mysql://localhost:3306/applikaasie_lop?useLegacyDatetimeCode=false&amp;serverTimezone=UTC&amp;verifyServerCertificate=false&amp;useSSL=true</url>
 	<drivername>com.mysql.cj.jdbc.Driver</drivername>
 	<username>root</username>
 	<password>RS4@Student</password>

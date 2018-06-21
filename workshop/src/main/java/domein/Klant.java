@@ -7,12 +7,12 @@ package domein;
 import java.util.ArrayList;
 
 public class Klant {
-	//private int klantNummer;Deze regel verwijder ik omdat die alleen voor de database is
+	int klantNummer;
 	private String voornaam;
 	private String tussenvoegsel;
 	private String achternaam;
-	private Adres postadres;
 	ArrayList <Bestelling> bestellingen= new ArrayList <Bestelling>();
+	ArrayList <Adres> adressen= new ArrayList <Adres>();
 	
 	// Hieronder volgen eerst twee constructors, eentje met en eentje zonder tussenvoegsel
 	
@@ -27,7 +27,7 @@ public class Klant {
 		this.voornaam=voornaam;
 		this.tussenvoegsel=tussenvoegsel;
 		this.achternaam=achternaam;
-		this.postadres=postadres;
+		adressen.set(0, postadres);
 	}
 	
 	/**
@@ -40,15 +40,15 @@ public class Klant {
 		this.voornaam=voornaam;
 		this.tussenvoegsel=null;
 		this.achternaam=achternaam;
-		this.postadres=postadres;
+		adressen.set(0, postadres);
 	}
 
 	
 	
 	
-	//public void setKlantNummer(int klantNummer) {
-	//	this.klantNummer=klantNummer;
-	//}
+	public void setKlantNummer(int klantNummer) {
+		this.klantNummer=klantNummer;
+	}
 	public void setVoornaam(String voornaam) {
 		this.voornaam=voornaam;
 	}
@@ -58,13 +58,19 @@ public class Klant {
 	public void setAchternaam(String achternaam) {
 		this.achternaam=achternaam;
 	}
-	public void setAdres(Adres adres) {
-		this.postadres=adres;
+	
+	public void setFactuurAdres(Adres adres) {
+		adressen.set(1, adres);
 	}
 	
-	//public int getKlantnummer() {
-	//	return this.klantNummer;
-	//}
+	public void setBezorgAdres (Adres adres) {
+		adressen.set(2, adres);
+	}
+
+	
+	public int getKlantnummer() {
+		return this.klantNummer;
+	}
 	public String getvoornaam() {
 		return this.voornaam;
 	}
@@ -74,8 +80,15 @@ public class Klant {
 	public String getAchternaam() {
 		return this.achternaam;
 	}
-	public Adres getAdres() {
-		return this.postadres;
+	
+	/**
+	 * 
+	 * @param type 0=postadres, 1=factuuradres, 2=bezorgadres
+	 * @return
+	 */
+	public Adres getAdres(int type) {
+		return adressen.get(type);
 	}
+
 	
 }
