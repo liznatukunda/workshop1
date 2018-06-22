@@ -10,6 +10,17 @@ public class AccountDao implements AccountDaoInterface {
 	
 private  static Connection con = ConnectieDatabase.getConnection();
 private PreparedStatement stmt = null;
+
+
+public Rol toRol (String rol) {
+	if (rol.equals("klant")){
+		return Account.Rol.klant;
+	}
+	if (rol.equals("medewerker")){
+		return Account.Rol.medewerker;
+	}
+	else return Account.Rol.beheerder;
+}
 	
 	public void createAccount(Account account){
 		int insertId = 0;
@@ -18,13 +29,12 @@ private PreparedStatement stmt = null;
 			stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setObject(1, account.getUserNaam());
 			stmt.setObject(2, account.getPassword()); 
-			stmt.setObject(3, account.getRol());
+			stmt.setObject(3, account.getRol().toString());
 			stmt.executeUpdate();
 			ResultSet resultSet = stmt.getGeneratedKeys();
             if (resultSet.isBeforeFirst()) {
                 resultSet.next();
                 insertId = resultSet.getInt(1);
-                System.out.println("Id " + insertId + " voor User " + account.getUserNaam());
                 account.setId(insertId);
             }
 		} catch (SQLException e) {
@@ -45,7 +55,7 @@ private PreparedStatement stmt = null;
                int id1 = resultSet.getInt(1);
                 String userNaam =  resultSet.getString(2);
                 String password =  resultSet.getString(3);
-               Rol rol = (Rol) resultSet.getObject(4);
+               Rol rol = toRol(resultSet.getString(4));
                  returnedAccount = new Account (userNaam,password,rol);
                 
                 returnedAccount.setId(id1);

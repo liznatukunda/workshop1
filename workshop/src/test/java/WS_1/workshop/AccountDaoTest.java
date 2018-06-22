@@ -36,14 +36,18 @@ public class AccountDaoTest {
 	public void setUp(){
 		testlijst=new ArrayList <Account>();
 		actueleWaarden=new ArrayList <Account>();
-		testlijst.add(new Account("Boer Piet", "simpel", Account.Rol.beheerder));
-		testlijst.add(new Account("medewerker 1", "simpel", Account.Rol.medewerker));
-		testlijst.add(new Account("klant 1", "simpel", Account.Rol.klant));
-		
-		
-		
-
+		testlijst.add(nieuweAccount1);
+		testlijst.add(nieuweAccount2);
+		testlijst.add(nieuweAccount3);
 	}
+	
+	@After
+	public void finish() {
+		adao.deleteAccount(nieuweAccount1);
+		adao.deleteAccount(nieuweAccount2);
+		adao.deleteAccount(nieuweAccount3);
+	}
+	
 	
 
 	@Test
@@ -53,15 +57,30 @@ public class AccountDaoTest {
 		adao.createAccount(nieuweAccount3);
 		//Account[]actueleWaarden= {nieuweAccount1,nieuweAccount2,nieuweAccount3};
 		//Account[]testlijst={nieuweAccount1,nieuweAccount2,nieuweAccount3};
-		actueleWaarden.add(adao.getAccount(nieuweAccount1.getId()));
-		actueleWaarden.add(adao.getAccount(nieuweAccount2.getId()));
-		actueleWaarden.add(adao.getAccount(nieuweAccount3.getId()));
-		assertArrayEquals("Kon geen nieuwe accounts opslaan", actueleWaarden.toArray(), testlijst.toArray());
+		//actueleWaarden.add(adao.getAccount(nieuweAccount1.getId()));
+		//actueleWaarden.add(adao.getAccount(nieuweAccount2.getId()));
+		//actueleWaarden.add(adao.getAccount(nieuweAccount3.getId()));
+		//assertArrayEquals("Kon geen nieuwe accounts opslaan", actueleWaarden.toArray(), testlijst.toArray());
+		Account actueleAccount1=adao.getAccount(nieuweAccount1.getId());
+		Account actueleAccount2=adao.getAccount(nieuweAccount2.getId());
+		Account actueleAccount3=adao.getAccount(nieuweAccount3.getId());
+		
+		assertEquals("boer Piet gebruikersnaam niet juist opgeslagen", actueleAccount1.getUserNaam(),nieuweAccount1.getUserNaam());
+		assertEquals("boer Piet id niet juist opgeslagen", actueleAccount1.getId(),nieuweAccount1.getId());
+		assertEquals("boer Piet password niet juist opgeslagen", actueleAccount1.getPassword() ,nieuweAccount1.getPassword());
+		assertEquals("boer Piet rol niet juist opgeslagen", actueleAccount1.getRol(),nieuweAccount1.getRol());
+		
+		assertEquals("medewerker gebruikersnaam niet juist opgeslagen", actueleAccount2.getUserNaam(),nieuweAccount2.getUserNaam());
+		assertEquals("medewerker id niet juist opgeslagen", actueleAccount2.getId(),nieuweAccount2.getId());
+		assertEquals("medewerker password niet juist opgeslagen", actueleAccount2.getPassword() ,nieuweAccount2.getPassword());
+		assertEquals("medewerker rol niet juist opgeslagen", actueleAccount2.getRol(),nieuweAccount2.getRol());
+		
+		assertEquals("medewerker gebruikersnaam niet juist opgeslagen", actueleAccount3.getUserNaam(),nieuweAccount3.getUserNaam());
+		assertEquals("medewerker id niet juist opgeslagen", actueleAccount3.getId(),nieuweAccount3.getId());
+		assertEquals("medewerker password niet juist opgeslagen", actueleAccount3.getPassword() ,nieuweAccount3.getPassword());
+		assertEquals("medewerker rol niet juist opgeslagen", actueleAccount3.getRol(),nieuweAccount3.getRol());
 	}
 	
-	public void testGetAccount() {
-		
-	}
 
 	@Test
 	public void testUpdateAccountIntStringStringRol() {

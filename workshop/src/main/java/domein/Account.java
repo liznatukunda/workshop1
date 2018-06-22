@@ -6,6 +6,7 @@ package domein;
 public class Account {
 	
 	public enum Rol {klant, medewerker, beheerder}
+	
 	private int id;
 	private String userNaam;
 	private String password;
