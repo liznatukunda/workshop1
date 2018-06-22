@@ -11,7 +11,7 @@ public class AccountDao implements AccountDaoInterface {
 private  static Connection con = ConnectieDatabase.getConnection();
 private PreparedStatement stmt = null;
 	
-	public int createAccount(Account account){
+	public void createAccount(Account account){
 		int insertId = 0;
 		String sql = "INSERT INTO Account (username, password, rol) VALUES (?,?,?);";
 		try {
@@ -30,7 +30,6 @@ private PreparedStatement stmt = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return insertId;
 	}
 	
 	public Account getAccount(int id){
