@@ -61,7 +61,7 @@ public Rol toRol (String rol) {
                 returnedAccount.setId(id1);
                		
                 
-                System.out.println("User gevonden: " + returnedAccount.getUserNaam()); 
+             //   System.out.println("User gevonden: " + returnedAccount.getUserNaam()); 
             }
             else{
             	System.err.println("Geen User gevonden!");
@@ -75,14 +75,15 @@ public Rol toRol (String rol) {
 	}
 	
 	public boolean updateAccount(int id, String userNaam, String password,Rol rol ){
-		String sql = "UPDATE Account SET userNaam = ?, password = ?, rol = ? WHERE id = ?";
+		String sql = "UPDATE Account SET username = ?, password = ?, rol = ? WHERE id = ?";
 		int rows = -1;
 		try {
 			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setObject(1, id);
-			stmt.setObject(2, userNaam);
-			stmt.setObject(3, password);
-			stmt.setObject(4, rol);
+			
+			stmt.setObject(1, userNaam);
+			stmt.setObject(2, password);
+			stmt.setObject(3, rol.toString());
+			stmt.setObject(4, id);
 			rows = stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

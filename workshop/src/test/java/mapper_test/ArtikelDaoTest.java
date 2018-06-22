@@ -1,7 +1,7 @@
 package mapper_test;
 
 import junit.framework.TestCase;
-
+import org.junit.*;
 public class ArtikelDaoTest extends TestCase {
 
 	public void testCreateArtikel() {

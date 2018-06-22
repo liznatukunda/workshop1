@@ -22,6 +22,8 @@ public class AccountDaoTest {
 	Account nieuweAccount1=new Account ("Boer Piet", "simpel", Account.Rol.beheerder);
 	Account nieuweAccount2=new Account ("medewerker 1", "simpel", Account.Rol.medewerker);
 	Account nieuweAccount3=new Account ("klant 1", "simpel", Account.Rol.klant);
+	Account nieuweAccount4=new Account ("klant 2", "simpel", Account.Rol.klant);
+	Account nieuweAccount5=new Account ("klant 3", "moeilijk", Account.Rol.medewerker);
 	static ConnectieDatabase cdb=new ConnectieDatabase();
 	AccountDao adao=new AccountDao();
 	
@@ -46,6 +48,7 @@ public class AccountDaoTest {
 		adao.deleteAccount(nieuweAccount1);
 		adao.deleteAccount(nieuweAccount2);
 		adao.deleteAccount(nieuweAccount3);
+		adao.deleteAccount(nieuweAccount4);
 	}
 	
 	
@@ -84,7 +87,11 @@ public class AccountDaoTest {
 
 	@Test
 	public void testUpdateAccountIntStringStringRol() {
-		
+		adao.createAccount(nieuweAccount4);
+		adao.updateAccount(nieuweAccount4.getId(),"nieuwe usernaam","hallo", Account.Rol.medewerker);
+		assertEquals("klant 2 gebruikersnaam niet gewijzigd",adao.getAccount(nieuweAccount4.getId()).getUserNaam(),"nieuwe usernaam");
+		assertEquals("klant 2 password niet gewijzigd",adao.getAccount(nieuweAccount4.getId()).getPassword(),"hallo");
+		assertEquals("klant 2 rol niet gewijzigd",adao.getAccount(nieuweAccount4.getId()).getRol(),Account.Rol.medewerker);
 	}
 
 	@Test
