@@ -5,128 +5,135 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
--- Schema Applikaasie_LOP
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema applikaasie_lop
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema Applikaasie_LOP
+-- Schema applikaasie_lop
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `Applikaasie_LOP` DEFAULT CHARACTER SET utf8 ;
-USE `Applikaasie_LOP` ;
+CREATE SCHEMA IF NOT EXISTS `applikaasie_lop` DEFAULT CHARACTER SET utf8 ;
+USE `applikaasie_lop` ;
 
 -- -----------------------------------------------------
--- Table `Applikaasie_LOP`.`Klant`
+-- Table `applikaasie_lop`.`account`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Applikaasie_LOP`.`Klant` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `voornaam` VARCHAR(45) NULL,
-  `tussenvoegsel` VARCHAR(45) NULL,
-  `achternaam` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `idKlant_UNIQUE` (`id` ASC))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `Applikaasie_LOP`.`Account`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Applikaasie_LOP`.`Account` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(45) NULL,
-  `password` VARCHAR(45) NULL,
-  `rol` ENUM("klant", "medewerker", "beheerder") NULL,
-  `Klant_idKlant` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `applikaasie_lop`.`account` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(45) NULL DEFAULT NULL,
+  `password` VARCHAR(45) NULL DEFAULT NULL,
+  `rol` ENUM('klant', 'medewerker', 'beheerder') NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `idAccount_UNIQUE` (`id` ASC),
-  UNIQUE INDEX `username_UNIQUE` (`username` ASC),
-  INDEX `fk_Account_Klant1_idx` (`Klant_idKlant` ASC),
-  CONSTRAINT `fk_Account_Klant1`
-    FOREIGN KEY (`Klant_idKlant`)
-    REFERENCES `Applikaasie_LOP`.`Klant` (`id`)
-    ON DELETE CASCADE
+  UNIQUE INDEX `username_UNIQUE` (`username` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `applikaasie_lop`.`klant`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `applikaasie_lop`.`klant` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `voornaam` VARCHAR(45) NULL DEFAULT NULL,
+  `tussenvoegsel` VARCHAR(45) NULL DEFAULT NULL,
+  `achternaam` VARCHAR(45) NULL DEFAULT NULL,
+  `account_id` INT(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `idKlant_UNIQUE` (`id` ASC),
+  INDEX `fk_klant_account1_idx` (`account_id` ASC),
+  CONSTRAINT `fk_klant_account1`
+    FOREIGN KEY (`account_id`)
+    REFERENCES `applikaasie_lop`.`account` (`id`)
+    ON DELETE  CASCADE
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `Applikaasie_LOP`.`Adres`
+-- Table `applikaasie_lop`.`adres`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Applikaasie_LOP`.`Adres` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `straatnaam` VARCHAR(45) NULL,
-  `huisnummer` VARCHAR(45) NULL,
-  `toevoeging` VARCHAR(45) NULL,
-  `postcode` VARCHAR(45) NULL,
-  `woonplaats` VARCHAR(45) NULL,
-  `Adrestype` ENUM("postadres", "factuuradres", "bezorgadres") NULL,
-  `Klant_idKlant` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `applikaasie_lop`.`adres` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `straatnaam` VARCHAR(45) NULL DEFAULT NULL,
+  `huisnummer` VARCHAR(45) NULL DEFAULT NULL,
+  `toevoeging` VARCHAR(45) NULL DEFAULT NULL,
+  `postcode` VARCHAR(45) NULL DEFAULT NULL,
+  `woonplaats` VARCHAR(45) NULL DEFAULT NULL,
+  `Adrestype` ENUM('postadres', 'factuuradres', 'bezorgadres') NULL DEFAULT NULL,
+  `Klant_idKlant` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `idAdres_UNIQUE` (`id` ASC),
   INDEX `fk_Adres_Klant1_idx` (`Klant_idKlant` ASC),
   CONSTRAINT `fk_Adres_Klant1`
     FOREIGN KEY (`Klant_idKlant`)
-    REFERENCES `Applikaasie_LOP`.`Klant` (`id`)
+    REFERENCES `applikaasie_lop`.`klant` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `Applikaasie_LOP`.`Artikel`
+-- Table `applikaasie_lop`.`artikel`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Applikaasie_LOP`.`Artikel` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `naam` VARCHAR(45) NULL,
-  `prijs` DECIMAL(6,2) NULL,
-  `voorraad` INT NULL,
+CREATE TABLE IF NOT EXISTS `applikaasie_lop`.`artikel` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `naam` VARCHAR(45) NULL DEFAULT NULL,
+  `prijs` DECIMAL(6,2) NULL DEFAULT NULL,
+  `voorraad` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `idArtikel_UNIQUE` (`id` ASC),
   UNIQUE INDEX `naam_UNIQUE` (`naam` ASC))
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `Applikaasie_LOP`.`Bestelling`
+-- Table `applikaasie_lop`.`bestelling`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Applikaasie_LOP`.`Bestelling` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `totaalprijs` DECIMAL(6,2) NULL,
-  `Klant_idKlant` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `applikaasie_lop`.`bestelling` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `totaalprijs` DECIMAL(6,2) NULL DEFAULT NULL,
+  `Klant_idKlant` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `idBestelling_UNIQUE` (`id` ASC),
   INDEX `fk_Bestelling_Klant1_idx` (`Klant_idKlant` ASC),
   CONSTRAINT `fk_Bestelling_Klant1`
     FOREIGN KEY (`Klant_idKlant`)
-    REFERENCES `Applikaasie_LOP`.`Klant` (`id`)
+    REFERENCES `applikaasie_lop`.`klant` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `Applikaasie_LOP`.`Bestelregel`
+-- Table `applikaasie_lop`.`bestelregel`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Applikaasie_LOP`.`Bestelregel` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `aantal` INT NULL,
-  `prijs` DECIMAL(6,2) NULL,
-  `Bestelling_idBestelling` INT NOT NULL,
-  `Artikel_idArtikel` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `applikaasie_lop`.`bestelregel` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `aantal` INT(11) NULL DEFAULT NULL,
+  `prijs` DECIMAL(6,2) NULL DEFAULT NULL,
+  `Bestelling_idBestelling` INT(11) NOT NULL,
+  `Artikel_idArtikel` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `idBestelregel_UNIQUE` (`id` ASC),
   INDEX `fk_Bestelregel_Bestelling1_idx` (`Bestelling_idBestelling` ASC),
   INDEX `fk_Bestelregel_Artikel1_idx` (`Artikel_idArtikel` ASC),
-  CONSTRAINT `fk_Bestelregel_Bestelling1`
-    FOREIGN KEY (`Bestelling_idBestelling`)
-    REFERENCES `Applikaasie_LOP`.`Bestelling` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_Bestelregel_Artikel1`
     FOREIGN KEY (`Artikel_idArtikel`)
-    REFERENCES `Applikaasie_LOP`.`Artikel` (`id`)
+    REFERENCES `applikaasie_lop`.`artikel` (`id`)
     ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB;
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Bestelregel_Bestelling1`
+    FOREIGN KEY (`Bestelling_idBestelling`)
+    REFERENCES `applikaasie_lop`.`bestelling` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
