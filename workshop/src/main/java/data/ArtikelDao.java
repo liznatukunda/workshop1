@@ -24,7 +24,7 @@ public class ArtikelDao implements ArtikelDaoInterface{
             if (resultSet.isBeforeFirst()) {
                 resultSet.next();
                 insertId = resultSet.getInt(1);
-                System.out.println("Id " + insertId + " voor artikel " + artikel.getNaam());
+               // System.out.println("Id " + insertId + " voor artikel " + artikel.getNaam());
                 artikel.setId(insertId);
             }
 		} catch (SQLException e) {
@@ -52,7 +52,7 @@ public class ArtikelDao implements ArtikelDaoInterface{
                 
                 returnedArtikel.setId(id1);
                 
-                System.out.println("Artikel gevonden: " + returnedArtikel.getNaam());
+                //System.out.println("Artikel gevonden: " + returnedArtikel.getNaam());
             }
             else{
             	System.err.println("Geen Artikel gevonden!");
@@ -80,7 +80,7 @@ public class ArtikelDao implements ArtikelDaoInterface{
                 Artikel artikel = new Artikel (naam,prijs,voorraad);
             	artikel.setId(id1);
             	
-            	System.out.println("Artikel gevonden: " + artikel.getNaam());
+            	//System.out.println("Artikel gevonden: " + artikel.getNaam());
             	returnedArtikelen.add(artikel);
             }
             

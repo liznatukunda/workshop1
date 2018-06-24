@@ -53,7 +53,7 @@ public class Artikel {
 	 */
 	public void setPrijs (BigDecimal prijs) {
 		// hier moet nog een if formulering komen om af te dwingen dat de prijs minimaal 0 is
-		this.prijs=prijs;
+		this.prijs=prijs.setScale(2, BigDecimal.ROUND_HALF_UP);
 	}
 	
 	/**
@@ -74,7 +74,7 @@ public class Artikel {
 	}
 	
 	public BigDecimal getPrijs() {
-		return this.prijs;
+		return this.prijs.setScale(2, BigDecimal.ROUND_HALF_UP);
 	}
 	public int getVoorraad() {
 		return this.voorraad;
