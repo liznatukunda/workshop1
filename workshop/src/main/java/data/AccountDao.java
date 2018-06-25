@@ -12,6 +12,7 @@ private  static Connection con = ConnectieDatabase.getConnection();
 private PreparedStatement stmt = null;
 
 
+
 public Rol toRol (String rol) {
 	if (rol.equals("klant")){
 		return Account.Rol.klant;
