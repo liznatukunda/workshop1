@@ -10,7 +10,7 @@ public class Bestelling {
 	private int bestellingNummer;
 	private ArrayList<BestelRegel> bestelregels=new ArrayList<BestelRegel>();
 
-	public Bestelling() {
+	public Bestelling(BigDecimal totaalPrijs) {
 	}
 	
 	
