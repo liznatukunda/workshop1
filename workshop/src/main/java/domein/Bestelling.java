@@ -11,11 +11,16 @@ public class Bestelling {
 	private ArrayList<BestelRegel> bestelregels=new ArrayList<BestelRegel>();
 
 	public Bestelling(BigDecimal totaalPrijs) {
+		this.totaalPrijs=totaalPrijs;
 	}
 	
 	
 	public void setBestellingNummer(int bestellingNummer) {
 		this.bestellingNummer=bestellingNummer;
+	}
+	
+	public void setTotaalPrijs(BigDecimal totaalPrijs) {
+		this.totaalPrijs= totaalPrijs;
 	}
 
 	

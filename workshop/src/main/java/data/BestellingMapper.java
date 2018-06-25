@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 
-import domein.Artikel;
 import domein.Bestelling;
 
 
@@ -79,7 +78,7 @@ public class BestellingMapper {
             	Bestelling bestellingen = new Bestelling (totaalprijs);
                 bestellingen.setBestellingNummer(bestellingNummer);
             	
-            	System.out.println("Bestellingen gevonden: " + bestellingen.getBestellingNummer());
+            	//System.out.println("Bestellingen gevonden: " + bestellingen.getBestellingNummer());
             	returnedBestelling.add(bestellingen);
             }
             

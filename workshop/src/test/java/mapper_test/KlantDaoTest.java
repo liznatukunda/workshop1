@@ -46,7 +46,7 @@ public class KlantDaoTest {
 	@After
 	public void finish() {
 		adao.deleteAccount(nieuweAccount1);
-		//kdao.deleteKlant(nieuweKlant1);
+		//kdao.deleteKlant(nieuweKlant1); hoeft niet want de database delete klanten als hun account verwijdert wordt
 		//kdao.deleteKlant(nieuweKlant2);
 		//kdao.deleteKlant(nieuweKlant3);
 		//kdao.deleteKlant(nieuweKlant4);
@@ -118,21 +118,20 @@ public class KlantDaoTest {
 		nieuweKlant1.setAchternaam("update-test");
 		boolean updatesucces = kdao.updateKlant(nieuweKlant1,nieuweAccount1.getId());
 		assertTrue("klant niet ge-update", updatesucces);
-		;
 	}
 
 	@Test
 	public void testDeleteKlantInt() {
 		kdao.createKlant(nieuweKlant1,nieuweAccount1.getId());
-		boolean deleteaccount = kdao.deleteKlant(nieuweKlant1.getId());
-		 assertTrue("klant 1 niet deleted",deleteaccount);	
+		boolean deleteklantsucces = kdao.deleteKlant(nieuweKlant1.getId());
+		 assertTrue("klant 1 niet deleted",deleteklantsucces);	
 	}
 
 	@Test
 	public void testDeleteKlantKlant() {
 		kdao.createKlant(nieuweKlant1,nieuweAccount1.getId());
-		boolean deleteaccount = kdao.deleteKlant(nieuweKlant1);
-		 assertTrue("klant 1 niet deleted",deleteaccount);	;
+		boolean deleteklantsucces = kdao.deleteKlant(nieuweKlant1);
+		 assertTrue("klant 1 niet deleted",deleteklantsucces);	;
 	}
 
 }
