@@ -24,6 +24,7 @@ public class AccountDaoTest {
 	Account nieuweAccount3=new Account ("klant 1", "simpel", Account.Rol.klant);
 	Account nieuweAccount4=new Account ("klant 2", "simpel", Account.Rol.klant);
 	Account nieuweAccount5=new Account ("klant 3", "moeilijk", Account.Rol.medewerker);
+	Account nieuweAccount6;
 	static ConnectieDatabase cdb=new ConnectieDatabase();
 	AccountDao adao=new AccountDao();
 	
@@ -106,7 +107,11 @@ public class AccountDaoTest {
 
 	@Test
 	public void testDeleteAccountAccount() {
-		
+		nieuweAccount6=new Account ("klant 10", "moeilijk", Account.Rol.klant);
+		adao.createAccount(nieuweAccount6);
+		adao.deleteAccount(nieuweAccount6);
+		Account actueleAccount6=adao.getAccount(nieuweAccount6.getId());
+		assertEquals("Artikel wordt niet verwijderd", actueleAccount6, null);
 	}
 
 }
