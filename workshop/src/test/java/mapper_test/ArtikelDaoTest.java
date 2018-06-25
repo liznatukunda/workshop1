@@ -105,7 +105,7 @@ public class ArtikelDaoTest {
 		adao.updateArtikel("nieuwe kaasnaam", new BigDecimal ("9.99"),20,nieuweArtikel1.getId());
 		Artikel actueleArtikel1=adao.getArtikel(nieuweArtikel1.getId());
 		assertEquals("Artikel naam niet juist opgeslagen",actueleArtikel1.getNaam(),"nieuwe kaasnaam");
-		assertEquals("Artikel prijs niet juist opgeslagen", actueleArtikel1.getPrijs() ,new BigDecimal (9.99).setScale(2, BigDecimal.ROUND_HALF_UP));
+		assertEquals("Artikel prijs niet juist opgeslagen", actueleArtikel1.getPrijs() ,new BigDecimal ("9.99"));
 		assertEquals("Artikel voorraad niet juist opgeslagen", actueleArtikel1.getVoorraad(),20);
 		
 	}
@@ -119,7 +119,7 @@ public class ArtikelDaoTest {
 		Artikel actueleArtikel1=adao.getArtikel(nieuweArtikel1.getId());
 		
 		assertEquals("Artikel naam niet juist opgeslagen",actueleArtikel1.getNaam(),"testkaas");
-		assertEquals("Artikel prijs niet juist opgeslagen", actueleArtikel1.getPrijs() ,new BigDecimal ("8.88").setScale(2, BigDecimal.ROUND_HALF_UP));
+		assertEquals("Artikel prijs niet juist opgeslagen", actueleArtikel1.getPrijs() ,new BigDecimal ("8.88"));
 		assertEquals("Artikel voorraad niet juist opgeslagen", actueleArtikel1.getVoorraad(),10);
 		
 	}
