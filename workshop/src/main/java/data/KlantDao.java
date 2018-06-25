@@ -99,7 +99,7 @@ private  static Connection con = ConnectieDatabase.getConnection();
 	}
 	
 	public boolean updateKlant(String voornaam, String tussenvoegsel, String achternaam, int accountId, int id){
-		String sql = "UPDATE Klant SET voornaam = ?, tussenvoegsel = ?, achternaam = ?, account_id WHERE id = ?";
+		String sql = "UPDATE Klant SET voornaam = ?, tussenvoegsel = ?, achternaam = ?, account_id = ? WHERE id = ?";
 		int rows = -1;
 		try {
 			PreparedStatement stmt = con.prepareStatement(sql);

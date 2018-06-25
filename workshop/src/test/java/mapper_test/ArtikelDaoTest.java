@@ -125,7 +125,10 @@ public class ArtikelDaoTest {
 	}
 	@Test
 	public void testDeleteArtikelInt() {
-		
+		adao.createArtikel(nieuweArtikel4);
+		adao.deleteArtikel(nieuweArtikel4.getId());
+		Artikel actueleArtikel4=adao.getArtikel(nieuweArtikel4.getId());
+		assertEquals("Artikel wordt niet verwijderd", actueleArtikel4, null);
 	}
 	@Test
 	public void testDeleteArtikelArtikel() {

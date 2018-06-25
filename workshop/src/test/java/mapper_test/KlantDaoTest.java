@@ -9,8 +9,7 @@ import data.AccountDao;
 import domein.Klant;
 import data.KlantDao;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 
 import org.junit.*;
@@ -91,33 +90,49 @@ public class KlantDaoTest {
 	}
 
 	@Test
-	public void testGetKlant() {
-		;
-	}
-
-	@Test
 	public void testGetAlleKlanten() {
-		;
+		ArrayList<Klant> actueleWaarden = kdao.getAlleKlanten();
+		ArrayList <Klant> testlijst=new ArrayList <Klant>();
+		testlijst.add(nieuweKlant1);
+		testlijst.add(nieuweKlant2);
+		testlijst.add(nieuweKlant3);
+		
+		for (int i=0; i<testlijst.size();i++) {	
+			assertEquals("Klant voornaam niet juist opgeslagen", actueleWaarden.get(i).getVoornaam(),testlijst.get(i).getVoornaam());
+			assertEquals("Klant tussenvoegsel niet juist opgeslagen", actueleWaarden.get(i).getTussenvoegsel(),testlijst.get(i).getTussenvoegsel());
+			assertEquals("Klant achternaam niet juist opgeslagen", actueleWaarden.get(i).getAchternaam() ,testlijst.get(i).getAchternaam());
+			assertEquals("Klant id niet juist opgeslagen", actueleWaarden.get(i).getId(),testlijst.get(i).getId());
+		
+			}
+		
 	}
-
+		
 	@Test
 	public void testUpdateKlantStringStringStringIntInt() {
-		;
+		boolean updatesucces = kdao.updateKlant("boris", "van der", "test-update", nieuweAccount1.getId(), nieuweKlant1.getId());
+		assertTrue("klant niet ge-update", updatesucces);
 	}
 
 	@Test
 	public void testUpdateKlantKlantInt() {
+		nieuweKlant1.setAchternaam("update-test");
+		boolean updatesucces = kdao.updateKlant(nieuweKlant1,nieuweAccount1.getId());
+		assertTrue("klant niet ge-update", updatesucces);
 		;
 	}
 
 	@Test
 	public void testDeleteKlantInt() {
-		;
+		kdao.createKlant(nieuweKlant1,nieuweAccount1.getId());
+		boolean deleteaccount = kdao.deleteKlant(nieuweKlant1.getId());
+		 assertTrue("klant 1 niet deleted",deleteaccount);	
 	}
 
 	@Test
 	public void testDeleteKlantKlant() {
-		;
+		kdao.createKlant(nieuweKlant1,nieuweAccount1.getId());
+		boolean deleteaccount = kdao.deleteKlant(nieuweKlant1);
+		 assertTrue("klant 1 niet deleted",deleteaccount);	;
 	}
 
 }
