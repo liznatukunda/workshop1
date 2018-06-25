@@ -91,7 +91,7 @@ public class ArtikelDao implements ArtikelDaoInterface{
 	}
 	
 	public boolean updateArtikel(String naam, BigDecimal prijs , int voorraad, int id){
-		String sql = "UPDATE klant SET naam = ?, prijs = ?, voorraad = ? WHERE id = ?";
+		String sql = "UPDATE Artikel SET naam = ?, prijs = ?, voorraad = ? WHERE id = ?";
 		int rows = -1;
 		try {
 			PreparedStatement stmt = con.prepareStatement(sql);

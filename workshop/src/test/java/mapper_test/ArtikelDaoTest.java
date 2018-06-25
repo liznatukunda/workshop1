@@ -105,11 +105,26 @@ public class ArtikelDaoTest {
 	}
 	@Test
 	public void testUpdateArtikelStringBigDecimalIntInt() {
-		;
+		adao.updateArtikel("nieuwe kaasnaam", new BigDecimal (9.99),20,nieuweArtikel1.getId());
+		Artikel actueleArtikel1=adao.getArtikel(nieuweArtikel1.getId());
+		assertEquals("Artikel naam niet juist opgeslagen",actueleArtikel1.getNaam(),"nieuwe kaasnaam");
+		assertEquals("Artikel prijs niet juist opgeslagen", actueleArtikel1.getPrijs() ,new BigDecimal (9.99).setScale(2, BigDecimal.ROUND_HALF_UP));
+		assertEquals("Artikel voorraad niet juist opgeslagen", actueleArtikel1.getVoorraad(),20);
+		
 	}
 	@Test
 	public void testUpdateArtikelArtikel() {
-		;
+		nieuweArtikel1.setNaam("testkaas");
+		nieuweArtikel1.setPrijs(new BigDecimal (8.88));
+		nieuweArtikel1.setVoorraad(10);
+		
+		adao.updateArtikel(nieuweArtikel1);
+		Artikel actueleArtikel1=adao.getArtikel(nieuweArtikel1.getId());
+		
+		assertEquals("Artikel naam niet juist opgeslagen",actueleArtikel1.getNaam(),"testkaas");
+		assertEquals("Artikel prijs niet juist opgeslagen", actueleArtikel1.getPrijs() ,new BigDecimal (8.88).setScale(2, BigDecimal.ROUND_HALF_UP));
+		assertEquals("Artikel voorraad niet juist opgeslagen", actueleArtikel1.getVoorraad(),10);
+		
 	}
 	@Test
 	public void testDeleteArtikelInt() {
