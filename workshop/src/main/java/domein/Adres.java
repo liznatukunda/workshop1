@@ -14,6 +14,7 @@ public class Adres {
 	private String toevoeging;
 	private String postcode;
 	private String woonplaats;
+	private int id;
 	
 	/**
 	 * Creëert een adres als er geen toevoeging bij het huisnummer hoort
@@ -69,6 +70,10 @@ public class Adres {
 		this.woonplaats=woonplaats;
 	}
 	
+	public void setId(int id) {
+		this.id=id;
+	}
+	
 	//public int getAdresNummer() {
 	//	return this.adresNummer;
 	//}
@@ -87,5 +92,13 @@ public class Adres {
 	}
 	public String getWoonplaats() {
 		return this.woonplaats;
+	}
+	
+	public AdresType getAdresType() {
+		return this.adresType;
+	}
+	
+	public int getId() {
+		return this.id;
 	}
 }
