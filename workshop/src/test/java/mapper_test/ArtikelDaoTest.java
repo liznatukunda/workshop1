@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import data.ConnectieDatabase;
-import domein.Account;
 import domein.Artikel;
 import data.ArtikelDao;
 

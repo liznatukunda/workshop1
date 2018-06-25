@@ -7,7 +7,7 @@ package domein;
 import java.util.ArrayList;
 
 public class Klant {
-	int klantNummer;
+	int id;
 	private String voornaam;
 	private String tussenvoegsel;
 	private String achternaam;
@@ -43,11 +43,22 @@ public class Klant {
 		adressen.set(0, postadres);
 	}
 
+	/**
+	 * Creëert een nieuwe klant zonder een nieuw adres 
+	 * @param voornaam de voornaam van de nieuwe klant
+	 * @param tussenvoegsel
+	 * @param achternaam de achternaam van de nieuwe klant
+	 */
+	public Klant(String voornaam, String tussenvoegsel, String achternaam) {
+		this.voornaam=voornaam;
+		this.tussenvoegsel=tussenvoegsel;
+		this.achternaam=achternaam;
+		
+	}
 	
 	
-	
-	public void setKlantNummer(int klantNummer) {
-		this.klantNummer=klantNummer;
+	public void setId(int id) {
+		this.id=id;
 	}
 	public void setVoornaam(String voornaam) {
 		this.voornaam=voornaam;
@@ -68,10 +79,10 @@ public class Klant {
 	}
 
 	
-	public int getKlantnummer() {
-		return this.klantNummer;
+	public int getId() {
+		return this.id;
 	}
-	public String getvoornaam() {
+	public String getVoornaam() {
 		return this.voornaam;
 	}
 	public String getTussenvoegsel() {
