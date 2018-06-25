@@ -56,6 +56,12 @@ public class Klant {
 		
 	}
 	
+	public Klant(String voornaam, String achternaam) {
+		this.voornaam=voornaam;
+		this.tussenvoegsel=null;
+		this.achternaam=achternaam;
+		
+	}
 	
 	public void setId(int id) {
 		this.id=id;

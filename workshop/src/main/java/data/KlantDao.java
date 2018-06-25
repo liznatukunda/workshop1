@@ -1,5 +1,6 @@
 package data;
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,7 +17,7 @@ private  static Connection con = ConnectieDatabase.getConnection();
 	public int createKlant(Klant klant, int accountId){
 		
 		int insertId = -1;
-		String sql = "INSERT INTO Klant (voornaam, tussenvoegsel, achternaam, accountId) VALUES (?,?,?,?);";
+		String sql = "INSERT INTO Klant (voornaam, tussenvoegsel, achternaam, account_id) VALUES (?,?,?,?);";
 		try {
 			PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setObject(1, klant.getVoornaam());
