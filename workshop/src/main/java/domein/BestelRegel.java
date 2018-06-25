@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 
 public class BestelRegel {
 	
+	private int id;
 	private Artikel artikel;
 	// private Bestelling bestelling; Door een ArrayList in Bestelling te genereren, is dit niet meer nodig
 	private int aantal;
@@ -17,10 +18,14 @@ public class BestelRegel {
 	 * @param artikel het artikel dat besteld moet worden
 	 * @param aantal het aantal stuks van het artikel dat besteld moet worden
 	 */
-	public BestelRegel (Artikel artikel, int aantal) {
+	public BestelRegel ( Artikel artikel,int aantal) {
 		this.artikel=artikel;
 		this.aantal=aantal;
 		setPrijs();
+	}
+	
+	public void setId(int id) {
+		this.id=id;
 	}
 	
 
@@ -44,6 +49,9 @@ public class BestelRegel {
 		this.prijs=getPrijs();
 	}
 	
+	public int getId() {
+		return this.id;
+	}
 
 	public Artikel getArtikel() {
 		return this.artikel;
