@@ -131,7 +131,9 @@ CREATE TABLE IF NOT EXISTS `applikaasie_lop`.`bestelregel` (
     ON UPDATE CASCADE,
   CONSTRAINT `fk_Bestelregel_Bestelling1`
     FOREIGN KEY (`Bestelling_idBestelling`)
-    REFERENCES `applikaasie_lop`.`bestelling` (`id`))
+    REFERENCES `applikaasie_lop`.`bestelling` (`id`) 
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 

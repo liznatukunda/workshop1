@@ -29,11 +29,7 @@ public class BestelRegel {
 	}
 	
 
-	public void setArtikel(Artikel artikel) {
-		this.artikel=artikel;
-		// als er een ander artikel is gekozen, dan heeft dat ook consequenties voor de prijs, dus volgt:
-		setPrijs();
-	}
+	
 	
 	// public void setBestelling(Bestelling bestelling) {
 	// 	this.bestelling= bestelling;

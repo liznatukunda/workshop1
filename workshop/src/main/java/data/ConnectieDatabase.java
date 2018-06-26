@@ -24,6 +24,7 @@ public class ConnectieDatabase extends DOM{
 		 catch (SQLException e) {
 			 throw new SQLException("Verbinding maken mislukt");
 		 }
+		 // check is de connectie nog actief !null of zelfde connectie teruggeven//
 	 }
 	 
 	  /**

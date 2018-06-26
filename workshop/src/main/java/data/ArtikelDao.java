@@ -11,7 +11,7 @@ public class ArtikelDao implements ArtikelDaoInterface{
 	
 	
 	public int createArtikel(Artikel artikel){
-		
+		// vraag connectie met try with resources
 		int insertId = -1;
 		String sql = "INSERT INTO Artikel (naam, prijs, voorraad) VALUES (?,?,?);";
 		try {

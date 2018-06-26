@@ -11,7 +11,7 @@ import domein.Artikel;
 public class BestelregelMapper {
 private  static Connection con = ConnectieDatabase.getConnection();
 	
-	public int createBestelregel(BestelRegel bestelregel,int bestellingnummer,Artikel artikel){		
+	public int createBestelregel(BestelRegel bestelregel,int bestellingnummer,int artikelnummer){		
 		int insertId = -1;
 		String sql = "INSERT INTO Bestelregel (aantal,prijs,Bestelling_idBestelling,Artikel_idArtikel) VALUES (?,?,?,?);";
 		try {
@@ -19,14 +19,15 @@ private  static Connection con = ConnectieDatabase.getConnection();
 			stmt.setObject(1, bestelregel.getAantal());
 			stmt.setObject(2, bestelregel.getPrijs());
 			stmt.setObject(3, bestellingnummer);
-			stmt.setObject(4, artikel.getId());		// of moeten we hier werken met artikelnummer in de methode?
+			stmt.setObject(4, artikelnummer);		// of moeten we hier werken met artikelnummer in de methode?
 			stmt.executeUpdate();
 			ResultSet resultSet = stmt.getGeneratedKeys();
             if (resultSet.isBeforeFirst()) {
                 resultSet.next();
                 insertId = resultSet.getInt(1);
-          //      System.out.println("Id " + insertId + " voor bestelregel " + bestelregel.getId());
-                bestelregel.setId(insertId);
+                 bestelregel.setId(insertId);
+               System.out.println("Id " + insertId + " voor bestelregel " + bestelregel.getId());
+               
             }
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -34,9 +35,9 @@ private  static Connection con = ConnectieDatabase.getConnection();
 		return insertId;
 	}
 	
-	public Bestelling getBestelRegel(int id){
+	public BestelRegel getBestelRegel(int id){
 		String sql = "SELECT * FROM Bestelregel WHERE id=?";
-		BestelRegel returnedBestelling = null;
+		BestelRegel returnedBestelRegel = null;
 		try {
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setObject(1, id);
@@ -49,7 +50,8 @@ private  static Connection con = ConnectieDatabase.getConnection();
                 BigDecimal totaalPrijs =  resultSet.getBigDecimal(3);
                 int bestellingnummer = resultSet.getInt(4);
                 int artikelnummer = resultSet.getInt(5);
-                returnedBestelRegel = new BestelRegel (artikel, aantal);
+                Artikel artikel =new Artikel(artikelnummer);
+               returnedBestelRegel = new BestelRegel (artikel, aantal);
            //ToDo     nieuwe constructor met artikelnummer of artikel behorende bij artikelnummer
                 //hier opvragen met artikeldao??
                 
@@ -58,7 +60,7 @@ private  static Connection con = ConnectieDatabase.getConnection();
             //    System.out.println("BestelRegel gevonden: " + returnedBestelRegel.getId());
             }
             else{
-            	System.err.println("Geen Bestelling gevonden!");
+            	System.err.println("Geen Bestelregel gevonden!");
             }
             
 		} catch (SQLException e) {
@@ -82,7 +84,8 @@ private  static Connection con = ConnectieDatabase.getConnection();
                 BigDecimal totaalPrijs =  resultSet.getBigDecimal(3);
                 int bestellingnummer = resultSet.getInt(4);
                 int artikelnummer = resultSet.getInt(5);
-            	BestelRegel bestelregel = new BestelRegel (totaalprijs);
+                Artikel artikel = new Artikel (artikelnummer);
+            	BestelRegel bestelregel = new BestelRegel (artikel, aantal);
                 bestelregel.setId(id1);
             	
             	//System.out.println("Bestellingen gevonden: " + bestellingen.getBestellingNummer());

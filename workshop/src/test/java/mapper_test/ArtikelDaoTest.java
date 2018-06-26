@@ -31,10 +31,12 @@ public class ArtikelDaoTest {
 	@BeforeClass
 	public static void initialiseer() throws SQLException {
 		cdb.maakVerbinding();
+		//database clean? truncate  of set foreign_key_checks = 0 
 	}
 	
 	@Before
 	public void setUp(){
+		
 		adao.createArtikel(nieuweArtikel1);
 		adao.createArtikel(nieuweArtikel2);
 		adao.createArtikel(nieuweArtikel3);

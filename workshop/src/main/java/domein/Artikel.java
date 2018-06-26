@@ -12,6 +12,7 @@ public class Artikel {
 	private BigDecimal prijs;
 	// Moeten we de BigDecimal niet nog verder definiëren, zodat het daadwerkelijk een prijs met 2 cijfers achter de komma wordt??
 	private int voorraad;
+	private int artikelNummer;
 	
 	
 	/**
@@ -31,10 +32,13 @@ public class Artikel {
 		}
 		
 	}
+	public Artikel(int id) {
+		 
+		this.id=id;
+		
+		}
 	
-	// public void setArtikelNummer (int artikelNummer) {
-	//	this.artikelNummer=artikelNummer;
-	//}
+	
 	
 	public void setNaam (String naam) {
 		this.naam=naam;
@@ -63,6 +67,7 @@ public class Artikel {
 	public void setVoorraad (int voorraad)  {
 		this.voorraad=voorraad;
 	}
+
 	
 	public int getId () {
 		return this.id;
