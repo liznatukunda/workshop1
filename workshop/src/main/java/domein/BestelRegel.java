@@ -28,6 +28,9 @@ public class BestelRegel {
 		this.id=id;
 	}
 	
+	public void setArtikel(Artikel artikel) {
+		this.artikel=artikel;
+	}
 
 	
 	
