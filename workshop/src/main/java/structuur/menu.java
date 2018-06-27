@@ -1,6 +1,7 @@
 package structuur;
 import java.util.Scanner;
-public class menu {
+
+public class menu {       // classname moet capital letter
 
 	private static  Scanner input = new Scanner(System.in);
 	
