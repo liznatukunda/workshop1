@@ -13,12 +13,7 @@ public class AdresMapper {
 	private  Connection con;
 	private  PreparedStatement pStatementVoegToe;
 	private  PreparedStatement pStatementGet;
-	private  PreparedStatement pStatementUpdateStraatnaam;
-	private  PreparedStatement pStatementUpdateHuisnummer;
-	private  PreparedStatement pStatementUpdateToevoeging;
-	private  PreparedStatement pStatementUpdatePostcode;
-	private  PreparedStatement pStatementUpdateWoonplaats;
-	private  PreparedStatement pStatementUpdateAdresType;
+	private  PreparedStatement pStatementUpdate;
 	private  PreparedStatement pStatementDeleteAdres;
 
 	
@@ -41,12 +36,7 @@ public class AdresMapper {
 		try {
 			pStatementVoegToe=con.prepareStatement("INSERT INTO adres (straatnaam, huisnummer, toevoeging, postcode, woonplaats, adrestype, Klant_idKlant) VALUES (?,?,?,?,?,?,?);",Statement.RETURN_GENERATED_KEYS);
 			pStatementGet=con.prepareStatement("SELECT * FROM adres WHERE id=?;");
-			pStatementUpdateStraatnaam=con.prepareStatement("UPDATE adres SET straatnaam=? WHERE id=?");
-			pStatementUpdateHuisnummer=con.prepareStatement("UPDATE adres SET huisnummer=? WHERE id=?");
-			pStatementUpdateToevoeging=con.prepareStatement("UPDATE adres SET toevoeging=? WHERE id=?");
-			pStatementUpdatePostcode=con.prepareStatement("UPDATE adres SET postcode=? WHERE id=?");
-			pStatementUpdateWoonplaats=con.prepareStatement("UPDATE adres SET woonplaats=? WHERE id=?");
-			pStatementUpdateAdresType=con.prepareStatement("UPDATE adres SET adrestype=? WHERE id=?");
+			pStatementUpdate=con.prepareStatement("UPDATE adres SET straatnaam=?, huisnummer=?, toevoeging=?,postcode=?,woonplaats=?,adrestype=? WHERE id=?");
 			pStatementDeleteAdres=con.prepareStatement("DELETE FROM adres where id=?");
 	    }
 	    catch (SQLException e){
@@ -67,7 +57,7 @@ public class AdresMapper {
 		initialiseer();
 		try {
 			pStatementVoegToe.setObject(1, adres.getStraatnaam());
-			pStatementVoegToe.setObject(2, adres.getHuisnummer()); 
+			pStatementVoegToe.setObject(2, adres.getHuisnummer());
 			pStatementVoegToe.setObject(3, adres.getToevoeging());
 			pStatementVoegToe.setObject(4, adres.getPostcode());
 			pStatementVoegToe.setObject(5, adres.getWoonplaats());
@@ -88,6 +78,7 @@ public class AdresMapper {
 		einde();
 		return created;
 	}
+	
 	
 	public  Adres getAdres(int id) throws SQLException{
 		Adres adres=null;
@@ -125,107 +116,30 @@ public class AdresMapper {
 	}
 
 	
-	public  boolean updateAdresStraatnaam(String nieuweStraatnaam, int id) throws SQLException {
+	public  boolean updateAdres(Adres gewijzigdAdres, int adresId) throws SQLException {
 		boolean updated=false;
 		initialiseer();
 		try {
-			pStatementUpdateStraatnaam.setObject(2, id);
-			pStatementUpdateStraatnaam.setObject(1, nieuweStraatnaam);
-			pStatementUpdateStraatnaam.executeUpdate();
+			pStatementUpdate.setObject(1, gewijzigdAdres.getStraatnaam());
+			pStatementUpdate.setObject(2, gewijzigdAdres.getHuisnummer());
+			pStatementUpdate.setObject(3, gewijzigdAdres.getToevoeging());
+			pStatementUpdate.setObject(4, gewijzigdAdres.getPostcode());
+			pStatementUpdate.setObject(5, gewijzigdAdres.getWoonplaats());
+			pStatementUpdate.setObject(6, gewijzigdAdres.getAdresType().toString());
+			pStatementUpdate.setObject(7, adresId);
+			pStatementUpdate.executeUpdate();
 			updated=true;
+			gewijzigdAdres.setId(adresId);
 		}
 		catch (SQLException e) {
 			einde();
-			throw new SQLException("Kon gewijzigde straatnaam niet in database opslaan");
+			throw new SQLException("Kon adres niet in database opslaan");
 		}
 		einde();
 		return updated;
 	}
 	
-	public  boolean updateAdresHuisnummer(int nieuwHuisnummer, int id) throws SQLException {
-		boolean updated=false;
-		initialiseer();
-		try {
-			pStatementUpdateHuisnummer.setObject(2, id);
-			pStatementUpdateHuisnummer.setObject(1, nieuwHuisnummer);
-			pStatementUpdateHuisnummer.executeUpdate();
-			updated=true;
-		}
-		catch (SQLException e) {
-			einde();
-			throw new SQLException("Kon gewijzigde huisnummer niet in database opslaan");
-		}
-		einde();
-		return updated;
-	}
 	
-	public  boolean updateAdresToevoeging(String nieuweToevoeging, int id) throws SQLException {
-		boolean updated=false;
-		initialiseer();
-		try {
-			pStatementUpdateToevoeging.setObject(2, id);
-			pStatementUpdateToevoeging.setObject(1, nieuweToevoeging);
-			pStatementUpdateToevoeging.executeUpdate();
-			updated=true;
-		}
-		catch (SQLException e) {
-			einde();
-			throw new SQLException("Kon gewijzigde toevoeging niet in database opslaan");
-		}
-		einde();
-		return updated;
-	}
-	
-	public  boolean updateAdresPostcode(String nieuwePostcode, int id) throws SQLException {
-		boolean updated=false;
-		initialiseer();
-		try {
-			pStatementUpdatePostcode.setObject(2, id);
-			pStatementUpdatePostcode.setObject(1, nieuwePostcode);
-			pStatementUpdatePostcode.executeUpdate();
-			updated=true;
-		}
-		catch (SQLException e) {
-			einde();
-			throw new SQLException("Kon gewijzigde postcode niet in database opslaan");
-		}
-		einde();
-		return updated;
-	}
-	
-	public  boolean updateAdresWoonplaats(String nieuweWoonplaats, int id) throws SQLException {
-		boolean updated=false;
-		initialiseer();
-		try {
-			pStatementUpdateWoonplaats.setObject(2, id);
-			pStatementUpdateWoonplaats.setObject(1, nieuweWoonplaats);
-			pStatementUpdateWoonplaats.executeUpdate();
-			updated=true;
-		}
-		catch (SQLException e) {
-			einde();
-			throw new SQLException("Kon gewijzigde postcode niet in database opslaan");
-		}
-		einde();
-		return updated;
-	}
-	
-	public  boolean updateAdresAdresType(AdresType nieuweAdresType, int id) throws SQLException {
-		boolean updated=false;
-		initialiseer();
-		try {
-			pStatementUpdateAdresType.setObject(2, id);
-			pStatementUpdateAdresType.setObject(1, nieuweAdresType.toString());
-			pStatementUpdateAdresType.executeUpdate();
-			updated=true;
-		}
-		catch (SQLException e) {
-			einde();
-			throw new SQLException("Kon gewijzigde adrestype niet in database opslaan");
-		}
-		einde();
-		return updated;
-	}
 	
 	public boolean deleteAdres(int id) throws SQLException {
 		boolean deleted=false;
@@ -241,6 +155,10 @@ public class AdresMapper {
 		}
 		einde();
 		return deleted;
+	}
+	
+	public boolean deleteAdres(Adres teVerwijderenAdres) throws SQLException {
+		return deleteAdres(teVerwijderenAdres.getId());
 	}
 	
 }

@@ -101,4 +101,26 @@ public class Adres {
 	public int getId() {
 		return this.id;
 	}
+	
+	public boolean equals(Adres adres) {
+		if (this.id!=adres.getId()) {
+			return false; 
+		}
+		if (!this.straatnaam.equals(adres.getStraatnaam())) {
+			return false; 
+		}
+		if (this.huisnummer!=adres.getHuisnummer()) {
+			return false; 
+		}
+		if (!this.toevoeging.equals(adres.getToevoeging())) {
+			return false; 
+		}
+		if (!this.postcode.equals(adres.getPostcode())) {
+			return false; 
+		}
+		if (!this.woonplaats.equals(adres.getWoonplaats())) {
+			return false; 
+		}
+		return true;
+	}
 }
