@@ -25,7 +25,7 @@ public class BestelRegelDaoTest {
 	
 	Account nieuweAccount1=new Account ("klant 1", "simpel", Account.Rol.klant);
 	Klant nieuweKlant1=new Klant ("Jan", "der", "Boy");
-	Bestelling bestelling1 = new Bestelling (new BigDecimal ("100.10"));
+	Bestelling bestelling1 = new Bestelling ();
 	Artikel artikel1 = new Artikel ("oude kaas", new BigDecimal("10.10"), 100);
 	BestelRegel bestelregel1 = new BestelRegel(artikel1, 10);
 	BestelRegel bestelregel2 = new BestelRegel(artikel1, 20);
@@ -46,9 +46,9 @@ public class BestelRegelDaoTest {
 		klantdao.createKlant(nieuweKlant1,nieuweAccount1.getId());
 		bestellingdao.createBestelling(bestelling1,nieuweKlant1.getId());		
 		artikeldao.createArtikel(artikel1);
-		bestelregeldao.createBestelregel(bestelregel1,bestelling1.getBestellingNummer(),artikel1.getId());
-		bestelregeldao.createBestelregel(bestelregel2,bestelling1.getBestellingNummer(),artikel1.getId());
-		bestelregeldao.createBestelregel(bestelregel3,bestelling1.getBestellingNummer(),artikel1.getId());
+		bestelregeldao.createBestelregel(bestelregel1,bestelling1.getId(),artikel1.getId());
+		bestelregeldao.createBestelregel(bestelregel2,bestelling1.getId(),artikel1.getId());
+		bestelregeldao.createBestelregel(bestelregel3,bestelling1.getId(),artikel1.getId());
 		
 	}
 	@After
