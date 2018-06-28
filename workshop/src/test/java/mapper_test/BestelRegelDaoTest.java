@@ -46,6 +46,9 @@ public class BestelRegelDaoTest {
 		klantdao.createKlant(nieuweKlant1,nieuweAccount1.getId());
 		bestellingdao.createBestelling(bestelling1,nieuweKlant1.getId());		
 		artikeldao.createArtikel(artikel1);
+		bestelregeldao.createBestelregel(bestelregel1,bestelling1.getBestellingNummer(),artikel1.getId());
+		bestelregeldao.createBestelregel(bestelregel2,bestelling1.getBestellingNummer(),artikel1.getId());
+		bestelregeldao.createBestelregel(bestelregel3,bestelling1.getBestellingNummer(),artikel1.getId());
 		
 	}
 	@After
@@ -60,9 +63,7 @@ public class BestelRegelDaoTest {
 	
 	@Test
 	public void testCreateBestelregel() {
-		bestelregeldao.createBestelregel(bestelregel1,bestelling1.getBestellingNummer(),artikel1.getId());
-		bestelregeldao.createBestelregel(bestelregel2,bestelling1.getBestellingNummer(),artikel1.getId());
-		bestelregeldao.createBestelregel(bestelregel3,bestelling1.getBestellingNummer(),artikel1.getId());
+		
 		
 		BestelRegel actueleBestelRegel1=bestelregeldao.getBestelRegel(bestelregel1.getId());
 		BestelRegel actueleBestelRegel2=bestelregeldao.getBestelRegel(bestelregel2.getId());
@@ -81,36 +82,49 @@ public class BestelRegelDaoTest {
 		//bestelregeldao.deleteBestelRegel(bestelregel1);
 		//bestelregeldao.deleteBestelRegel(bestelregel2);
 		//bestelregeldao.deleteBestelRegel(bestelregel3);
-}
-/*
-	@Test
-	public void testGetBestelRegel() {
-		
 	}
 
+	
 	@Test
 	public void testGetAlleBestelRegel() {
+		ArrayList<BestelRegel> actueleWaarden = bestelregeldao.getAlleBestelRegel();
+		ArrayList <BestelRegel> testlijst=new ArrayList <>();
+		testlijst.add(bestelregel1);
+		testlijst.add(bestelregel2);
+		testlijst.add(bestelregel3);
+		
+		for (int i=0; i<testlijst.size();i++) {	
+			assertEquals("bestelling id niet juist opgeslagen", actueleWaarden.get(i).getArtikel().getId(),testlijst.get(i).getArtikel().getId());
+			assertEquals("bestelling aantal niet juist opgeslagen", actueleWaarden.get(i).getAantal(),testlijst.get(i).getAantal());
+		}
 		
 	}
 
 	@Test
 	public void testUpdateBestelRegelIntInt() {
-	
+		boolean updatesucces = bestelregeldao.updateBestelRegel(10005, bestelregel1.getId());
+		assertTrue("klant niet ge-update", updatesucces);
 	}
 
 	@Test
 	public void testUpdateBestelRegelBestelRegel() {
-		
+		bestelregel1.setAantal(50);
+		boolean updatesucces = bestelregeldao.updateBestelRegel(bestelregel1);
+		assertTrue("bestelregel niet ge-update", updatesucces);
 	}
 
 	@Test
 	public void testDeleteBestelRegelInt() {
-		
+		bestelregeldao.createBestelregel(bestelregel1, bestelling1.getBestellingNummer(),artikel1.getId());
+		boolean deletesucces = bestelregeldao.deleteBestelRegel(bestelregel1.getId());
+		 assertTrue("bestelling 1 niet deleted",deletesucces);
 	}
 
 	@Test
 	public void testDeleteBestelRegelBestelRegel() {
-		
+		bestelregeldao.createBestelregel(bestelregel1, bestelling1.getBestellingNummer(),artikel1.getId());
+		boolean deletesucces = bestelregeldao.deleteBestelRegel(bestelregel1);
+		 assertTrue("bestelling 1 niet deleted",deletesucces);
 	}
-*/
+
 }
