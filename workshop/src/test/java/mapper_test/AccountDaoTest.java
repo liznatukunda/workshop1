@@ -1,7 +1,8 @@
-package WS_1.workshop;
+package mapper_test;
 
 import static org.junit.Assert.*;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -10,7 +11,7 @@ import org.junit.Test;
 import data.ConnectieDatabase;
 import domein.Account;
 import domein.Account.Rol;
-import data.AccountDao;
+import data.AccountDaoImplement;
 
 import org.junit.*;
 
@@ -27,23 +28,27 @@ public class AccountDaoTest {
 	Account nieuweAccount7=new Account ("klant 4", "easy", Account.Rol.medewerker);
 	Account nieuweAccount6;
 	Account nieuweAccount8=new Account ("klant 5", "easy", Account.Rol.medewerker);
-	static ConnectieDatabase cdb=new ConnectieDatabase();
-	AccountDao adao=new AccountDao();
-	
+	//static ConnectieDatabase cdb=new ConnectieDatabase();
+	AccountDaoImplement adao=new AccountDaoImplement();
+	/*
 	@BeforeClass
 	public static void initialiseer() throws SQLException {
-		cdb.maakVerbinding();
+		try (Connection con = ConnectieDatabase.getConnection();){
+			
+		}
+			
+		
 	}
-	
+	*/
 	
 	
 	@Before
 	public void setUp(){
-		testlijst=new ArrayList <Account>();
-		actueleWaarden=new ArrayList <Account>();
-		testlijst.add(nieuweAccount1);
-		testlijst.add(nieuweAccount2);
-		testlijst.add(nieuweAccount3);
+		//testlijst=new ArrayList <Account>();
+		//actueleWaarden=new ArrayList <Account>();
+		//testlijst.add(nieuweAccount1);
+		//testlijst.add(nieuweAccount2);
+		//testlijst.add(nieuweAccount3);
 		
 		adao.createAccount(nieuweAccount1);
 		adao.createAccount(nieuweAccount2);
@@ -108,7 +113,7 @@ public class AccountDaoTest {
 	@Test
 	public void testUpdateAccountAccount() {
 		boolean updatesucces = adao.updateAccount(nieuweAccount7.getId(),"nieuwe usernaam2","meme", Account.Rol.medewerker);
-		assertTrue("klant 2 gebruikersnaam niet gewijzigd",updatesucces);	
+		assertTrue("klant 4 gebruikersnaam niet gewijzigd",updatesucces);	
 		
 	}
 
@@ -116,17 +121,16 @@ public class AccountDaoTest {
 	public void testDeleteAccountInt() {
 		adao.createAccount(nieuweAccount8);
 		boolean deleteaccount = adao.deleteAccount(nieuweAccount8.getId());
-		 assertTrue("klant 1 gebruikersnaam niet deleted",deleteaccount);	
+		 assertTrue("klant 5 gebruikersnaam niet deleted",deleteaccount);	
 		
 	}
 
 	@Test
 	public void testDeleteAccountAccount() {
-		nieuweAccount6=new Account ("klant 10", "moeilijk", Account.Rol.klant);
+		nieuweAccount6=new Account ("klant 6", "moeilijk", Account.Rol.klant);
 		adao.createAccount(nieuweAccount6);
-		adao.deleteAccount(nieuweAccount6);
-		Account actueleAccount6=adao.getAccount(nieuweAccount6.getId());
-		assertEquals("Artikel wordt niet verwijderd", actueleAccount6, null);
+		boolean deleteaccount = adao.deleteAccount(nieuweAccount6);
+		 assertTrue("klant 10 gebruikersnaam niet deleted",deleteaccount);	
 	}
 
 }

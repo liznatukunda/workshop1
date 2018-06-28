@@ -17,33 +17,33 @@ import domein.*;
 import domein.Account.Rol;
 import domein.Adres.AdresType;
 
-public class AdresMapperTest {
+public class AdresDaoTest {
 
-	static Connection con;
+//	static Connection con;
 	static int klantId=-1;
 	static int accountId=-1;
-	static AccountDao accountDao;
-	static KlantDao klantDao;
-	static AdresMapper adresMapper;
+	static AccountDaoImplement accountDao;
+	static KlantDaoImplement klantDao;
+	static AdresDaoImplement adresMapper;
 	int adresId1=-1;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		try {
-			ConnectieDatabase.maakVerbinding();
-			con=ConnectieDatabase.getConnection();
+		//	ConnectieDatabase.maakVerbinding();
+		//	con=ConnectieDatabase.getConnection();
 			
 			Account nieuweAccount=new Account("testaccount","mijnWW", Rol.klant);
-			accountDao=new AccountDao();
+			accountDao=new AccountDaoImplement();
 			accountDao.createAccount(nieuweAccount);
 			accountId=nieuweAccount.getId();
 			
 			Klant nieuweKlant=new Klant("MijnVoornaam", "mijntussenvoegsel", "MijnAchternaam");
-			klantDao=new KlantDao();
+			klantDao=new KlantDaoImplement();
 			klantDao.createKlant(nieuweKlant, accountId);
 			klantId=nieuweKlant.getId();
 			
-			adresMapper=new AdresMapper();
+			adresMapper=new AdresDaoImplement();
 		}
 		catch (Exception e){
 			throw new Exception("Kon de startwaarden niet aanmaken voor de AdresMapperTest");
@@ -63,8 +63,8 @@ public class AdresMapperTest {
 
 	@Before
 	public void setUp() throws Exception {
-		try {
-			PreparedStatement pStatementCreateAdres1=con.prepareStatement("INSERT INTO adres (straatnaam, huisnummer, toevoeging, postcode, woonplaats, adrestype, Klant_idKlant) VALUES (\"mijnstraat\",33,\"1 hoog\",\"9784RT\",\"Mijn Dorp\",\"factuuradres\"," + klantId + ")" );
+		try ( Connection con= ConnectieDatabase.getConnection();
+			PreparedStatement pStatementCreateAdres1=con.prepareStatement("INSERT INTO adres (straatnaam, huisnummer, toevoeging, postcode, woonplaats, adrestype, Klant_idKlant) VALUES (\"mijnstraat\",33,\"1 hoog\",\"9784RT\",\"Mijn Dorp\",\"factuuradres\"," + klantId + ")" );){
 			pStatementCreateAdres1.execute();
 			
 			PreparedStatement pStatementGetIdAdres1=con.prepareStatement("select id from adres where straatnaam=\"mijnstraat\" && huisnummer=33 && toevoeging=\"1 hoog\" && postcode=\"9784RT\" && woonplaats=\"Mijn Dorp\" && Adrestype=\"factuuradres\" && Klant_idKlant=" + klantId);
@@ -86,8 +86,8 @@ public class AdresMapperTest {
 
 	@After
 	public void tearDown() throws Exception {
-		try {
-			PreparedStatement pStatementDeleteAdressen=con.prepareStatement("delete from adres where Klant_idKlant=" + klantId);
+		try ( Connection con= ConnectieDatabase.getConnection();
+			PreparedStatement pStatementDeleteAdressen=con.prepareStatement("delete from adres where Klant_idKlant=" + klantId);){
 			pStatementDeleteAdressen.execute();
 		}
 		catch (Exception e){
@@ -105,8 +105,8 @@ public class AdresMapperTest {
 		Adres nieuwAdres=new Adres (adresType, straatnaam , huisnummer, postcode, plaats);
 		
 		assertTrue("Er is helemaal geen nieuw adres gecreëerd", adresMapper.createAdres(nieuwAdres, klantId));
-		
-		PreparedStatement pStatementGetAdresWaarden=con.prepareStatement("SELECT * FROM adres WHERE straatnaam=\"" + straatnaam + "\" && Klant_idKlant=" + klantId);
+		try ( Connection con= ConnectieDatabase.getConnection();
+		PreparedStatement pStatementGetAdresWaarden=con.prepareStatement("SELECT * FROM adres WHERE straatnaam=\"" + straatnaam + "\" && Klant_idKlant=" + klantId);){
 		ResultSet resultSetAdresWaarden = pStatementGetAdresWaarden.executeQuery();
 		Adres actueelAdres=null;
 		int actueleId;
@@ -140,7 +140,7 @@ public class AdresMapperTest {
 		
 		
 		
-		
+		}
 		
 	}
 
@@ -157,8 +157,8 @@ public class AdresMapperTest {
 		Adres verwachtAdres=new Adres (AdresType.POSTADRES, updatedStraatNaam , 666, "0101GH", "updated plaats");
 
 		assertTrue("Het gewijzigde adres wordt niet opgeslagen", adresMapper.updateAdres(verwachtAdres, adresId1));
-		
-		PreparedStatement pStatementGetAdresWaarden=con.prepareStatement("SELECT * FROM adres WHERE straatnaam=\"" + updatedStraatNaam + "\" && Klant_idKlant=" + klantId);
+		try ( Connection con= ConnectieDatabase.getConnection();
+		PreparedStatement pStatementGetAdresWaarden=con.prepareStatement("SELECT * FROM adres WHERE straatnaam=\"" + updatedStraatNaam + "\" && Klant_idKlant=" + klantId);){
 		ResultSet resultSetAdresWaarden = pStatementGetAdresWaarden.executeQuery();
 		Adres actueelAdres=null;
 		int actueleId;
@@ -189,18 +189,19 @@ public class AdresMapperTest {
 			actueelAdres.setId(actueleId);
 		}
 		assertTrue("Het gewijzigde adres wordt niet juist opgeslagen", verwachtAdres.equals(actueelAdres));
-
+		}
 	}
 
 	@Test
 	public void testDeleteAdres() throws SQLException {
 		assertTrue("Het verwijderen van het adres kon niet worden opgeslagen", adresMapper.deleteAdres(adresId1));
-		PreparedStatement pStatementGetAdresWaarden=con.prepareStatement("SELECT * FROM adres WHERE id="+adresId1);
+		try ( Connection con= ConnectieDatabase.getConnection();
+		PreparedStatement pStatementGetAdresWaarden=con.prepareStatement("SELECT * FROM adres WHERE id="+adresId1);){
 		ResultSet resultSetAdresWaarden = pStatementGetAdresWaarden.executeQuery();
 		if (resultSetAdresWaarden.isBeforeFirst()) {
 			resultSetAdresWaarden.next();
 			assertNull("Het verwijderde adres kon toch worden teruggevonden", resultSetAdresWaarden.getObject(1));
 		}
 	}
-
+	}
 }

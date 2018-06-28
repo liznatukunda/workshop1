@@ -8,13 +8,13 @@ import java.sql.Statement;
 import domein.Adres;
 import domein.Adres.AdresType;
 
-public class AdresMapper {
+public class AdresDaoImplement {
 
-	private  Connection con;
-	private  PreparedStatement pStatementVoegToe;
-	private  PreparedStatement pStatementGet;
-	private  PreparedStatement pStatementUpdate;
-	private  PreparedStatement pStatementDeleteAdres;
+//	private  Connection con;
+//	private  PreparedStatement pStatementVoegToe;
+//	private  PreparedStatement pStatementGet;
+//	private  PreparedStatement pStatementUpdate;
+//	private  PreparedStatement pStatementDeleteAdres;
 
 	
 	private  AdresType toAdresType(String adresType) {
@@ -30,7 +30,7 @@ public class AdresMapper {
 		else return null;
 	}
 	
-	private  void initialiseer() throws SQLException{
+/*	private  void initialiseer() throws SQLException{
 		ConnectieDatabase.maakVerbinding();
 		con=ConnectieDatabase.getConnection();
 		try {
@@ -48,14 +48,15 @@ public class AdresMapper {
 	private  void einde() {
 		ConnectieDatabase.sluitAf();
 	}
-	
+*/	
 	
 	
 	public  boolean createAdres(Adres adres, int klantid) throws SQLException{
 		boolean created=false;
 		int insertId = -1;
-		initialiseer();
-		try {
+	//	initialiseer();
+		try ( Connection con= ConnectieDatabase.getConnection();
+			PreparedStatement pStatementVoegToe=con.prepareStatement("INSERT INTO adres (straatnaam, huisnummer, toevoeging, postcode, woonplaats, adrestype, Klant_idKlant) VALUES (?,?,?,?,?,?,?);",Statement.RETURN_GENERATED_KEYS);){
 			pStatementVoegToe.setObject(1, adres.getStraatnaam());
 			pStatementVoegToe.setObject(2, adres.getHuisnummer());
 			pStatementVoegToe.setObject(3, adres.getToevoeging());
@@ -72,19 +73,20 @@ public class AdresMapper {
             }
             created=true;
 		} catch (SQLException e) {
-			einde();
+			//einde();
 			throw new SQLException("Kon geen nieuw adres in database opslaan");
 		}
-		einde();
+		//einde();
 		return created;
 	}
 	
 	
 	public  Adres getAdres(int id) throws SQLException{
 		Adres adres=null;
-		initialiseer();
+		//initialiseer();
 
-		try {
+		try ( Connection con= ConnectieDatabase.getConnection();
+			PreparedStatement pStatementGet=con.prepareStatement("SELECT * FROM adres WHERE id=?;");){
 			pStatementGet.setObject(1, id);
 
 			ResultSet resultSet = pStatementGet.executeQuery();
@@ -103,23 +105,24 @@ public class AdresMapper {
                 adres.setId(id1);
             }
             else{
-            	einde();
+            	//einde();
             	throw new SQLException("Kon gevraagde adres niet vinden in database");
             }
             
 		} catch (SQLException e) {
-			einde();
+			//einde();
 			throw new SQLException("Kon geen adres uit database ophalen");
 		}
-		einde();
+		//einde();
 		return adres;
 	}
 
 	
 	public  boolean updateAdres(Adres gewijzigdAdres, int adresId) throws SQLException {
 		boolean updated=false;
-		initialiseer();
-		try {
+		//initialiseer();
+		try ( Connection con= ConnectieDatabase.getConnection();
+			PreparedStatement pStatementUpdate=con.prepareStatement("UPDATE adres SET straatnaam=?, huisnummer=?, toevoeging=?,postcode=?,woonplaats=?,adrestype=? WHERE id=?");){
 			pStatementUpdate.setObject(1, gewijzigdAdres.getStraatnaam());
 			pStatementUpdate.setObject(2, gewijzigdAdres.getHuisnummer());
 			pStatementUpdate.setObject(3, gewijzigdAdres.getToevoeging());
@@ -132,10 +135,10 @@ public class AdresMapper {
 			gewijzigdAdres.setId(adresId);
 		}
 		catch (SQLException e) {
-			einde();
+		//	einde();
 			throw new SQLException("Kon adres niet in database opslaan");
 		}
-		einde();
+		//einde();
 		return updated;
 	}
 	
@@ -143,17 +146,18 @@ public class AdresMapper {
 	
 	public boolean deleteAdres(int id) throws SQLException {
 		boolean deleted=false;
-		initialiseer();
-		try {
+		//initialiseer();
+		try ( Connection con= ConnectieDatabase.getConnection();
+			PreparedStatement pStatementDeleteAdres=con.prepareStatement("DELETE FROM adres where id=?");){
 			pStatementDeleteAdres.setObject(1, id);
 			pStatementDeleteAdres.executeUpdate();
 			deleted=true;
 		}
 		catch (SQLException e) {
-			einde();
+			//einde();
 			throw new SQLException("Kon adres niet verwijderen uit database");
 		}
-		einde();
+		//einde();
 		return deleted;
 	}
 	

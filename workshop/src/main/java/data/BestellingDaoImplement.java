@@ -7,15 +7,15 @@ import java.util.ArrayList;
 import domein.Bestelling;
 
 
-public class BestellingMapper {
+public class BestellingDaoImplement {
 	
-	private  static Connection con = ConnectieDatabase.getConnection();
+//	private  static Connection con = ConnectieDatabase.getConnection();
 	
 	public int createBestelling(Bestelling bestelling,int klantid ){		
 		int insertId = -1;
 		String sql = "INSERT INTO Bestelling (totaalPrijs,Klant_idKlant) VALUES (?,?);";
-		try {
-			PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		try ( Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);){
 			stmt.setObject(1, bestelling.getTotaalPrijs());
 			stmt.setObject(2, klantid);    
 			stmt.executeUpdate();
@@ -35,8 +35,8 @@ public class BestellingMapper {
 	public Bestelling getBestelling(int id){
 		String sql = "SELECT * FROM Bestelling WHERE id=?";
 		Bestelling returnedBestelling = null;
-		try {
-			PreparedStatement stmt = con.prepareStatement(sql);
+		try (Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement stmt = con.prepareStatement(sql);){
 			stmt.setObject(1, id);
 			ResultSet resultSet = stmt.executeQuery();
             if (resultSet.isBeforeFirst()) {
@@ -66,8 +66,8 @@ public class BestellingMapper {
 	public ArrayList<Bestelling> getAlleBestelling(){
 		String sql = "SELECT * FROM bestelling;";
 		ArrayList<Bestelling> returnedBestelling = new ArrayList<>();
-		try {
-			PreparedStatement stmt = con.prepareStatement(sql);
+		try (Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement stmt = con.prepareStatement(sql);){
 			ResultSet resultSet = stmt.executeQuery();
             while(resultSet.next()){
             	
@@ -91,8 +91,8 @@ public class BestellingMapper {
 	public boolean updateBestellingen(BigDecimal totaalprijs, int id){
 		String sql = "UPDATE bestelling SET totaalprijs = ? WHERE id = ?";
 		int rows = -1;
-		try {
-			PreparedStatement stmt = con.prepareStatement(sql);
+		try (Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement stmt = con.prepareStatement(sql);){
 			stmt.setObject(1, totaalprijs);
 			stmt.setObject(2, id);
 			rows = stmt.executeUpdate();
@@ -112,8 +112,8 @@ public class BestellingMapper {
 	public boolean deleteBestellingen(int id){
 		String sql = "DELETE FROM bestelling WHERE id = ?";
 		int rows = -1;
-		try {
-			PreparedStatement stmt = con.prepareStatement(sql);
+		try (Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement stmt = con.prepareStatement(sql);){
 			stmt.setObject(1, id);
 			rows = stmt.executeUpdate();
 		} catch (SQLException e) {

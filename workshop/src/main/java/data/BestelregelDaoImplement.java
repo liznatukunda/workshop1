@@ -8,14 +8,14 @@ import domein.BestelRegel;
 import domein.Bestelling;
 import domein.Artikel;
 
-public class BestelregelMapper {
-private  static Connection con = ConnectieDatabase.getConnection();
+public class BestelregelDaoImplement {
+//private  static Connection con = ConnectieDatabase.getConnection();
 	
 	public int createBestelregel(BestelRegel bestelregel,int bestellingnummer,int artikelnummer){		
 		int insertId = -1;
 		String sql = "INSERT INTO Bestelregel (aantal,prijs,Bestelling_idBestelling,Artikel_idArtikel) VALUES (?,?,?,?);";
-		try {
-			PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		try ( Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);){
 			stmt.setObject(1, bestelregel.getAantal());
 			stmt.setObject(2, bestelregel.getPrijs());
 			stmt.setObject(3, bestellingnummer);
@@ -38,8 +38,8 @@ private  static Connection con = ConnectieDatabase.getConnection();
 	public BestelRegel getBestelRegel(int id){
 		String sql = "SELECT * FROM Bestelregel WHERE id=?";
 		BestelRegel returnedBestelRegel = null;
-		try {
-			PreparedStatement stmt = con.prepareStatement(sql);
+		try ( Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement stmt = con.prepareStatement(sql);){
 			stmt.setObject(1, id);
 			ResultSet resultSet = stmt.executeQuery();
             if (resultSet.isBeforeFirst()) {
@@ -73,8 +73,8 @@ private  static Connection con = ConnectieDatabase.getConnection();
 	public ArrayList<BestelRegel> getAlleBestelRegel(){
 		String sql = "SELECT * FROM bestelregel;";
 		ArrayList<BestelRegel> returnedBestelRegel = new ArrayList<>();
-		try {
-			PreparedStatement stmt = con.prepareStatement(sql);
+		try ( Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement stmt = con.prepareStatement(sql);){
 			ResultSet resultSet = stmt.executeQuery();
             while(resultSet.next()){
             	
@@ -101,8 +101,8 @@ private  static Connection con = ConnectieDatabase.getConnection();
 	public boolean updateBestelRegel(int aantal, int id){
 		String sql = "UPDATE bestelregel SET aantal = ? WHERE id = ?";
 		int rows = -1;
-		try {
-			PreparedStatement stmt = con.prepareStatement(sql);
+		try ( Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement stmt = con.prepareStatement(sql);){
 			stmt.setObject(1, aantal);
 			stmt.setObject(2, id);
 			rows = stmt.executeUpdate();
@@ -122,8 +122,8 @@ private  static Connection con = ConnectieDatabase.getConnection();
 	public boolean deleteBestelRegel(int id){
 		String sql = "DELETE FROM bestelregel WHERE id = ?";
 		int rows = -1;
-		try {
-			PreparedStatement stmt = con.prepareStatement(sql);
+		try ( Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement stmt = con.prepareStatement(sql);){
 			stmt.setObject(1, id);
 			rows = stmt.executeUpdate();
 		} catch (SQLException e) {

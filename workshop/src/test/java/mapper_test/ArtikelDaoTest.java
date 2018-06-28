@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import data.ConnectieDatabase;
 import domein.Artikel;
-import data.ArtikelDao;
+import data.ArtikelDaoImplement;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -23,16 +23,16 @@ public class ArtikelDaoTest {
 	Artikel nieuweArtikel4=new Artikel ("brie", new BigDecimal("7.35"), 500);
 	
 		
+	ArtikelDaoImplement adao=new ArtikelDaoImplement();
+	
+	//static ConnectieDatabase cdb=new ConnectieDatabase();
 	
 	
-	static ConnectieDatabase cdb=new ConnectieDatabase();
-	ArtikelDao adao=new ArtikelDao();
-	
-	@BeforeClass
-	public static void initialiseer() throws SQLException {
-		cdb.maakVerbinding();
+	//@BeforeClass
+	//public static void initialiseer() throws SQLException {
+		//cdb.maakVerbinding();
 		//database clean? truncate  of set foreign_key_checks = 0 
-	}
+	//}
 	
 	@Before
 	public void setUp(){
@@ -52,11 +52,11 @@ public class ArtikelDaoTest {
 		
 	}
 	
-	@AfterClass
-	public static void close() {
-		cdb.sluitAf();
+	//@AfterClass
+	//public static void close() {
+	//	cdb.sluitAf();
 		
-	}
+	//}
 	
 	@Test
 	public void testCreateArtikel() {

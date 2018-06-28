@@ -5,16 +5,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import data.ConnectieDatabase;
-import data.KlantDao;
+import data.KlantDaoImplement;
 import domein.Account;
-import data.AccountDao;
+import data.AccountDaoImplement;
 import domein.Klant;
 import domein.Bestelling;
-import data.BestellingMapper;
+import data.BestellingDaoImplement;
 import domein.BestelRegel;
-import data.BestelregelMapper;
+import data.BestelregelDaoImplement;
 import domein.Artikel;
-import data.ArtikelDao;
+import data.ArtikelDaoImplement;
 
 
 import static org.junit.Assert.*;
@@ -31,19 +31,14 @@ public class BestelRegelDaoTest {
 	BestelRegel bestelregel2 = new BestelRegel(artikel1, 20);
 	BestelRegel bestelregel3 = new BestelRegel(artikel1, 30);
 	
-	static ConnectieDatabase cdb=new ConnectieDatabase();
-	AccountDao accountdao=new AccountDao();
-	KlantDao klantdao=new KlantDao();
-	BestellingMapper bestellingdao = new BestellingMapper();
-	ArtikelDao artikeldao = new ArtikelDao();
-	BestelregelMapper bestelregeldao = new BestelregelMapper();
+
+	AccountDaoImplement accountdao=new AccountDaoImplement();
+	KlantDaoImplement klantdao=new KlantDaoImplement();
+	BestellingDaoImplement bestellingdao = new BestellingDaoImplement();
+	ArtikelDaoImplement artikeldao = new ArtikelDaoImplement();
+	BestelregelDaoImplement bestelregeldao = new BestelregelDaoImplement();
 	
-	@BeforeClass
-	public static void initialiseer() throws SQLException {
-		cdb.maakVerbinding();
-		
-		
-	}
+	
 	
 	@Before
 	public void setUp(){
@@ -55,16 +50,11 @@ public class BestelRegelDaoTest {
 	}
 	@After
 	public void finish() {
-		//artikeldao.deleteArtikel(artikel1);
-		bestellingdao.deleteBestellingen(bestelling1);
+		artikeldao.deleteArtikel(artikel1);
+		accountdao.deleteAccount(nieuweAccount1);
 		//klantdao.deleteKlant(nieuweKlant1);
 		//accountdao.deleteAccount(nieuweAccount1);
 		
-	}
-	@AfterClass
-	public static void close() {
-		
-		cdb.sluitAf();
 	}
 	
 	
