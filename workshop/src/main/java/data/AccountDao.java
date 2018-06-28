@@ -1,10 +1,11 @@
 package data;
 
 import java.sql.*;
-import java.sql.Connection;
 
 import domein.Account;
+import domein.Klant;
 import domein.Account.Rol;
+import java.util.ArrayList;
 
 public class AccountDao implements AccountDaoInterface {
 	
@@ -13,7 +14,7 @@ private PreparedStatement stmt = null;
 
 
 
-public Rol toRol (String rol) {
+public static Rol toRol (String rol) {
 	if (rol.equals("klant")){
 		return Account.Rol.klant;
 	}
@@ -23,7 +24,7 @@ public Rol toRol (String rol) {
 	else return Account.Rol.beheerder;
 }
 	
-	public void createAccount(Account account){
+	public Integer createAccount(Account account){
 		int insertId = 0;
 		String sql = "INSERT INTO Account (username, password, rol) VALUES (?,?,?);";
 		try {
@@ -41,6 +42,7 @@ public Rol toRol (String rol) {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return insertId;
 	}
 	
 	public Account getAccount(int id){
@@ -115,6 +117,35 @@ public Rol toRol (String rol) {
 	public boolean deleteAccount(Account account){
 		return deleteAccount(account.getId());
 	}
+	
+	public ArrayList<Account> getAlleAccounts(){
+		String sql = "SELECT * FROM Account;";
+		ArrayList<Account> returnedAccounts = new ArrayList<>();
+			try {
+				PreparedStatement stmt = con.prepareStatement(sql);
+				ResultSet resultSet = stmt.executeQuery();
+	            while(resultSet.next()){
+	            	
+	            	int id1 = resultSet.getInt(1);
+	            	 String userNaam =  resultSet.getString(2);
+	                 String password =  resultSet.getString(3);
+	                 Rol rol =  toRol(resultSet.getString(4));
+	                 
+	                 Account returnedAccount = new Account (userNaam,password,rol);
+	               
+	                returnedAccount.setId(id1);
+	            
+	                returnedAccounts.add(returnedAccount); 
+	            }
+	            
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return returnedAccounts;
+		}
+	
+		
+	
 }
 
 
