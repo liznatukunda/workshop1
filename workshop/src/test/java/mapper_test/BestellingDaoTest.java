@@ -5,17 +5,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import data.ConnectieDatabase;
-import data.KlantDao;
+import data.KlantDaoImplement;
 import domein.Account;
-import data.AccountDao;
+import data.AccountDaoImplement;
 import domein.Klant;
 import domein.Bestelling;
-import data.BestellingMapper;
+import data.BestellingDaoImplement;
 
 import static org.junit.Assert.*;
 import org.junit.*;
 
-public class BestellingMapperTest {
+public class BestellingDaoTest {
 
 	Account nieuweAccount1=new Account ("klant 1", "simpel", Account.Rol.klant);
 	Klant nieuweKlant1=new Klant ("Jan", "der", "Boy");
@@ -24,15 +24,15 @@ public class BestellingMapperTest {
 	Bestelling bestelling3 = new Bestelling (new BigDecimal ("300.30"));
 	
 	static ConnectieDatabase cdb=new ConnectieDatabase();
-	AccountDao adao=new AccountDao();
-	KlantDao kdao=new KlantDao();
-	BestellingMapper bdao = new BestellingMapper();
+	AccountDaoImplement adao=new AccountDaoImplement();
+	KlantDaoImplement kdao=new KlantDaoImplement();
+	BestellingDaoImplement bdao = new BestellingDaoImplement();
 	
-	@BeforeClass
+	/*@BeforeClass
 	public static void initialiseer() throws SQLException {
 		cdb.maakVerbinding();
 	}
-	
+	*/
 		@Before
 		public void setUp(){
 			adao.createAccount(nieuweAccount1);
@@ -47,12 +47,12 @@ public class BestellingMapperTest {
 			adao.deleteAccount(nieuweAccount1);
 		}
 		
-		@AfterClass
+/*		@AfterClass
 		public static void close() {
 			
 			cdb.sluitAf();
 		}
-	
+*/
 	
 	@Test
 	public void testCreateBestelling() {

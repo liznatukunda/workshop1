@@ -17,14 +17,14 @@ import domein.*;
 import domein.Account.Rol;
 import domein.Adres.AdresType;
 
-public class AdresMapperTest {
+public class AdresDaoTest {
 
 	static Connection con;
 	static int klantId=-1;
 	static int accountId=-1;
-	static AccountDao accountDao;
-	static KlantDao klantDao;
-	static AdresMapper adresMapper;
+	static AccountDaoImplement accountDao;
+	static KlantDaoImplement klantDao;
+	static AdresDaoImplement adresMapper;
 	int adresId1=-1;
 	
 	@BeforeClass
@@ -34,16 +34,16 @@ public class AdresMapperTest {
 			con=ConnectieDatabase.getConnection();
 			
 			Account nieuweAccount=new Account("testaccount","mijnWW", Rol.klant);
-			accountDao=new AccountDao();
+			accountDao=new AccountDaoImplement();
 			accountDao.createAccount(nieuweAccount);
 			accountId=nieuweAccount.getId();
 			
 			Klant nieuweKlant=new Klant("MijnVoornaam", "mijntussenvoegsel", "MijnAchternaam");
-			klantDao=new KlantDao();
+			klantDao=new KlantDaoImplement();
 			klantDao.createKlant(nieuweKlant, accountId);
 			klantId=nieuweKlant.getId();
 			
-			adresMapper=new AdresMapper();
+			adresMapper=new AdresDaoImplement();
 		}
 		catch (Exception e){
 			throw new Exception("Kon de startwaarden niet aanmaken voor de AdresMapperTest");

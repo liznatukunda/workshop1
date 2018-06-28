@@ -1,8 +1,7 @@
 package data;
-import java.io.PrintWriter;
 import java.sql.*;
 
-public class ConnectieDatabase extends DOM{
+public class ConnectieDatabase{
 	
 	 private static Connection con=null;
 	 
@@ -13,7 +12,7 @@ public class ConnectieDatabase extends DOM{
 	  /**
 	   * Maakt verbinding met de database op basis van de waarden via DOM parser
 	   */
-	 public void maakVerbinding() throws SQLException {
+	 public static void maakVerbinding() throws SQLException {
 		 DOM parser = new DOM();
 	     String url = parser.getUrl();
 	     String username = parser.getUsername();
@@ -27,10 +26,8 @@ public class ConnectieDatabase extends DOM{
 		 // check is de connectie nog actief !null of zelfde connectie teruggeven//
 	 }
 	 
-	  /**
-	   * Sluit de verbinding met de database
-	   */
-	  public void sluitAf() {
+	 
+	/*  public void sluitAf() {
 	    if(con!=null){
 	      try{
 	        con.close();
@@ -41,9 +38,18 @@ public class ConnectieDatabase extends DOM{
 	    }
 	    
 	  }
-	  
+	  */
 	  public static Connection getConnection(){
-		  return con;
+		  try {
+	            if (con == null || con.isClosed()) {
+	                maakVerbinding();
+	            }
+	        } catch (SQLException sqlEx) {
+	            sqlEx.printStackTrace();
+	        }
+	        return con;
+		  
+		 
 	  }
 	 
 	  

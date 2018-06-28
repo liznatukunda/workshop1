@@ -8,7 +8,7 @@ import java.sql.Statement;
 import domein.Adres;
 import domein.Adres.AdresType;
 
-public class AdresMapper {
+public class AdresDaoImplement {
 
 	private  Connection con;
 	private  PreparedStatement pStatementVoegToe;
