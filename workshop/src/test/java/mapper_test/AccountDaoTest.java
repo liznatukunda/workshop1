@@ -1,4 +1,4 @@
-package WS_1.workshop;
+package mapper_test;
 
 import static org.junit.Assert.*;
 
