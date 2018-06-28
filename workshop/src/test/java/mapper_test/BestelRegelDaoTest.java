@@ -115,14 +115,14 @@ public class BestelRegelDaoTest {
 
 	@Test
 	public void testDeleteBestelRegelInt() {
-		bestelregeldao.createBestelregel(bestelregel1, bestelling1.getBestellingNummer(),artikel1.getId());
+		bestelregeldao.createBestelregel(bestelregel1, bestelling1.getId(),artikel1.getId());
 		boolean deletesucces = bestelregeldao.deleteBestelRegel(bestelregel1.getId());
 		 assertTrue("bestelling 1 niet deleted",deletesucces);
 	}
 
 	@Test
 	public void testDeleteBestelRegelBestelRegel() {
-		bestelregeldao.createBestelregel(bestelregel1, bestelling1.getBestellingNummer(),artikel1.getId());
+		bestelregeldao.createBestelregel(bestelregel1, bestelling1.getId(),artikel1.getId());
 		boolean deletesucces = bestelregeldao.deleteBestelRegel(bestelregel1);
 		 assertTrue("bestelling 1 niet deleted",deletesucces);
 	}
