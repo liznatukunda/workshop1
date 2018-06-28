@@ -24,7 +24,7 @@ public class BestellingMapper {
                 resultSet.next();
                 insertId = resultSet.getInt(1);
           //      System.out.println("Id " + insertId + " voor bestelling " + bestelling.getBestellingNummer());
-                bestelling.setBestellingNummer(insertId);
+                bestelling.setId(insertId);
             }
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -43,12 +43,12 @@ public class BestellingMapper {
                 resultSet.next();
 
                 int id1 = resultSet.getInt(1);
-                BigDecimal totaalprijs =  resultSet.getBigDecimal(2);
+                // BigDecimal totaalprijs =  resultSet.getBigDecimal(2);
             //    int Klant_id =  resultSet.getInt(3);             
-                returnedBestelling = new Bestelling (totaalprijs);
+                returnedBestelling = new Bestelling ();
                 
                 
-                returnedBestelling.setBestellingNummer(id1);
+                returnedBestelling.setId(id1);
                 
             //    System.out.println("Bestelling gevonden: " + returnedBestelling.getBestellingNummer());
             }
@@ -72,11 +72,11 @@ public class BestellingMapper {
             while(resultSet.next()){
             	
             	int bestellingNummer = resultSet.getInt(1);
-            	BigDecimal totaalprijs =  resultSet.getBigDecimal(2);
+            	// BigDecimal totaalprijs =  resultSet.getBigDecimal(2);
               //  int klantid =  resultSet.getBigDecimal(3);
                // Bestellingen bestellingen = new Bestellingen (bestellingNummer,totaalprijs,klantid);
-            	Bestelling bestellingen = new Bestelling (totaalprijs);
-                bestellingen.setBestellingNummer(bestellingNummer);
+            	Bestelling bestellingen = new Bestelling ();
+                bestellingen.setId(bestellingNummer);
             	
             	//System.out.println("Bestellingen gevonden: " + bestellingen.getBestellingNummer());
             	returnedBestelling.add(bestellingen);
@@ -106,7 +106,7 @@ public class BestellingMapper {
 	}
 	
 	public boolean updateBestellingen(Bestelling bestelling){
-		return updateBestellingen(bestelling.getTotaalPrijs(), bestelling.getBestellingNummer());
+		return updateBestellingen(bestelling.getTotaalPrijs(), bestelling.getId());
 	}
 	
 	public boolean deleteBestellingen(int id){
@@ -123,6 +123,6 @@ public class BestellingMapper {
 	}
 	
 	public boolean deleteBestellingen(Bestelling bestellingen){
-		return deleteBestellingen(bestellingen.getBestellingNummer());
+		return deleteBestellingen(bestellingen.getId());
 	}
 }

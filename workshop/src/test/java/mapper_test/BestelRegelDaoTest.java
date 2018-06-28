@@ -70,9 +70,9 @@ public class BestelRegelDaoTest {
 	
 	@Test
 	public void testCreateBestelregel() {
-		bestelregeldao.createBestelregel(bestelregel1,bestelling1.getBestellingNummer(),artikel1.getId());
-		bestelregeldao.createBestelregel(bestelregel2,bestelling1.getBestellingNummer(),artikel1.getId());
-		bestelregeldao.createBestelregel(bestelregel3,bestelling1.getBestellingNummer(),artikel1.getId());
+		bestelregeldao.createBestelregel(bestelregel1,bestelling1.getId(),artikel1.getId());
+		bestelregeldao.createBestelregel(bestelregel2,bestelling1.getId(),artikel1.getId());
+		bestelregeldao.createBestelregel(bestelregel3,bestelling1.getId(),artikel1.getId());
 		
 		BestelRegel actueleBestelRegel1=bestelregeldao.getBestelRegel(bestelregel1.getId());
 		BestelRegel actueleBestelRegel2=bestelregeldao.getBestelRegel(bestelregel2.getId());
