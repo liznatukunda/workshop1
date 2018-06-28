@@ -8,7 +8,6 @@ public class BestelRegel {
 	
 	private int id;
 	private Artikel artikel;
-	// private Bestelling bestelling; Door een ArrayList in Bestelling te genereren, is dit niet meer nodig
 	private int aantal;
 	private BigDecimal prijs;
 	
@@ -71,6 +70,22 @@ public class BestelRegel {
 	public BigDecimal getPrijs() {
 		BigDecimal stukprijs=artikel.getPrijs();
 		return stukprijs.multiply(new BigDecimal(aantal));
+	}
+	
+	public boolean equals (BestelRegel bestelregel) {
+		if (this.id!=bestelregel.getId()) {
+			return false;
+		}
+		if (!this.artikel.equals(bestelregel.getArtikel())) {
+			return false;
+		}
+		if (this.aantal!=bestelregel.getAantal()) {
+			return false;
+		}
+		if (!this.prijs.equals(bestelregel.getPrijs())) {
+			return false;
+		}
+		return true;
 	}
 	
 }

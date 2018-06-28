@@ -19,9 +19,9 @@ public class BestellingDaoTest {
 
 	Account nieuweAccount1=new Account ("klant 1", "simpel", Account.Rol.klant);
 	Klant nieuweKlant1=new Klant ("Jan", "der", "Boy");
-	Bestelling bestelling1 = new Bestelling (new BigDecimal ("100.10"));
-	Bestelling bestelling2 = new Bestelling (new BigDecimal ("200.20"));
-	Bestelling bestelling3 = new Bestelling (new BigDecimal ("300.30"));
+	Bestelling bestelling1 = new Bestelling ();
+	Bestelling bestelling2 = new Bestelling ();
+	Bestelling bestelling3 = new Bestelling ();
 	
 	static ConnectieDatabase cdb=new ConnectieDatabase();
 	AccountDaoImplement adao=new AccountDaoImplement();
@@ -56,18 +56,18 @@ public class BestellingDaoTest {
 	
 	@Test
 	public void testCreateBestelling() {
-		Bestelling actueleBestelling1=bdao.getBestelling(bestelling1.getBestellingNummer());
-		Bestelling actueleBestelling2=bdao.getBestelling(bestelling2.getBestellingNummer());
-		Bestelling actueleBestelling3=bdao.getBestelling(bestelling3.getBestellingNummer());
+		Bestelling actueleBestelling1=bdao.getBestelling(bestelling1.getId());
+		Bestelling actueleBestelling2=bdao.getBestelling(bestelling2.getId());
+		Bestelling actueleBestelling3=bdao.getBestelling(bestelling3.getId());
 		
 		assertEquals("Bestelling1 totaalprijs niet juist opgeslagen", actueleBestelling1.getTotaalPrijs() ,bestelling1.getTotaalPrijs());
-		assertEquals("Bestelling1 id niet juist opgeslagen", actueleBestelling1.getBestellingNummer(),bestelling1.getBestellingNummer());
+		assertEquals("Bestelling1 id niet juist opgeslagen", actueleBestelling1.getId(),bestelling1.getId());
 
 		assertEquals("Bestelling2 totaalprijs niet juist opgeslagen", actueleBestelling2.getTotaalPrijs() ,bestelling2.getTotaalPrijs());
-		assertEquals("Bestelling2 id niet juist opgeslagen", actueleBestelling2.getBestellingNummer(),bestelling2.getBestellingNummer());
+		assertEquals("Bestelling2 id niet juist opgeslagen", actueleBestelling2.getId(),bestelling2.getId());
 
 		assertEquals("Bestelling3 totaalprijs niet juist opgeslagen", actueleBestelling3.getTotaalPrijs() ,bestelling3.getTotaalPrijs());
-		assertEquals("Bestelling3 id niet juist opgeslagen", actueleBestelling3.getBestellingNummer(),bestelling3.getBestellingNummer());
+		assertEquals("Bestelling3 id niet juist opgeslagen", actueleBestelling3.getId(),bestelling3.getId());
 	}
 
 	@Test
@@ -80,14 +80,14 @@ public class BestellingDaoTest {
 		
 		for (int i=0; i<testlijst.size();i++) {	
 			assertEquals("bestelling totaalprijs niet juist opgeslagen", actueleWaarden.get(i).getTotaalPrijs(),testlijst.get(i).getTotaalPrijs());
-			assertEquals("bestelling id niet juist opgeslagen", actueleWaarden.get(i).getBestellingNummer(),testlijst.get(i).getBestellingNummer());
+			assertEquals("bestelling id niet juist opgeslagen", actueleWaarden.get(i).getId(),testlijst.get(i).getId());
 		}
 		
 	}
 
 	@Test
 	public void testUpdateBestellingenBigDecimalInt() {
-		boolean updatesucces = bdao.updateBestellingen(new BigDecimal ("999.99"), bestelling1.getBestellingNummer());
+		boolean updatesucces = bdao.updateBestellingen(new BigDecimal ("999.99"), bestelling1.getId());
 		assertTrue("klant niet ge-update", updatesucces);
 	}
 
@@ -101,7 +101,7 @@ public class BestellingDaoTest {
 	@Test
 	public void testDeleteBestellingenInt() {
 		bdao.createBestelling(bestelling1, nieuweKlant1.getId());
-		boolean deletesucces = bdao.deleteBestellingen(bestelling1.getBestellingNummer());
+		boolean deletesucces = bdao.deleteBestellingen(bestelling1.getId());
 		 assertTrue("bestelling 1 niet deleted",deletesucces);
 	}
 

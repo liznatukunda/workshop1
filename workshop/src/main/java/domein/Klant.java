@@ -1,21 +1,19 @@
-// TO DO: get&set voor ArrayList bestellingen
-// TO DO: account als superklasse instellen??
-// TO DO: toevoegen methode om bestelling te creëren of juist bij account???
 
 package domein;
 
 import java.util.ArrayList;
+
+import domein.Adres.AdresType;
 
 public class Klant {
 	int id;
 	private String voornaam;
 	private String tussenvoegsel;
 	private String achternaam;
-	ArrayList <Bestelling> bestellingen= new ArrayList <Bestelling>();
-	ArrayList <Adres> adressen= new ArrayList <Adres>();
+	private ArrayList <Bestelling> bestellingen= new ArrayList <Bestelling>();
+	private ArrayList <Adres> adressen= new ArrayList <Adres>();
 	
-	// Hieronder volgen eerst twee constructors, eentje met en eentje zonder tussenvoegsel
-	
+
 	/**
 	 * Creëert een nieuwe klant inclusief een nieuw adres van het adrestype postadres als tussenvoegsel is ingegeven
 	 * @param voornaam de voornaam van de nieuwe klant
@@ -76,6 +74,10 @@ public class Klant {
 		this.achternaam=achternaam;
 	}
 	
+	public void setPostadres(Adres adres) {
+		adressen.set(0, adres);
+	}
+	
 	public void setFactuurAdres(Adres adres) {
 		adressen.set(1, adres);
 	}
@@ -105,6 +107,100 @@ public class Klant {
 	 */
 	public Adres getAdres(int type) {
 		return adressen.get(type);
+	}
+	
+	
+	public void maakAdresAan(AdresType adrestype, String straatnaam, int huisnummer, String toevoeging, String postcode, String woonplaats) {
+		Adres adres = new Adres (adrestype, straatnaam, huisnummer, toevoeging, postcode, woonplaats);
+		if (!adrestype.equals(AdresType.POSTADRES)) {
+			adressen.add(0,adres);
+		}
+		if (!adrestype.equals(AdresType.FACTUURADRES)) {
+			adressen.add(1,adres);
+		}
+		if (!adrestype.equals(AdresType.BEZORGADRES)) {
+			adressen.add(2,adres);
+		}
+	}
+	
+	public void wijzigAdres (AdresType adrestype, String straatnaam, int huisnummer, String toevoeging, String postcode, String woonplaats) {
+		Adres adres=null;
+		if (adrestype.equals(AdresType.POSTADRES)) {
+			adres=adressen.get(0);
+		}
+		if (adrestype.equals(AdresType.FACTUURADRES)) {
+			adres=adressen.get(1);
+		}
+		if (adrestype.equals(AdresType.BEZORGADRES)) {
+			adres=adressen.get(2);
+		}		
+		adres.setStraatnaam(straatnaam);
+		adres.sethuisnummer(huisnummer);
+		adres.setToevoeging(toevoeging);
+		adres.setPostcode(postcode);
+		adres.setWoonplaats(woonplaats);
+		if (adrestype.equals(AdresType.POSTADRES)) {
+			adressen.set(0, adres);
+		}
+		if (adrestype.equals(AdresType.FACTUURADRES)) {
+			adressen.set(1, adres);
+		}
+		if (adrestype.equals(AdresType.BEZORGADRES)) {
+			adressen.set(2, adres);
+		}	
+	}
+	
+	public void verwijderAdres (int index) {
+		adressen.set(index, null);
+	}
+	
+	public void maakBestellingAan() {
+		Bestelling bestelling=new Bestelling();
+		bestellingen.add(bestelling);
+	}
+	
+	public void verwijderBestelling(int index) {
+		bestellingen.remove(index);
+	}
+	
+	// Moet hier nog een wijzigBestelling, waarschijnlijk niet?!?
+	
+	public ArrayList <Bestelling> leesAlleBestellingen() {
+		return bestellingen;
+	}
+	
+	public ArrayList <Adres> leesAlleAdressen() {
+		return adressen;
+	}
+	
+
+	
+	
+	
+	public boolean equals(Klant klant) {
+		if (this.id!=klant.getId()) {
+			return false;
+		}
+		if (!this.voornaam.equals(klant.getVoornaam())){
+			return false;
+		}
+		if (!this.tussenvoegsel.equals(klant.getTussenvoegsel())){
+			return false;
+		}
+		if (!this.achternaam.equals(klant.getAchternaam())){
+			return false;
+		}
+		for (int index=0; index<adressen.size(); index++) {
+			if (!this.adressen.get(index).equals(klant.getAdres(index)))
+			{
+				return false;
+			}
+		}
+		for (int index=0; index<bestellingen.size();index++)
+			if (!this.bestellingen.get(index).equals(klant.leesAlleBestellingen().get(index))) {
+				return false;
+			}
+		return true;
 	}
 
 	
