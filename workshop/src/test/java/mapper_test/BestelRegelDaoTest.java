@@ -25,7 +25,7 @@ public class BestelRegelDaoTest {
 	
 	Account nieuweAccount1=new Account ("klant 1", "simpel", Account.Rol.klant);
 	Klant nieuweKlant1=new Klant ("Jan", "der", "Boy");
-	Bestelling bestelling1 = new Bestelling (new BigDecimal ("100.10"));
+	Bestelling bestelling1 = new Bestelling ();
 	Artikel artikel1 = new Artikel ("oude kaas", new BigDecimal("10.10"), 100);
 	BestelRegel bestelregel1 = new BestelRegel(artikel1, 10);
 	BestelRegel bestelregel2 = new BestelRegel(artikel1, 20);

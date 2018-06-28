@@ -19,9 +19,9 @@ public class BestellingDaoTest {
 
 	Account nieuweAccount1=new Account ("klant 1", "simpel", Account.Rol.klant);
 	Klant nieuweKlant1=new Klant ("Jan", "der", "Boy");
-	Bestelling bestelling1 = new Bestelling (new BigDecimal ("100.10"));
-	Bestelling bestelling2 = new Bestelling (new BigDecimal ("200.20"));
-	Bestelling bestelling3 = new Bestelling (new BigDecimal ("300.30"));
+	Bestelling bestelling1 = new Bestelling ();
+	Bestelling bestelling2 = new Bestelling ();
+	Bestelling bestelling3 = new Bestelling ();
 	
 	static ConnectieDatabase cdb=new ConnectieDatabase();
 	AccountDaoImplement adao=new AccountDaoImplement();
