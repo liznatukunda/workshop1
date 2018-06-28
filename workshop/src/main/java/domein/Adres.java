@@ -1,6 +1,3 @@
-// TO DO: format postcode controleren, en in getter en constructor gebruiken
-// TO DO: aparte constructor voor postadres, zodat dan meteen het type postadres wordt opgeslagen???
-
 package domein;
 
 public class Adres {
@@ -8,7 +5,6 @@ public class Adres {
 	public enum AdresType {POSTADRES, FACTUURADRES, BEZORGADRES}
 	
 	private AdresType adresType;
-	// private int adresNummer;Deze regel verwijder ik omdat die alleen voor de database is
 	private String straatnaam;
 	private int huisnummer;
 	private String toevoeging;
@@ -51,9 +47,6 @@ public class Adres {
 		this.woonplaats=woonplaats;
 	}
 
-	//public void setAdresNummer(int adresNummer) {
-	//	this.adresNummer=adresNummer;
-	//}
 	public void setStraatnaam(String straatnaam) {
 		this.straatnaam=straatnaam;
 	}
@@ -74,9 +67,6 @@ public class Adres {
 		this.id=id;
 	}
 	
-	//public int getAdresNummer() {
-	//	return this.adresNummer;
-	//}
 	
 	public String getStraatnaam() {
 		return this.straatnaam;
@@ -120,6 +110,9 @@ public class Adres {
 		}
 		if (!this.woonplaats.equals(adres.getWoonplaats())) {
 			return false; 
+		}
+		if (!this.adresType.equals(adres.getAdresType())) {
+			return false;
 		}
 		return true;
 	}

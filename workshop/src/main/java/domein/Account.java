@@ -1,6 +1,3 @@
-// TO DO: bijvoegen opties voor klant verwijderen
-// TO DO: toevoegen methode om bestelling te creëren of juist bij klasse klant???
-
 package domein;
 
 public class Account {
@@ -22,7 +19,6 @@ public class Account {
 
 	
 	public Account( String userNaam, String password, Rol rol) {
-	//	this.id = Id;
 		this.userNaam=userNaam;
 		this.password=password;
 		this.rol=rol;  
@@ -57,6 +53,9 @@ public class Account {
 	public Rol getRol() {
 		return this.rol;
 	}
+	public Klant getKlant() {
+		return this.klant;
+	}
 	
 	public void voegKlantToe(Klant klant) {
 		this.klant=klant;
@@ -73,5 +72,30 @@ public class Account {
 		this.klant.setTussenvoegsel(null);
 		this.klant.setAchternaam(achternaam);
 	}
+	
+	public void verwijderKlant() {
+		this.klant=null;
+	}
+	
+	public boolean equals (Account account) {
+		if (this.id!=account.getId()) {
+			return false; 
+		}
+		if (!this.userNaam.equals(account.getUserNaam())) {
+			return false; 
+		}
+		if (!this.password.equals(account.getPassword())) {
+			return false; 
+		}
+		if (this.rol!=account.getRol()) {
+			return false; 
+		}
+		if (!this.klant.equals(account.getKlant())) {
+			return false; 
+		}
+		return true;
+	}
+
+
 	
 }

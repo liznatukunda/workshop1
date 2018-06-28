@@ -7,16 +7,20 @@ public class Bestelling {
 	
 
 	private BigDecimal totaalPrijs;
-	private int bestellingNummer;
+	private int id;
 	private ArrayList<BestelRegel> bestelregels=new ArrayList<BestelRegel>();
 
-	public Bestelling(BigDecimal totaalPrijs) {
-		this.totaalPrijs=totaalPrijs;
+	//public Bestelling(BigDecimal totaalPrijs) {
+	//	this.totaalPrijs=totaalPrijs;
+	//}
+	
+	public Bestelling() {
+		this.totaalPrijs=new BigDecimal("0.00");
 	}
 	
 	
-	public void setBestellingNummer(int bestellingNummer) {
-		this.bestellingNummer=bestellingNummer;
+	public void setId(int id) {
+		this.id=id;
 	}
 	
 	public void setTotaalPrijs(BigDecimal totaalPrijs) {
@@ -25,7 +29,7 @@ public class Bestelling {
 
 	
 	public void bepaalTotaalPrijs() {
-		BigDecimal voorlopigePrijs=new BigDecimal(0);
+		BigDecimal voorlopigePrijs=new BigDecimal("0.00");
 		for (int i=0;i<bestelregels.size();i++) {
 			BestelRegel huidigeBestelregel=bestelregels.get(i);
 			BigDecimal BestelregelPrijs=huidigeBestelregel.getPrijs();
@@ -35,8 +39,8 @@ public class Bestelling {
 	}
 	
 	
-	public int getBestellingNummer() {
-		return this.bestellingNummer;
+	public int getId() {
+		return this.id;
 	}
 
 	
@@ -50,7 +54,6 @@ public class Bestelling {
 	 * @param aantal de gewenste hoeveelheid van het te bestellen artikel
 	 */
 	public void voegBestelRegelToe(Artikel artikel, int aantal) {
-		// Pascal: Moeten we hier nog een keer zorgen dat aantal minimaal 0 is, aangezien de constructor van BestelRegel die wordt aangeroepen dit al doet...
 		BestelRegel nieuweBestelRegel=new BestelRegel (artikel, aantal);
 		bestelregels.add(nieuweBestelRegel);
 		// als er een extra bestelregel is, levert dat ook een nieuwe totaalprijs op, dus die moet ook opnieuw ingesteld worden
@@ -77,6 +80,21 @@ public class Bestelling {
 	 */
 	public ArrayList<BestelRegel> leesAlleBestelRegels() {
 		return bestelregels;
+	}
+	
+	public boolean equals (Bestelling bestelling) {
+		if (!this.totaalPrijs.equals(bestelling.getTotaalPrijs())) {
+			return false;
+		}
+		if (this.id!=bestelling.getId()) {
+			return false;
+		}
+		for (int index=0; index<bestelregels.size();index++) {
+			if (!bestelregels.get(index).equals(bestelling.leesAlleBestelRegels().get(index))) {
+				return false;
+			}
+		}
+		return true;
 	}
 	
 
