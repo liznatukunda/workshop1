@@ -1,6 +1,7 @@
 package data;
 
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,7 +9,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import domein.Adres;
 import domein.Klant;
+import domein.Adres.AdresType;
+import domein.Bestelling;
 
 public class KlantDaoImplement {
 //private  static Connection con = ConnectieDatabase.getConnection();
@@ -138,4 +142,102 @@ public class KlantDaoImplement {
 	public boolean deleteKlant(Klant klant){
 		return deleteKlant(klant.getId());
 	}
+	
+	public ArrayList <Adres> getAdressen(int klantId){
+		Klant klant=getKlant(klantId); // Is dit niet verkeerd, omdat ik een nieuw klant object aanmaak, waardoor er nu 2 gelijke zijn?
+		String sql = "SELECT * FROM Adres WHERE Klant_idKlant = ? && Adrestype=\"postadres\"";
+		try ( Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement stmt=con.prepareStatement(sql);){
+			stmt.setObject(1, klantId);
+			ResultSet resultSet = stmt.executeQuery();
+			if (resultSet.isBeforeFirst()) {
+                resultSet.next();
+                int id = resultSet.getInt(1);
+                String straatnaam = resultSet.getString(2);
+                int huisnummer=resultSet.getInt(3);
+                String toevoeging=resultSet.getString(4);
+                String postcode=resultSet.getString(5);
+                String woonplaats=resultSet.getString(6);
+                klant.maakAdresAan(AdresType.POSTADRES, straatnaam, huisnummer, toevoeging, postcode, woonplaats);
+                Adres adres=klant.getAdres(0);
+                adres.setId(id);
+			}
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+			}
+		sql = "SELECT * FROM Adres WHERE Klant_idKlant = ? && Adrestype=\"factuuradres\"";
+		try ( Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement stmt=con.prepareStatement(sql);){
+			stmt.setObject(1, klantId);
+			ResultSet resultSet = stmt.executeQuery();
+			if (resultSet.isBeforeFirst()) {
+                resultSet.next();
+                int id = resultSet.getInt(1);
+                String straatnaam = resultSet.getString(2);
+                int huisnummer=resultSet.getInt(3);
+                String toevoeging=resultSet.getString(4);
+                String postcode=resultSet.getString(5);
+                String woonplaats=resultSet.getString(6);
+                klant.maakAdresAan(AdresType.FACTUURADRES, straatnaam, huisnummer, toevoeging, postcode, woonplaats);
+                Adres adres=klant.getAdres(1);
+                adres.setId(id);
+			}
+		}
+		catch (SQLException e) {
+		e.printStackTrace();
+		}
+		sql = "SELECT * FROM Adres WHERE Klant_idKlant = ? && Adrestype=\"bezorgadres\"";
+		try ( Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement stmt=con.prepareStatement(sql);){
+			stmt.setObject(1, klantId);
+			ResultSet resultSet = stmt.executeQuery();
+			if (resultSet.isBeforeFirst()) {
+                resultSet.next();
+                int id = resultSet.getInt(1);
+                String straatnaam = resultSet.getString(2);
+                int huisnummer=resultSet.getInt(3);
+                String toevoeging=resultSet.getString(4);
+                String postcode=resultSet.getString(5);
+                String woonplaats=resultSet.getString(6);
+                klant.maakAdresAan(AdresType.BEZORGADRES, straatnaam, huisnummer, toevoeging, postcode, woonplaats);
+                Adres adres=klant.getAdres(2);
+                adres.setId(id);
+			}
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+			}
+		
+		return klant.leesAlleAdressen();
+	}
+	
+	
+	public ArrayList <Bestelling> getBestellingen(int klantId){
+		Klant klant=getKlant(klantId); // Is dit niet verkeerd, omdat ik een nieuw klant object aanmaak, waardoor er nu 2 gelijke zijn?
+		String sql = "SELECT * FROM Bestelling WHERE Klant_idKlant = ?";
+		try ( Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement stmt=con.prepareStatement(sql);){
+			stmt.setObject(1, klantId);
+			ResultSet resultSet = stmt.executeQuery();
+			int index=0;
+			while (resultSet.next()) {
+                int id = resultSet.getInt(1);
+                double totaalPrijs=resultSet.getDouble(2);
+                BigDecimal totPrijs=new BigDecimal(""+totaalPrijs);
+                klant.maakBestellingAan();
+                Bestelling bestelling=klant.getBestelling(index);
+                bestelling.setId(id);
+                bestelling.setTotaalPrijs(totPrijs);
+                index++;
+			}
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return klant.leesAlleBestellingen();
+	
+	}
+	
 }

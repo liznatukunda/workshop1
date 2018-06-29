@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 import Controllers.AccountController;
 import Controllers.KlantController;
+import logger.menu;
 
 
 public class KlantgegevensMenu {

@@ -1,70 +1,61 @@
 package Controllers;
 
-import java.util.ArrayList;
-
 import data.AccountDaoImplement;
 import domein.Account;
 import domein.Account.Rol;
-
+import Controllers.KlantController;
 public class AccountController {
 
-	private static AccountDaoImplement accountDaoImplement;
+	private static AccountDaoImplement accountDao;
 	
 	public AccountController(){
-		accountDaoImplement = new AccountDaoImplement();
+		accountDao = new AccountDaoImplement();
 	}
 	
-	public static boolean voegAccountToe(String userNaam, String password, Rol rol){
-		Integer id = accountDaoImplement.createAccount(new Account(userNaam, password, rol));
-		return id > 0;
+	public static int voegAccountToe(String userNaam, String password, Rol rol){
+		Account account=new Account(userNaam, password, rol);
+		accountDao.createAccount(account);
+		return account.getId();
+		
 	}
 	
-	public static String[] getAlleAccounts(){ 
-		ArrayList<Account> accounts = accountDaoImplement.getAlleAccounts();
-		String[] returnArray = new String[accounts.size()];
-		for(int i=0; i<accounts.size(); i++){
-			Account a = accounts.get(i);	
-			returnArray[i] = a.getId() + ": " + a.getUserNaam() + "‚ " + a.getPassword() + ", " + a.getRol();
-		}
-		return returnArray;
-	}
 	
 	
 	public static boolean pasUserNaamAan(int accountId, String userNaam){
-		Account account = accountDaoImplement.getAccount(accountId);
+		Account account = accountDao.getAccount(accountId);
 		if(account == null){
 			return false;
 		}
 		account.setUserNaam(userNaam);
-		return accountDaoImplement.updateAccount(account); 
+		return accountDao.updateAccount(account); 
 	}
 	
 	
 	public static boolean pasUserPasswordAan(int accountId, String password){
-		Account account = accountDaoImplement.getAccount(accountId);
+		Account account = accountDao.getAccount(accountId);
 		if(account == null){
 			return false;
 		}
 		account.setUserNaam(password);
-		return accountDaoImplement.updateAccount(account); 
+		return accountDao.updateAccount(account); 
 	}
 	
 	
 	public static boolean pasRolAan(int accountId, Rol rol){
-		Account account = accountDaoImplement.getAccount(accountId);
+		Account account = accountDao.getAccount(accountId);
 		if(account == null){
 			return false;
 		}
 		account.setRol(rol);
-		return accountDaoImplement.updateAccount(account); 
+		return accountDao.updateAccount(account); 
 	}
 	
 	public static boolean deleteAccount(int accountId){
-		Account account = accountDaoImplement.getAccount(accountId);
+		Account account = accountDao.getAccount(accountId);
 		if(account == null){
 			return false;
 		}
 		account.setId(accountId);
-		return accountDaoImplement.deleteAccount(account); 
+		return accountDao.deleteAccount(account); 
 	}
 }
