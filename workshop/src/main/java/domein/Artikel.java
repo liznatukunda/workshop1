@@ -10,9 +10,8 @@ public class Artikel {
 	private int id; 
 	private String naam;
 	private BigDecimal prijs;
-	// Moeten we de BigDecimal niet nog verder definiëren, zodat het daadwerkelijk een prijs met 2 cijfers achter de komma wordt??
 	private int voorraad;
-	private int artikelNummer;
+
 	
 	
 	/**
@@ -96,6 +95,24 @@ public class Artikel {
 		else {
 			throw new Exception ("aantal mag niet negatief zijn");
 		}
+		
+	}
+	
+	public boolean equals (Artikel artikel) {
+		if (this.id!=artikel.getId()) {
+			return false;
+		}
+		if (this.voorraad!=artikel.getVoorraad()) {
+			return false;
+		}
+		if (!this.naam.equals(artikel.getNaam())) {
+			return false;
+		}
+		if (!this.prijs.equals(artikel.getPrijs())) {
+			return false;
+		}
+		return true;
+		
 		
 	}
 
