@@ -12,8 +12,7 @@ private static BestellingDaoImplement bestellingDaoImplement;
 	
 	public BestellingConntroller(){
 		bestellingDaoImplement = new BestellingDaoImplement();
-	}
-	
+	}	
 	public boolean voegBestellingToe(BigDecimal totaalPrijs,int klantid){
 		Integer id = bestellingDaoImplement.createBestelling(new Bestelling(totaalPrijs),klantid);     
 		return id > 0;

@@ -11,6 +11,7 @@ public class KlantController {
 		klantDao = new KlantDaoImplement();
 	}
 	
+	
 	public boolean voegKlantToe(String voornaam, String tussenvoegsel, String achternaam,int accountId){
 		Integer id = klantDao.createKlant(new Klant(voornaam, tussenvoegsel, achternaam),accountId);     // but the DAO create inserts the accountId(foreignkey) ??      
 		return id > 0;
