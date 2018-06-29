@@ -15,7 +15,7 @@ public class logtest {
 
 	
 	 
-	  Logger logger = LoggerFactory.getLogger(logtest.class);
+	  Logger logger = LoggerFactory.getLogger(Logger.class.getName());
     
 	  //Logger logger =Logger.getLogger(Logger.class.getName());
 	// final Logger logger = LogManager.getLogger(logtest.class);

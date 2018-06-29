@@ -1,15 +1,15 @@
 package Controllers;
 
-import data.AccountDao;
+import data.AccountDaoImplement;
 import domein.Account;
 import domein.Account.Rol;
-
+import Controllers.KlantController;
 public class AccountController {
 
-	private static AccountDao accountDao;
+	private static AccountDaoImplement accountDao;
 	
 	public AccountController(){
-		accountDao = new AccountDao();
+		accountDao = new AccountDaoImplement();
 	}
 	
 	public static int voegAccountToe(String userNaam, String password, Rol rol){
@@ -18,6 +18,8 @@ public class AccountController {
 		return account.getId();
 		
 	}
+	
+	
 	
 	public static boolean pasUserNaamAan(int accountId, String userNaam){
 		Account account = accountDao.getAccount(accountId);

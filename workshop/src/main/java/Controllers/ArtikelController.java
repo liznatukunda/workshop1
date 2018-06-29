@@ -4,13 +4,13 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import domein.Artikel;
-import data.ArtikelDao;
+import data.ArtikelDaoImplement;
 
 public class ArtikelController {
-private ArtikelDao artikelDao;
+private ArtikelDaoImplement artikelDao;
 	
 	public ArtikelController(){
-		artikelDao = new ArtikelDao();
+		artikelDao = new ArtikelDaoImplement();
 	}
 	
 	public String[] getAlleArtikelen(){
