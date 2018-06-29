@@ -8,7 +8,7 @@ import Controllers.KlantController;
 public class KlantgegevensMenu {
 	private static  Scanner input = new Scanner(System.in);
 	private static KlantController klantController;
-	private static menu hoofdMenu;
+	private static Menu hoofdMenu;
 	
 	
 	public KlantgegevensMenu(){
@@ -19,11 +19,10 @@ public class KlantgegevensMenu {
 	public static void start(){
 		System.out.println("Alle klanten:");
 		printAlleKlanten();
-		klantGegevensMenu();
 	}
 	
 	
-	public static void klantGegevensMenu() {
+	public static void klantGegevensMenu(int accountId) {   
 	boolean logout = false;
 	
 	System.out.println("Kies en type in wat u wilt doen?");
@@ -32,7 +31,7 @@ public class KlantgegevensMenu {
 		System.out.println( "2 :Wijzig klantgegevens");		
 		System.out.println( "3 :Verwijder klantgegevens");
 		System.out.println( "4 :Zoek klant"); 
-		System.out.println( "5 :Terug naar Hoofdmenu");
+		System.out.println( "0 :Terug naar Hoofdmenu");
 		
 	   int actie = input.nextInt();
        switch(actie) {             
@@ -42,7 +41,7 @@ public class KlantgegevensMenu {
 			break;
 		case 2:
 			System.out.println("Voer het nummer in van het klant dat u wilt aanpassen");
-			pasKlantAan(input.nextInt());
+			pasKlantAan(input.nextInt(),accountId);
 			break;
 		case 3:
 			System.out.println("Voer het nummer in van het klant dat u wilt Verwijderen");
@@ -50,15 +49,15 @@ public class KlantgegevensMenu {
 			break;
 		case 4:
 			System.out.println("Voer het nummer in van het klant dat u wilt zoeken");
-			zoekKlant(input.nextInt());
+			zoekKlant(input.nextInt(),accountId);
 			break;
-		case 5:
-			hoofdMenu = new menu();
+		case 0:
+			hoofdMenu = new Menu();
 			hoofdMenu.actie();
 			break;
 		default:
 			System.out.println("Ongeldige keuze");
-			printKeuzeKlant();
+			klantGegevensMenu(accountId);
 		}       	   
 	}  	
  }
@@ -80,7 +79,7 @@ public class KlantgegevensMenu {
 		start();
 	}
 	
-	public void pasKlantAan(int klantId){
+	public static void pasKlantAan(int klantId,int accountId){
 		System.out.println("Wat wilt u aanpassen?");
 		System.out.println("1: voornaam aanpassen");
 		System.out.println("2: tussenvoegsel aanpassen");
@@ -89,27 +88,27 @@ public class KlantgegevensMenu {
 		int keuze = input.nextInt();
 		switch(keuze){
 		case 1:
-			pasVoornaamAan(klantId);
+			pasVoornaamAan(klantId,accountId);
 			break;
 		case 2:
-			pasTussenvoegselAan(klantId);
+			pasTussenvoegselAan(klantId,accountId);
 			break;
 		case 3:
-			pasAchternaamAan(klantId);
+			pasAchternaamAan(klantId,accountId);
 			break;
 		case 4:
 			start();
 			break;
 		default:
 			System.out.println("Ongeldige keuze");
-			pasKlantAan(klantId);
+			pasKlantAan(klantId,accountId);
 		}
 	}
 	
-	public static void pasVoornaamAan(int id, int accountId){
+	public static void pasVoornaamAan(int id,int accountId){
 		System.out.println("Vul nieuwe naam in");
 		String voornaam = input.next();
-		if(KlantController.pasVoornaamAan(id, voornaam, accountId)){ 
+		if(KlantController.pasVoornaamAan(id, voornaam,accountId)){ 
 			System.out.println("VoorNaam aangepast!");
 		}
 		else{
@@ -118,7 +117,7 @@ public class KlantgegevensMenu {
 		start();
 	}
 	
-	public void pasTussenvoegselAan(int id,int accountId){
+	public static void pasTussenvoegselAan(int id,int accountId){
 		System.out.println("Vul nieuwe tussenvoegsel in");
 		String tussenvoegsel = input.next();
 		if(KlantController.pasTussenvoegselAan(id, tussenvoegsel,accountId)){ 
@@ -130,10 +129,10 @@ public class KlantgegevensMenu {
 		start();
 	}
 	
-	public void pasAchternaamAan(int id, int accountId){
+	public static void pasAchternaamAan(int id,int accountId){
 		System.out.println("Vul nieuwe achternaam  in");
 		String achternaam = input.next();
-		if(KlantController.pasAchternaamAan(id, achternaam, accountId)){ 
+		if(KlantController.pasAchternaamAan(id, achternaam,accountId)){ 
 			System.out.println("achternaam aangepast!");
 		}
 		else{
@@ -142,14 +141,14 @@ public class KlantgegevensMenu {
 		start();
 	}
 	
-	public static void zoekKlant(int id){
-		System.out.println("Vul  achternaam  te zoeken");
-		String achternaam = input.next();
-		if(klantController.zoekKlant(id)){ 
-			System.out.println("achternaam gevonden!");
+	public static void zoekKlant(int id,int accountId){
+		System.out.println("Vul  klant id in te zoeken");
+		int klantid = input.nextInt();
+		if(KlantController.zoekKlant(klantid,accountId)){ 
+			System.out.println("Klant gevonden!");
 		}
 		else{
-			System.err.println("achternaam is niet gevonden!"); 
+			System.err.println("Klant is niet gevonden!"); 
 		}
 		start();
 	}

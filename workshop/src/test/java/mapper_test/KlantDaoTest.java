@@ -5,9 +5,9 @@ import java.util.ArrayList;
 
 import data.ConnectieDatabase;
 import domein.Account;
-import data.AccountDao;
+import data.AccountDaoImplement;
 import domein.Klant;
-import data.KlantDao;
+import data.KlantDaoImplement;
 
 import static org.junit.Assert.*;
 
@@ -23,16 +23,16 @@ public class KlantDaoTest {
 	Klant nieuweKlant4=new Klant ("Corneel", "Graaf");
 	
 	
-	static ConnectieDatabase cdb=new ConnectieDatabase();
-	AccountDao adao=new AccountDao();
-	KlantDao kdao=new KlantDao();
+//	static ConnectieDatabase cdb=new ConnectieDatabase();
+	AccountDaoImplement adao=new AccountDaoImplement();
+	KlantDaoImplement kdao=new KlantDaoImplement();
 	
-	@BeforeClass
+/*	@BeforeClass
 	public static void initialiseer() throws SQLException {
 		cdb.maakVerbinding();
-		
-		
+	
 	}
+*/
 	
 	@Before
 	public void setUp(){
@@ -54,13 +54,12 @@ public class KlantDaoTest {
 		
 	}
 	
-	@AfterClass
+/*	@AfterClass
 	public static void close() {
 		
-		cdb.sluitAf();
-		
+		cdb.sluitAf();	
 	}
-	
+*/
 	@Test
 	public void testCreateKlant() {
 		Klant actueleKlant1=kdao.getKlant(nieuweKlant1.getId());

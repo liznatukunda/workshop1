@@ -10,16 +10,16 @@ import java.util.ArrayList;
 
 import domein.Klant;
 
-public class KlantDao {
-private  static Connection con = ConnectieDatabase.getConnection();
+public class KlantDaoImplement {
+//private  static Connection con = ConnectieDatabase.getConnection();
 	
 	
 	public int createKlant(Klant klant, int accountId){
 		
 		int insertId = -1;
 		String sql = "INSERT INTO Klant (voornaam, tussenvoegsel, achternaam, account_id) VALUES (?,?,?,?);";
-		try {
-			PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		try ( Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);){
 			stmt.setObject(1, klant.getVoornaam());
 			stmt.setObject(2, klant.getTussenvoegsel());
 			stmt.setObject(3, klant.getAchternaam());
@@ -41,8 +41,8 @@ private  static Connection con = ConnectieDatabase.getConnection();
 	public Klant getKlant(int id){
 		String sql = "SELECT * FROM Klant WHERE id=?";
 		Klant returnedKlant = null;
-		try {
-			PreparedStatement stmt = con.prepareStatement(sql);
+		try ( Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement stmt = con.prepareStatement(sql);){
 			stmt.setObject(1, id);
 			ResultSet resultSet = stmt.executeQuery();
             if (resultSet.isBeforeFirst()) {
@@ -74,8 +74,8 @@ private  static Connection con = ConnectieDatabase.getConnection();
 	public ArrayList<Klant> getAlleKlanten(){
 		String sql = "SELECT * FROM Klant;";
 		ArrayList<Klant> returnedKlanten = new ArrayList<>();
-		try {
-			PreparedStatement stmt = con.prepareStatement(sql);
+		try ( Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement stmt = con.prepareStatement(sql);){
 			ResultSet resultSet = stmt.executeQuery();
             while(resultSet.next()){
             	
@@ -101,8 +101,8 @@ private  static Connection con = ConnectieDatabase.getConnection();
 	public boolean updateKlant(String voornaam, String tussenvoegsel, String achternaam, int accountId, int id){
 		String sql = "UPDATE Klant SET voornaam = ?, tussenvoegsel = ?, achternaam = ?, account_id = ? WHERE id = ?";
 		int rows = -1;
-		try {
-			PreparedStatement stmt = con.prepareStatement(sql);
+		try ( Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement stmt = con.prepareStatement(sql);){
 			stmt.setObject(1, voornaam);
 			stmt.setObject(2, tussenvoegsel);
 			stmt.setObject(3, achternaam);
@@ -125,8 +125,8 @@ private  static Connection con = ConnectieDatabase.getConnection();
 	public boolean deleteKlant(int id){
 		String sql = "DELETE FROM Klant WHERE id = ?";
 		int rows = -1;
-		try {
-			PreparedStatement stmt = con.prepareStatement(sql);
+		try ( Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement stmt = con.prepareStatement(sql);){
 			stmt.setObject(1, id);
 			rows = stmt.executeUpdate();
 		} catch (SQLException e) {
