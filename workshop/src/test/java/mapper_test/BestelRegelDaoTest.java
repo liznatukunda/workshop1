@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import data.ConnectieDatabase;
 import data.KlantDaoImplement;
 import domein.Account;
 import data.AccountDaoImplement;
@@ -47,8 +46,11 @@ public class BestelRegelDaoTest {
 		bestellingdao.createBestelling(bestelling1,nieuweKlant1.getId());		
 		artikeldao.createArtikel(artikel1);
 		bestelregeldao.createBestelregel(bestelregel1,bestelling1.getId(),artikel1.getId());
+		bestelregel1.setArtikel(artikel1);
 		bestelregeldao.createBestelregel(bestelregel2,bestelling1.getId(),artikel1.getId());
+		bestelregel2.setArtikel(artikel1);
 		bestelregeldao.createBestelregel(bestelregel3,bestelling1.getId(),artikel1.getId());
+		bestelregel3.setArtikel(artikel1);
 		
 	}
 	@After
@@ -63,9 +65,7 @@ public class BestelRegelDaoTest {
 	
 	@Test
 	public void testCreateBestelregel() {
-		
-		
-		BestelRegel actueleBestelRegel1=bestelregeldao.getBestelRegel(bestelregel1.getId());
+		BestelRegel actueleBestelRegel1=bestelregeldao.getBestelRegel(bestelregel1.getId());	
 		BestelRegel actueleBestelRegel2=bestelregeldao.getBestelRegel(bestelregel2.getId());
 		BestelRegel actueleBestelRegel3=bestelregeldao.getBestelRegel(bestelregel3.getId());
 		
@@ -94,8 +94,8 @@ public class BestelRegelDaoTest {
 		testlijst.add(bestelregel3);
 		
 		for (int i=0; i<testlijst.size();i++) {	
-			assertEquals("bestelling id niet juist opgeslagen", actueleWaarden.get(i).getArtikel().getId(),testlijst.get(i).getArtikel().getId());
-			assertEquals("bestelling aantal niet juist opgeslagen", actueleWaarden.get(i).getAantal(),testlijst.get(i).getAantal());
+			assertEquals("bestelregel id niet juist opgeslagen", actueleWaarden.get(i).getArtikel().getId(),testlijst.get(i).getArtikel().getId());
+			assertEquals("bestelregel aantal niet juist opgeslagen", actueleWaarden.get(i).getAantal(),testlijst.get(i).getAantal());
 		}
 		
 	}

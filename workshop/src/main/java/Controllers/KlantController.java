@@ -1,14 +1,14 @@
 package Controllers;
 import java.util.ArrayList;
-import data.KlantDao;
+import data.KlantDaoImplement;
 import domein.Account;
 import domein.Klant;
 
 public class KlantController {
-	private static KlantDao klantDao;
+	private static KlantDaoImplement klantDao;
 	
 	public KlantController(){
-		klantDao = new KlantDao();
+		klantDao = new KlantDaoImplement();
 	}
 	
 	public boolean voegKlantToe(String voornaam, String tussenvoegsel, String achternaam,int accountId){
