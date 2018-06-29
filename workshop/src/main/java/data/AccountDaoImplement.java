@@ -1,8 +1,12 @@
 package data;
 
+import java.math.BigDecimal;
 import java.sql.*;
+import java.util.ArrayList;
 
 import domein.Account;
+import domein.Artikel;
+import domein.BestelRegel;
 import domein.Account.Rol;
 
 public class AccountDaoImplement implements AccountDao {
@@ -12,7 +16,7 @@ public class AccountDaoImplement implements AccountDao {
 
 
 
-	public Rol toRol (String rol) {
+	public static Rol toRol (String rol) {
 		if (rol.equals("klant")){
 			return Account.Rol.klant;
 		}
@@ -22,7 +26,7 @@ public class AccountDaoImplement implements AccountDao {
 		else return Account.Rol.beheerder;
 	}
 	
-	public void createAccount(Account account){
+	public Integer createAccount(Account account){
 		int insertId = 0;
 		
 		String sql = "INSERT INTO Account (username, password, rol) VALUES (?,?,?);";
@@ -42,8 +46,8 @@ public class AccountDaoImplement implements AccountDao {
 		}		 
 		catch (SQLException e) {
 			e.printStackTrace();
-		}
-	}
+		} return insertId;
+	} 
 	
 	public Account getAccount(int id){
 		String sql = "SELECT * FROM Account WHERE id=?";
@@ -119,6 +123,29 @@ public class AccountDaoImplement implements AccountDao {
 	
 	public boolean deleteAccount(Account account){
 		return deleteAccount(account.getId());
+	}
+	
+	
+	public ArrayList<Account> getAlleAccounts(){
+		String sql = "SELECT * FROM account;";
+		ArrayList<Account> returnedAccounts = new ArrayList<>();
+		try ( Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement stmt = con.prepareStatement(sql);){
+			ResultSet resultSet = stmt.executeQuery();
+            while(resultSet.next()){            	
+                int id1 = resultSet.getInt(1);
+                String userNaam =  resultSet.getString(2);
+                String password =  resultSet.getString(3);
+               Rol rol = toRol(resultSet.getString(4));
+               Account account = new Account (userNaam,password,rol);
+               account.setId(id1);
+           	returnedAccounts.add(account);
+           }
+           
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return returnedAccounts;
 	}
 }
 

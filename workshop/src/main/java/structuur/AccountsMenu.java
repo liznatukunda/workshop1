@@ -3,12 +3,12 @@ import java.util.Scanner;
 
 import Controllers.AccountController;
 import domein.Account.Rol;
-import  data.AccountDao;
+import  data.AccountDaoImplement;
 
 public class AccountsMenu {
 	private static  Scanner input = new Scanner(System.in);
-	private static AccountController accountController;
-	private static menu hoofdMenu;
+	private  static AccountController accountController;
+	private static Menu hoofdMenu;
 	
 	
 	public AccountsMenu(){
@@ -23,43 +23,37 @@ public class AccountsMenu {
 		
 		System.out.println("Kies en type in wat u wilt doen?");
 		System.out.println( "1 :Maak nieuwe Accounts");
-		System.out.println( "2 :Pas account aan");	
-		System.out.println( "2 :delete account ");	
-		System.out.println( "3 :Terug naar Hoofdmenu");
+		System.out.println ("2 : Toon accounts");
+		System.out.println( "0 :Terug naar Hoofdmenu");
          
 		int actie = input.nextInt();
        switch(actie) {
        
        case 1:
     	   voegAccountToe();
-
 			break;
 		case 2:
-			System.out.println("Voer het nummer in van het Account dat u wilt aanpassen");
-			pasAccountAan(input.nextInt());
+			printAlleAccounts();
 			break;
-	       case 3:
-			System.out.println("Voer het nummer in van het Account dat u wilt Verwijderen");
-			deleteAcount(input.nextInt());
-				break;
-		case 4:
-			hoofdMenu = new menu();              
+		case 0:
+			hoofdMenu = new Menu();              
 			hoofdMenu.actie();
 			break;
 		default:
-			System.out.println( "Kies 1 t/m 3");
-			accountsMenu();            
+			System.out.println( "Kies 0 t/m 2");
+			accountsMenu();   
        }   	   
 	}  	
-	}
+ }
+	
 	public static void voegAccountToe(){
 		System.out.println("Wat is de Account UserNaam van dit Account?");
 		String userNaam = input.next();
 		System.out.println("Wat is de  User Paasword van dit Account?");
 		String userPassword = input.next();
 		System.out.println("Wat is de  User rol van dit Account?");
-		Rol rol =AccountDao.toRol(input.next());                                       
-		if(AccountController.voegAccountToe(userNaam, userPassword, rol)){ 
+		Rol rol =AccountDaoImplement.toRol(input.next());                                       
+		if(accountController.voegAccountToe(userNaam, userPassword, rol)){ 
 			System.out.println("Account toegevoegd!");
 		}
 		else{
@@ -67,6 +61,31 @@ public class AccountsMenu {
 		}
 		accountsMenu();
 	}
+	
+	public static void printAlleAccounts(){
+		for(String s : accountController.getAlleAccounts()){ 
+			System.out.println(s);
+		}
+		
+		System.out.println("Wat wilt u doen met deze Acounts?");
+		System.out.println( "1 :Pas een account aan");	
+		System.out.println( "2 :delete een account ");		
+		
+		int actie = input.nextInt();
+	       switch(actie) {
+	       
+	       case 1:
+	    	   System.out.println("Voer het nummer in van het Account dat u wilt aanpassen");
+				pasAccountAan(input.nextInt());
+			case 2:
+				System.out.println("Voer het nummer in van het Account dat u wilt Verwijderen");
+				deleteAcount(input.nextInt());
+			default:
+				System.out.println( "Kies 1 t/m 2");
+				accountsMenu();   
+	       }
+	}
+	
 	
 	public static void pasAccountAan(int accountId){
 		System.out.println("Wat wilt u aanpassen?");
@@ -97,7 +116,7 @@ public class AccountsMenu {
 	public static void pasUserNaamAan(int Id){
 		System.out.println("Vul nieuwe user naam in");
 		String userNaam = input.next();
-		if(AccountController.pasUserNaamAan(Id, userNaam)){
+		if(accountController.pasUserNaamAan(Id, userNaam)){
 			System.out.println("UserNaam aangepast!");
 		}
 		else{
@@ -109,7 +128,7 @@ public class AccountsMenu {
 	public static void pasPasswordAan(int accountId){
 		System.out.println("Vul nieuwe Password in");
 		String password = input.next();
-		if(AccountController.pasUserPasswordAan(accountId, password)){
+		if(accountController.pasUserPasswordAan(accountId, password)){
 			System.out.println("Password aangepast!");
 		}
 		else{
@@ -120,8 +139,8 @@ public class AccountsMenu {
 	
 	public static void pasRolAan(int accountId){
 		System.out.println("Vul nieuwe Rol in");
-		Rol rol =AccountDao.toRol(input.next());   
-		if(AccountController.pasRolAan(accountId, rol)){
+		Rol rol =AccountDaoImplement.toRol(input.next());   
+		if(accountController.pasRolAan(accountId, rol)){
 			System.out.println("Rol aangepast!");
 		}
 		else{
@@ -133,7 +152,7 @@ public class AccountsMenu {
 	public static void deleteAcount(int accountId){
 		System.out.println("Wat is de Account id om te verwijderen?");
 		int Id = input.nextInt();
-		if(AccountController.deleteAccount(Id)){ 
+		if(accountController.deleteAccount(Id)){ 
 			System.out.println("Account deleted!");
 		}
 		else{

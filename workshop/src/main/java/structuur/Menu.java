@@ -1,7 +1,7 @@
 package structuur;
 import java.util.Scanner;
 
-public class menu {       // classname moet capital letter
+public class Menu {      
 
 	private static  Scanner input = new Scanner(System.in);
 	
@@ -52,7 +52,6 @@ public class menu {       // classname moet capital letter
 	
 	public static void actie() {  
 		boolean logout = false;
-		//	hard coding the acties for now	
 		while(!logout) {
 			System.out.println( "Kies en type in wat u wilt doen:  1 :Accounts");
 			System.out.println( "Kies en type in wat u wilt doen:  2 :Klantgegevens");	
@@ -63,7 +62,7 @@ public class menu {       // classname moet capital letter
 			int actie = input.nextInt();
 	       switch(actie) {
 	       		case 1: AccountsMenu.accountsMenu();break;
-	       		case 2: KlantgegevensMenu.klantGegevensMenu();break;
+	       		case 2: KlantgegevensMenu.klantGegevensMenu();break;    
 	       		case 3: BestellingenMenu.bestellingMenu();break;
 	       		case 4: KazenMenu.kazenMenu();break;
 	       		case 5:{ System.out.println( "Uitloggen");
