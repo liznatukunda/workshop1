@@ -12,9 +12,11 @@ public class AccountController {
 		accountDao = new AccountDao();
 	}
 	
-	public static boolean voegAccountToe(String userNaam, String password, Rol rol){
-		Integer id = accountDao.createAccount(new Account(userNaam, password, rol));
-		return id > 0;
+	public static int voegAccountToe(String userNaam, String password, Rol rol){
+		Account account=new Account(userNaam, password, rol);
+		accountDao.createAccount(account);
+		return account.getId();
+		
 	}
 	
 	public static boolean pasUserNaamAan(int accountId, String userNaam){

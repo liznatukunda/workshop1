@@ -173,6 +173,9 @@ public class Klant {
 		return adressen;
 	}
 	
+	public Bestelling getBestelling(int index) {
+		return bestellingen.get(index);
+	}
 
 	
 	

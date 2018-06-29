@@ -1,11 +1,14 @@
 package mapper_test;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import data.ConnectieDatabase;
 import domein.Account;
+import domein.Bestelling;
 import data.AccountDaoImplement;
+import data.BestellingDaoImplement;
 import domein.Klant;
 import data.KlantDaoImplement;
 
@@ -101,7 +104,7 @@ public class KlantDaoTest {
 			assertEquals("Klant tussenvoegsel niet juist opgeslagen", actueleWaarden.get(i).getTussenvoegsel(),testlijst.get(i).getTussenvoegsel());
 			assertEquals("Klant achternaam niet juist opgeslagen", actueleWaarden.get(i).getAchternaam() ,testlijst.get(i).getAchternaam());
 			assertEquals("Klant id niet juist opgeslagen", actueleWaarden.get(i).getId(),testlijst.get(i).getId());
-		
+			assertTrue("klantobjecten verschillen", testlijst.get(i).equals(actueleWaarden.get(i)));
 			}
 		
 	}
@@ -130,7 +133,36 @@ public class KlantDaoTest {
 	public void testDeleteKlantKlant() {
 		kdao.createKlant(nieuweKlant1,nieuweAccount1.getId());
 		boolean deleteklantsucces = kdao.deleteKlant(nieuweKlant1);
-		 assertTrue("klant 1 niet deleted",deleteklantsucces);	;
+		 assertTrue("klant 1 niet deleted",deleteklantsucces);
+	}
+	
+	@Test
+	public void testGetBestellingen() {
+		kdao.createKlant(nieuweKlant4,nieuweAccount1.getId());
+		nieuweKlant4.maakBestellingAan();
+		Bestelling bestelling1=nieuweKlant4.getBestelling(0);
+		bestelling1.setTotaalPrijs(new BigDecimal("17.45"));
+		nieuweKlant4.maakBestellingAan();
+		Bestelling bestelling2=nieuweKlant4.getBestelling(1);
+		bestelling2.setTotaalPrijs(new BigDecimal("12.14"));
+		nieuweKlant4.maakBestellingAan();
+		Bestelling bestelling3=nieuweKlant4.getBestelling(2);
+		bestelling3.setTotaalPrijs(new BigDecimal("0.74"));
+		
+		ArrayList <Bestelling> verwachteWaarden=new ArrayList<Bestelling>();
+		verwachteWaarden.add(bestelling1);
+		verwachteWaarden.add(bestelling2);
+		verwachteWaarden.add(bestelling3);
+		BestellingDaoImplement bdao=new BestellingDaoImplement();
+		bdao.createBestelling(bestelling1, nieuweKlant4.getId());
+		bdao.createBestelling(bestelling2, nieuweKlant4.getId());
+		bdao.createBestelling(bestelling3, nieuweKlant4.getId());
+		
+		ArrayList <Bestelling> actueleWaarden=kdao.getBestellingen(nieuweKlant4.getId());
+		for (int i=0; i<actueleWaarden.size();i++) {
+			assertTrue("bestelling" + i + " in bestellijst niet juist opgehaald", actueleWaarden.get(i).equals(verwachteWaarden.get(i)));
+
+		}
 	}
 
 }
