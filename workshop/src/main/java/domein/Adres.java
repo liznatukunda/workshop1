@@ -2,7 +2,20 @@ package domein;
 
 public class Adres {
 	
-	public enum AdresType {POSTADRES, FACTUURADRES, BEZORGADRES}
+	public enum AdresType {POSTADRES, FACTUURADRES, BEZORGADRES;
+		public static AdresType toAdresType(String adrestype) {
+			if (adrestype.equals("postadres")) {
+				return AdresType.POSTADRES;
+			}
+			else if (adrestype.equals("bezorgadres")) {
+				return AdresType.BEZORGADRES;
+			}
+			else if (adrestype.equals("factuuradres")) {
+				return AdresType.FACTUURADRES;
+			}
+			else return null;
+		}
+	}
 	
 	private AdresType adresType;
 	private String straatnaam;

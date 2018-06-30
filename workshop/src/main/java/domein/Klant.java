@@ -1,4 +1,3 @@
-
 package domein;
 
 import java.util.ArrayList;
@@ -6,12 +5,15 @@ import java.util.ArrayList;
 import domein.Adres.AdresType;
 
 public class Klant {
-	int id;
+	
+	private int id;
 	private String voornaam;
 	private String tussenvoegsel;
 	private String achternaam;
 	private ArrayList <Bestelling> bestellingen= new ArrayList <Bestelling>();
-	private ArrayList <Adres> adressen= new ArrayList <Adres>();
+	private Adres postadres;
+	private Adres factuuradres;
+	private Adres bezorgadres;
 	
 
 	/**
@@ -25,7 +27,7 @@ public class Klant {
 		this.voornaam=voornaam;
 		this.tussenvoegsel=tussenvoegsel;
 		this.achternaam=achternaam;
-		adressen.set(0, postadres);
+		this.postadres=postadres;
 	}
 	
 	/**
@@ -38,7 +40,7 @@ public class Klant {
 		this.voornaam=voornaam;
 		this.tussenvoegsel=null;
 		this.achternaam=achternaam;
-		adressen.set(0, postadres);
+		this.postadres=postadres;
 	}
 
 	/**
@@ -51,14 +53,13 @@ public class Klant {
 		this.voornaam=voornaam;
 		this.tussenvoegsel=tussenvoegsel;
 		this.achternaam=achternaam;
-		
 	}
 	
 	public Klant(String voornaam, String achternaam) {
 		this.voornaam=voornaam;
 		this.tussenvoegsel=null;
 		this.achternaam=achternaam;
-		
+
 	}
 	
 	public void setId(int id) {
@@ -75,15 +76,15 @@ public class Klant {
 	}
 	
 	public void setPostadres(Adres adres) {
-		adressen.set(0, adres);
+		this.postadres=adres;
 	}
 	
 	public void setFactuurAdres(Adres adres) {
-		adressen.set(1, adres);
+		this.factuuradres=adres;
 	}
 	
 	public void setBezorgAdres (Adres adres) {
-		adressen.set(2, adres);
+		this.bezorgadres=adres;
 	}
 
 	
@@ -100,39 +101,43 @@ public class Klant {
 		return this.achternaam;
 	}
 	
-	/**
-	 * 
-	 * @param type 0=postadres, 1=factuuradres, 2=bezorgadres
-	 * @return
-	 */
-	public Adres getAdres(int type) {
-		return adressen.get(type);
+	public Adres getAdres(AdresType adrestype) {
+		if (adrestype.equals(AdresType.POSTADRES)) {
+			return postadres;
+		}
+		if (adrestype.equals(AdresType.FACTUURADRES)) {
+			return factuuradres;
+		}
+		if (!adrestype.equals(AdresType.BEZORGADRES)) {
+			return bezorgadres;
+		}
+		else return null;
 	}
 	
 	
 	public void maakAdresAan(AdresType adrestype, String straatnaam, int huisnummer, String toevoeging, String postcode, String woonplaats) {
 		Adres adres = new Adres (adrestype, straatnaam, huisnummer, toevoeging, postcode, woonplaats);
 		if (!adrestype.equals(AdresType.POSTADRES)) {
-			adressen.add(0,adres);
+			postadres=adres;
 		}
 		if (!adrestype.equals(AdresType.FACTUURADRES)) {
-			adressen.add(1,adres);
+			factuuradres=adres;
 		}
 		if (!adrestype.equals(AdresType.BEZORGADRES)) {
-			adressen.add(2,adres);
+			bezorgadres=adres;
 		}
 	}
 	
 	public void wijzigAdres (AdresType adrestype, String straatnaam, int huisnummer, String toevoeging, String postcode, String woonplaats) {
 		Adres adres=null;
 		if (adrestype.equals(AdresType.POSTADRES)) {
-			adres=adressen.get(0);
+			adres=this.postadres;
 		}
 		if (adrestype.equals(AdresType.FACTUURADRES)) {
-			adres=adressen.get(1);
+			adres=this.factuuradres;
 		}
 		if (adrestype.equals(AdresType.BEZORGADRES)) {
-			adres=adressen.get(2);
+			adres=this.bezorgadres;
 		}		
 		adres.setStraatnaam(straatnaam);
 		adres.sethuisnummer(huisnummer);
@@ -140,18 +145,26 @@ public class Klant {
 		adres.setPostcode(postcode);
 		adres.setWoonplaats(woonplaats);
 		if (adrestype.equals(AdresType.POSTADRES)) {
-			adressen.set(0, adres);
+			this.postadres=adres;
 		}
 		if (adrestype.equals(AdresType.FACTUURADRES)) {
-			adressen.set(1, adres);
+			this.factuuradres=adres;
 		}
 		if (adrestype.equals(AdresType.BEZORGADRES)) {
-			adressen.set(2, adres);
+			this.bezorgadres=adres;
 		}	
 	}
 	
-	public void verwijderAdres (int index) {
-		adressen.set(index, null);
+	public void verwijderAdres (AdresType adrestype) {
+		if (adrestype.equals(AdresType.POSTADRES)) {
+			this.postadres=null;
+		}
+		if (adrestype.equals(AdresType.FACTUURADRES)) {
+			this.factuuradres=null;
+		}
+		if (adrestype.equals(AdresType.BEZORGADRES)) {
+			this.bezorgadres=null;
+		}		
 	}
 	
 	public void maakBestellingAan() {
@@ -167,10 +180,6 @@ public class Klant {
 	
 	public ArrayList <Bestelling> leesAlleBestellingen() {
 		return bestellingen;
-	}
-	
-	public ArrayList <Adres> leesAlleAdressen() {
-		return adressen;
 	}
 	
 	public Bestelling getBestelling(int index) {
@@ -193,11 +202,14 @@ public class Klant {
 		if (!this.achternaam.equals(klant.getAchternaam())){
 			return false;
 		}
-		for (int index=0; index<adressen.size(); index++) {
-			if (!this.adressen.get(index).equals(klant.getAdres(index)))
-			{
-				return false;
-			}
+		if (!this.postadres.equals(klant.getAdres(AdresType.POSTADRES))) {
+			return false;
+		}
+		if (!this.factuuradres.equals(klant.getAdres(AdresType.FACTUURADRES))) {
+			return false;
+		}
+		if (!this.bezorgadres.equals(klant.getAdres(AdresType.BEZORGADRES))) {
+			return false;
 		}
 		for (int index=0; index<bestellingen.size();index++)
 			if (!this.bestellingen.get(index).equals(klant.leesAlleBestellingen().get(index))) {
