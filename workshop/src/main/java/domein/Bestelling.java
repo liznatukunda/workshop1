@@ -5,16 +5,28 @@ import java.util.ArrayList;
 
 public class Bestelling {
 	
-
-	private BigDecimal totaalPrijs;
 	private int id;
+	private BigDecimal totaalPrijs;
+	private Klant klant;	// misschien moet hier Klant klant m waarvan je alleen de Id set zodat later de klant ingevuld kan worden
 	private ArrayList<BestelRegel> bestelregels=new ArrayList<BestelRegel>();
 
 	//public Bestelling(BigDecimal totaalPrijs) {
 	//	this.totaalPrijs=totaalPrijs;
 	//}
 	
+	public Bestelling(int id, BigDecimal totaalPrijs, int klantId) {
+		this.id=id;
+		this.totaalPrijs=totaalPrijs;
+		this.klant.setId(klantId);;
+	}	
+public Bestelling(int klantId) {
+		this.totaalPrijs=new BigDecimal("0.00");
+		this.klant.setId(klantId);
+	}
+	
+	
 	public Bestelling() {
+		
 		this.totaalPrijs=new BigDecimal("0.00");
 	}
 	
@@ -48,6 +60,9 @@ public class Bestelling {
 		return this.totaalPrijs;
 	}
 	
+	public int GetKlantId() {
+		return this.klant.getId();
+	}
 	/**
 	 * Voegt aan de bestelling nog een extra regel toe
 	 * @param artikel het te bestellen artikel
@@ -58,12 +73,14 @@ public class Bestelling {
 		bestelregels.add(nieuweBestelRegel);
 		// als er een extra bestelregel is, levert dat ook een nieuwe totaalprijs op, dus die moet ook opnieuw ingesteld worden
 		bepaalTotaalPrijs();
+		//artikel.pasvoorraadaan();
 	}
 	
 	public void verwijderBestelRegel(int index) {
 		bestelregels.remove(index);
 		// als een bestelregel verwijderd is, levert dat ook een nieuwe totaalprijs op, dus die moet ook opnieuw ingesteld worden
 		bepaalTotaalPrijs();
+		//artikel.pasvoorraadaan()
 	}
 	
 	public void wijzigBestelRegel(int index, Artikel artikel, int aantal) {
@@ -72,6 +89,8 @@ public class Bestelling {
 		aanTePassenBestelRegel.setArtikel(artikel);
 		// als een artikel en/of aantal gewijzigd is, levert dat ook een nieuwe totaalprijs op, dus die moet ook opnieuw ingesteld worden
 		bepaalTotaalPrijs();
+		//artikel.pasvoorraadaan();
+		//artikel.setvoorraad():
 	}
 	
 	/**

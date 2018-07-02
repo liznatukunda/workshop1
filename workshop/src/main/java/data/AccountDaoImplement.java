@@ -16,15 +16,7 @@ public class AccountDaoImplement implements AccountDao {
 
 
 
-	public static Rol toRol (String rol) {
-		if (rol.equals("klant")){
-			return Account.Rol.klant;
-		}
-		if (rol.equals("medewerker")){
-			return Account.Rol.medewerker;
-		}
-		else return Account.Rol.beheerder;
-	}
+	
 	
 	public Integer createAccount(Account account){
 		int insertId = 0;
@@ -63,7 +55,7 @@ public class AccountDaoImplement implements AccountDao {
                int id1 = resultSet.getInt(1);
                 String userNaam =  resultSet.getString(2);
                 String password =  resultSet.getString(3);
-               Rol rol = toRol(resultSet.getString(4));
+               Rol rol = Account.Rol.toRol(resultSet.getString(4));
                  returnedAccount = new Account (userNaam,password,rol);
                 
                 returnedAccount.setId(id1);
@@ -136,7 +128,7 @@ public class AccountDaoImplement implements AccountDao {
                 int id1 = resultSet.getInt(1);
                 String userNaam =  resultSet.getString(2);
                 String password =  resultSet.getString(3);
-               Rol rol = toRol(resultSet.getString(4));
+               Rol rol = Account.Rol.toRol(resultSet.getString(4));
                Account account = new Account (userNaam,password,rol);
                account.setId(id1);
            	returnedAccounts.add(account);

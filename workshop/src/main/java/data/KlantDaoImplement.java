@@ -18,7 +18,7 @@ public class KlantDaoImplement {
 //private  static Connection con = ConnectieDatabase.getConnection();
 	
 	
-	public int createKlant(Klant klant, int accountId){
+	public int createKlant(Klant klant){
 		
 		int insertId = -1;
 		String sql = "INSERT INTO Klant (voornaam, tussenvoegsel, achternaam, account_id) VALUES (?,?,?,?);";
@@ -27,7 +27,7 @@ public class KlantDaoImplement {
 			stmt.setObject(1, klant.getVoornaam());
 			stmt.setObject(2, klant.getTussenvoegsel());
 			stmt.setObject(3, klant.getAchternaam());
-			stmt.setObject(4, accountId);
+			stmt.setObject(4, klant.getAccountId());
 			stmt.executeUpdate();
 			ResultSet resultSet = stmt.getGeneratedKeys();
             if (resultSet.isBeforeFirst()) {
@@ -56,8 +56,8 @@ public class KlantDaoImplement {
                 String voornaam =  resultSet.getString(2);
                 String tussenvoegsel =  resultSet.getString(3);
                 String achternaam =  resultSet.getString(4);
-                
-                returnedKlant = new Klant (voornaam,tussenvoegsel,achternaam);
+                int accountid = resultSet.getInt(5);
+                returnedKlant = new Klant (voornaam,tussenvoegsel,achternaam, accountid);
                 
                 
                 returnedKlant.setId(id1);
@@ -87,8 +87,9 @@ public class KlantDaoImplement {
             	 String voornaam =  resultSet.getString(2);
                  String tussenvoegsel =  resultSet.getString(3);
                  String achternaam =  resultSet.getString(4);
+                 int accountId = resultSet.getInt(5);
                  
-                Klant returnedKlant = new Klant (voornaam,tussenvoegsel,achternaam);
+                Klant returnedKlant = new Klant (voornaam,tussenvoegsel,achternaam,accountId);
                
             	returnedKlant.setId(id1);
             	
@@ -122,8 +123,8 @@ public class KlantDaoImplement {
 		return rows > 0;
 	}
 	
-	public boolean updateKlant(Klant nieuwKlant, int accountId){
-		return updateKlant(nieuwKlant.getVoornaam(), nieuwKlant.getTussenvoegsel(), nieuwKlant.getAchternaam(), accountId , nieuwKlant.getId());
+	public boolean updateKlant(Klant nieuwKlant){
+		return updateKlant(nieuwKlant.getVoornaam(), nieuwKlant.getTussenvoegsel(), nieuwKlant.getAchternaam(), nieuwKlant.getAccountId() , nieuwKlant.getId());
 	}
 	
 	public boolean deleteKlant(int id){
@@ -142,7 +143,7 @@ public class KlantDaoImplement {
 	public boolean deleteKlant(Klant klant){
 		return deleteKlant(klant.getId());
 	}
-	
+/*	
 	public ArrayList <Adres> getAdressen(int klantId){
 		Klant klant=getKlant(klantId); // Is dit niet verkeerd, omdat ik een nieuw klant object aanmaak, waardoor er nu 2 gelijke zijn?
 		String sql = "SELECT * FROM Adres WHERE Klant_idKlant = ? && Adrestype=\"postadres\"";
@@ -159,7 +160,7 @@ public class KlantDaoImplement {
                 String postcode=resultSet.getString(5);
                 String woonplaats=resultSet.getString(6);
                 klant.maakAdresAan(AdresType.POSTADRES, straatnaam, huisnummer, toevoeging, postcode, woonplaats);
-                Adres adres=klant.getAdres(0);
+                Adres adres=klant.getAdres(AdresType.POSTADRES);
                 adres.setId(id);
 			}
 		}
@@ -180,7 +181,7 @@ public class KlantDaoImplement {
                 String postcode=resultSet.getString(5);
                 String woonplaats=resultSet.getString(6);
                 klant.maakAdresAan(AdresType.FACTUURADRES, straatnaam, huisnummer, toevoeging, postcode, woonplaats);
-                Adres adres=klant.getAdres(1);
+                Adres adres=klant.getAdres(AdresType.FACTUURADRES);
                 adres.setId(id);
 			}
 		}
@@ -201,7 +202,7 @@ public class KlantDaoImplement {
                 String postcode=resultSet.getString(5);
                 String woonplaats=resultSet.getString(6);
                 klant.maakAdresAan(AdresType.BEZORGADRES, straatnaam, huisnummer, toevoeging, postcode, woonplaats);
-                Adres adres=klant.getAdres(2);
+                Adres adres=klant.getAdres(AdresType.BEZORGADRES);
                 adres.setId(id);
 			}
 		}
@@ -211,7 +212,7 @@ public class KlantDaoImplement {
 		
 		return klant.leesAlleAdressen();
 	}
-	
+*/	
 	
 	public ArrayList <Bestelling> getBestellingen(int klantId){
 		Klant klant=getKlant(klantId); // Is dit niet verkeerd, omdat ik een nieuw klant object aanmaak, waardoor er nu 2 gelijke zijn?

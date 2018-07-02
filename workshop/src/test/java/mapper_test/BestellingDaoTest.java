@@ -17,7 +17,7 @@ import org.junit.*;
 public class BestellingDaoTest {
 
 	Account nieuweAccount1=new Account ("klant 1", "simpel", Account.Rol.klant);
-	Klant nieuweKlant1=new Klant ("Jan", "der", "Boy");
+	Klant nieuweKlant1=new Klant ("Jan", "der", "Boy",nieuweAccount1.getId());
 
 	
 	Bestelling bestelling1 = new Bestelling ();
@@ -38,10 +38,10 @@ public class BestellingDaoTest {
 		@Before
 		public void setUp(){
 			adao.createAccount(nieuweAccount1);
-			kdao.createKlant(nieuweKlant1,nieuweAccount1.getId());
-			bdao.createBestelling(bestelling1,nieuweKlant1.getId());
-			bdao.createBestelling(bestelling2,nieuweKlant1.getId());
-			bdao.createBestelling(bestelling3,nieuweKlant1.getId());
+			kdao.createKlant(nieuweKlant1);
+			bdao.createBestelling(bestelling1);
+			bdao.createBestelling(bestelling2);
+			bdao.createBestelling(bestelling3);
 		}
 		
 		@After
@@ -103,7 +103,7 @@ boolean updatesucces = bdao.updateBestellingen(new BigDecimal ("999.99"), bestel
 
 	@Test
 	public void testDeleteBestellingenInt() {
-		bdao.createBestelling(bestelling1, nieuweKlant1.getId());
+		bdao.createBestelling(bestelling1);
 		boolean deletesucces = bdao.deleteBestellingen(bestelling1.getId());
 
 		 assertTrue("bestelling 1 niet deleted",deletesucces);
@@ -111,7 +111,7 @@ boolean updatesucces = bdao.updateBestellingen(new BigDecimal ("999.99"), bestel
 
 	@Test
 	public void testDeleteBestellingenBestelling() {
-		bdao.createBestelling(bestelling1, nieuweKlant1.getId());
+		bdao.createBestelling(bestelling1);
 		boolean deletesucces = bdao.deleteBestellingen(bestelling1);
 		 assertTrue("bestelling 1 niet deleted",deletesucces);
 	}

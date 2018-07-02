@@ -1,8 +1,19 @@
 package domein;
 
+import domein.Account.Rol;
+
 public class Account {
 	
-	public enum Rol {klant, medewerker, beheerder}
+	public enum Rol {klant, medewerker, beheerder;
+		public static Rol toRol (String rol) {
+		if (rol.equals("klant")){
+			return Account.Rol.klant;
+		}
+		if (rol.equals("medewerker")){
+			return Account.Rol.medewerker;
+		}
+		else return Account.Rol.beheerder;
+	}}
 	
 	private int id;
 	private String userNaam;
@@ -39,6 +50,9 @@ public class Account {
 	public void setRol(Rol rol) {
 		this.rol=rol;
 	}
+	
+	
+	
 	public int getId() {
 		return this.id;
 	}
@@ -61,13 +75,13 @@ public class Account {
 		this.klant=klant;
 	}
 	
-	public void wijzigKlant(Klant klant, String voornaam, String tussenvoegsel, String achternaam) {
+	public void wijzigKlant(String voornaam, String tussenvoegsel, String achternaam) {
 		this.klant.setVoornaam(voornaam);
 		this.klant.setTussenvoegsel(tussenvoegsel);
-		this.klant.setAchternaam(achternaam);
+		this.klant.setAchternaam(achternaam); 
 	}
 	
-	public void wijzigKlant(Klant klant, String voornaam, String achternaam) {
+	public void wijzigKlant(String voornaam, String achternaam) {
 		this.klant.setVoornaam(voornaam);
 		this.klant.setTussenvoegsel(null);
 		this.klant.setAchternaam(achternaam);

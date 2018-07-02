@@ -5,7 +5,7 @@ import domein.Account;
 import domein.Klant;
 
 public class KlantController {
-	private static KlantDaoImplement klantDao;
+	private KlantDaoImplement klantDao;
 	
 	public KlantController(){
 		klantDao = new KlantDaoImplement();
@@ -13,39 +13,39 @@ public class KlantController {
 	
 	
 	public boolean voegKlantToe(String voornaam, String tussenvoegsel, String achternaam,int accountId){
-		Integer id = klantDao.createKlant(new Klant(voornaam, tussenvoegsel, achternaam),accountId);     // but the DAO create inserts the accountId(foreignkey) ??      
+		Integer id = klantDao.createKlant(new Klant(voornaam, tussenvoegsel, achternaam, accountId));        
 		return id > 0;
 	}
 	
-	public static boolean pasVoornaamAan(int id, String voornaam,int accountId){   
+	public boolean pasVoornaamAan(int id, String voornaam){   
+		Klant klant = klantDao.getKlant(id);
+		if(klant == null){
+			return false;
+		}
+		klant.setVoornaam(voornaam);
+		return klantDao.updateKlant(klant);      
+	}
+	
+	public boolean pasTussenvoegselAan(int id, String tussenvoegsel){   
 		Klant Klant = klantDao.getKlant(id);
 		if(Klant == null){
 			return false;
 		}
-		Klant.setVoornaam(voornaam);
-		return klantDao.updateKlant(Klant, accountId);      //  accountId  ??
+		Klant.setTussenvoegsel(tussenvoegsel);
+		return klantDao.updateKlant(Klant);     
 	}
 	
-	public static boolean pasTussenvoegselAan(int id, String tussenvoegsel,int accountId){   
-		Klant Klant = klantDao.getKlant(id);
-		if(Klant == null){
-			return false;
-		}
-		Klant.setVoornaam(tussenvoegsel);
-		return klantDao.updateKlant(Klant, accountId);     
-	}
-	
-	public static boolean pasAchternaamAan(int id, String achternaam,int accountId){   
+	public boolean pasAchternaamAan(int id, String achternaam){   
 		Klant Klant = klantDao.getKlant(id);
 		if(Klant == null){
 			return false;
 		}
 		Klant.setVoornaam(achternaam);
-		return klantDao.updateKlant(Klant, accountId);      
+		return klantDao.updateKlant(Klant);      
 		
 	}
 	
-	public static boolean deleteKlant(int id){
+	public boolean deleteKlant(int id){
 		Klant klant = klantDao.getKlant(id);           
 		if(klant == null){
 			return false;
@@ -54,22 +54,22 @@ public class KlantController {
 		return klantDao.deleteKlant(klant); 
 	}
 	
-	public static String zoekKlant(int id){
+	public String zoekKlant(int id){
 		Klant klant = klantDao.getKlant(id);           
 		if(klant == null){
 			return "";
 		}
 		klant.setId(id);
-		return klant.getId() + ": " + klant.getVoornaam() + "‚ " + klant.getTussenvoegsel() + ", " + klant.getAchternaam();
+		return (klant.getId() + ": " + klant.getVoornaam() + "‚ " + klant.getTussenvoegsel() + ", " + klant.getAchternaam() + " " + klant.getAccountId());
 		
 	}
 	
-	public static String[] getAlleKlanten(){ 
+	public String[] getAlleKlanten(){ 
 		ArrayList<Klant> klanten = klantDao.getAlleKlanten();
 		String[] returnArray = new String[klanten.size()];
 		for(int i=0; i<klanten.size(); i++){
 			Klant klant = klanten.get(i);	
-			returnArray[i] = klant.getId() + ": " + klant.getVoornaam() + "‚ " + klant.getTussenvoegsel() + ", " + klant.getAchternaam();
+			returnArray[i] = klant.getId() + ": " + klant.getVoornaam() + "‚ " + klant.getTussenvoegsel() + ", " + klant.getAchternaam() + ", " + klant.getAccountId();
 		}
 		return returnArray;
 	}

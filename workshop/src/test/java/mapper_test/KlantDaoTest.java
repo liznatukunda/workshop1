@@ -20,10 +20,10 @@ import org.junit.*;
 public class KlantDaoTest {
 
 	Account nieuweAccount1=new Account ("klant 1", "simpel", Account.Rol.klant);
-	Klant nieuweKlant1=new Klant ("Jan", "der", "Boy");
-	Klant nieuweKlant2=new Klant ("Piet", "van", "Smit");
-	Klant nieuweKlant3=new Klant ("Joris", "de", "Ridder");
-	Klant nieuweKlant4=new Klant ("Corneel", "Graaf");
+	Klant nieuweKlant1=new Klant ("Jan", "der", "Boy", nieuweAccount1.getId());
+	Klant nieuweKlant2=new Klant ("Piet", "van", "Smit", nieuweAccount1.getId());
+	Klant nieuweKlant3=new Klant ("Joris", "de", "Ridder",nieuweAccount1.getId());
+	Klant nieuweKlant4=new Klant ("Corneel", "Graaf",nieuweAccount1.getId());
 	
 	
 //	static ConnectieDatabase cdb=new ConnectieDatabase();
@@ -40,10 +40,10 @@ public class KlantDaoTest {
 	@Before
 	public void setUp(){
 		adao.createAccount(nieuweAccount1);
-		kdao.createKlant(nieuweKlant1,nieuweAccount1.getId());
-		kdao.createKlant(nieuweKlant2,nieuweAccount1.getId());
-		kdao.createKlant(nieuweKlant3,nieuweAccount1.getId());
-		kdao.createKlant(nieuweKlant4,nieuweAccount1.getId());
+		kdao.createKlant(nieuweKlant1);
+		kdao.createKlant(nieuweKlant2);
+		kdao.createKlant(nieuweKlant3);
+		kdao.createKlant(nieuweKlant4);
 	}
 	
 	@After
@@ -118,27 +118,27 @@ public class KlantDaoTest {
 	@Test
 	public void testUpdateKlantKlantInt() {
 		nieuweKlant1.setAchternaam("update-test");
-		boolean updatesucces = kdao.updateKlant(nieuweKlant1,nieuweAccount1.getId());
+		boolean updatesucces = kdao.updateKlant(nieuweKlant1);
 		assertTrue("klant niet ge-update", updatesucces);
 	}
 
 	@Test
 	public void testDeleteKlantInt() {
-		kdao.createKlant(nieuweKlant1,nieuweAccount1.getId());
+		kdao.createKlant(nieuweKlant1);
 		boolean deleteklantsucces = kdao.deleteKlant(nieuweKlant1.getId());
 		 assertTrue("klant 1 niet deleted",deleteklantsucces);	
 	}
 
 	@Test
 	public void testDeleteKlantKlant() {
-		kdao.createKlant(nieuweKlant1,nieuweAccount1.getId());
+		kdao.createKlant(nieuweKlant1);
 		boolean deleteklantsucces = kdao.deleteKlant(nieuweKlant1);
 		 assertTrue("klant 1 niet deleted",deleteklantsucces);
 	}
 	
 	@Test
 	public void testGetBestellingen() {
-		kdao.createKlant(nieuweKlant4,nieuweAccount1.getId());
+		kdao.createKlant(nieuweKlant4);
 		nieuweKlant4.maakBestellingAan();
 		Bestelling bestelling1=nieuweKlant4.getBestelling(0);
 		bestelling1.setTotaalPrijs(new BigDecimal("17.45"));
@@ -154,9 +154,9 @@ public class KlantDaoTest {
 		verwachteWaarden.add(bestelling2);
 		verwachteWaarden.add(bestelling3);
 		BestellingDaoImplement bdao=new BestellingDaoImplement();
-		bdao.createBestelling(bestelling1, nieuweKlant4.getId());
-		bdao.createBestelling(bestelling2, nieuweKlant4.getId());
-		bdao.createBestelling(bestelling3, nieuweKlant4.getId());
+		bdao.createBestelling(bestelling1);
+		bdao.createBestelling(bestelling2);
+		bdao.createBestelling(bestelling3);
 		
 		ArrayList <Bestelling> actueleWaarden=kdao.getBestellingen(nieuweKlant4.getId());
 		for (int i=0; i<actueleWaarden.size();i++) {

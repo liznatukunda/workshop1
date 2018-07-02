@@ -10,6 +10,7 @@ public class Klant {
 	private String voornaam;
 	private String tussenvoegsel;
 	private String achternaam;
+	private int accountId; // foreign key opgenomen om het leven makkelijk te maken
 	private ArrayList <Bestelling> bestellingen= new ArrayList <Bestelling>();
 	private Adres postadres;
 	private Adres factuuradres;
@@ -49,16 +50,18 @@ public class Klant {
 	 * @param tussenvoegsel
 	 * @param achternaam de achternaam van de nieuwe klant
 	 */
-	public Klant(String voornaam, String tussenvoegsel, String achternaam) {
+	public Klant(String voornaam, String tussenvoegsel, String achternaam, int accountid) {
 		this.voornaam=voornaam;
 		this.tussenvoegsel=tussenvoegsel;
 		this.achternaam=achternaam;
+		this.accountId=accountid;
 	}
 	
-	public Klant(String voornaam, String achternaam) {
+	public Klant(String voornaam, String achternaam, int accountid) {
 		this.voornaam=voornaam;
 		this.tussenvoegsel=null;
 		this.achternaam=achternaam;
+		this.accountId=accountid;
 
 	}
 	
@@ -100,6 +103,10 @@ public class Klant {
 	public String getAchternaam() {
 		return this.achternaam;
 	}
+	public int getAccountId() {
+		return this.accountId;
+	}
+	
 	
 	public Adres getAdres(AdresType adrestype) {
 		if (adrestype.equals(AdresType.POSTADRES)) {

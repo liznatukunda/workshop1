@@ -11,13 +11,13 @@ public class BestellingDaoImplement {
 	
 //	private  static Connection con = ConnectieDatabase.getConnection();
 	
-	public int createBestelling(Bestelling bestelling,int klantid ){		
+	public int createBestelling(Bestelling bestelling){		
 		int insertId = -1;
 		String sql = "INSERT INTO Bestelling (totaalPrijs,Klant_idKlant) VALUES (?,?);";
 		try ( Connection con= ConnectieDatabase.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);){
 			stmt.setObject(1, bestelling.getTotaalPrijs());
-			stmt.setObject(2, klantid);    
+			stmt.setObject(2, bestelling.GetKlantId());    
 			stmt.executeUpdate();
 			ResultSet resultSet = stmt.getGeneratedKeys();
             if (resultSet.isBeforeFirst()) {
@@ -43,12 +43,12 @@ public class BestellingDaoImplement {
                 resultSet.next();
 
                 int id1 = resultSet.getInt(1);
-                // BigDecimal totaalprijs =  resultSet.getBigDecimal(2);
-            //    int Klant_id =  resultSet.getInt(3);             
-                returnedBestelling = new Bestelling ();
+                 BigDecimal totaalprijs =  resultSet.getBigDecimal(2);
+               int Klant_id =  resultSet.getInt(3);             
+                returnedBestelling = new Bestelling (id1, totaalprijs, Klant_id);
                 
                 
-                returnedBestelling.setId(id1);
+            //    returnedBestelling.setId(id1);
                 
             //    System.out.println("Bestelling gevonden: " + returnedBestelling.getBestellingNummer());
             }
@@ -72,11 +72,11 @@ public class BestellingDaoImplement {
             while(resultSet.next()){
             	
             	int bestellingNummer = resultSet.getInt(1);
-            	// BigDecimal totaalprijs =  resultSet.getBigDecimal(2);
-              //  int klantid =  resultSet.getBigDecimal(3);
-               // Bestellingen bestellingen = new Bestellingen (bestellingNummer,totaalprijs,klantid);
-            	Bestelling bestellingen = new Bestelling ();
-                bestellingen.setId(bestellingNummer);
+            	 BigDecimal totaalprijs =  resultSet.getBigDecimal(2);
+                int klantid =  resultSet.getInt(3);
+                Bestelling bestellingen = new Bestelling (bestellingNummer,totaalprijs,klantid);
+            	//Bestelling bestellingen = new Bestelling ();
+                //bestellingen.setId(bestellingNummer);
             	
             	//System.out.println("Bestellingen gevonden: " + bestellingen.getBestellingNummer());
             	returnedBestelling.add(bestellingen);
@@ -125,5 +125,31 @@ public class BestellingDaoImplement {
 	public boolean deleteBestellingen(Bestelling bestellingen){
 		return deleteBestellingen(bestellingen.getId());
 	}
+	
+	public ArrayList<Bestelling> getAlleBestellingenPerKlant(int klantId){
+		String sql = "SELECT * FROM Bestelling WHERE Klant_idKlant=?";
+		ArrayList<Bestelling> returnedBestelling = new ArrayList<>();
+		try (Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement stmt = con.prepareStatement(sql);){
+			stmt.setObject(1, klantId);
+			ResultSet resultSet = stmt.executeQuery();
+			 while(resultSet.next()){
+	            	
+	            	int bestellingId = resultSet.getInt(1);
+	            	 BigDecimal totaalprijs =  resultSet.getBigDecimal(2);
+	               int klantid =  resultSet.getInt(3);
+	               // Bestellingen bestellingen = new Bestellingen (bestellingNummer,totaalprijs,klantid);
+	            	Bestelling bestellingen = new Bestelling (bestellingId, totaalprijs, klantid);
+	               // bestellingen.setId(bestellingId);
+	            	
+	            	//System.out.println("Bestellingen gevonden: " + bestellingen.getBestellingNummer());
+	            	returnedBestelling.add(bestellingen);
+	            }
+	            
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return returnedBestelling;
+		}
 }
 

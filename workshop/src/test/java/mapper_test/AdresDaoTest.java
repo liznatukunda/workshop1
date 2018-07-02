@@ -38,9 +38,9 @@ public class AdresDaoTest {
 			accountDao.createAccount(nieuweAccount);
 			accountId=nieuweAccount.getId();
 			
-			Klant nieuweKlant=new Klant("MijnVoornaam", "mijntussenvoegsel", "MijnAchternaam");
+			Klant nieuweKlant=new Klant("MijnVoornaam", "mijntussenvoegsel", "MijnAchternaam", nieuweAccount.getId());
 			klantDao=new KlantDaoImplement();
-			klantDao.createKlant(nieuweKlant, accountId);
+			klantDao.createKlant(nieuweKlant);
 			klantId=nieuweKlant.getId();
 			
 			adresMapper=new AdresDaoImplement();

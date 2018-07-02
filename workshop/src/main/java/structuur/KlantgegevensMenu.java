@@ -7,9 +7,9 @@ import logger.menu;
 
 
 public class KlantgegevensMenu {
-	private static  Scanner input = new Scanner(System.in);
-	private static KlantController klantController;
-	private static Menu hoofdMenu;
+	private  Scanner input = new Scanner(System.in);
+	private KlantController klantController;
+	private Menu hoofdMenu;
 	
 	
 	public KlantgegevensMenu(){
@@ -17,13 +17,10 @@ public class KlantgegevensMenu {
 	}	
 	
 	
-	public static void start(){
-		System.out.println("Alle klanten:");
-		printAlleKlanten();
-	}
 	
 	
-	public static void klantGegevensMenu(int accountId) {   
+	
+	public void klantGegevensMenu() {   
 	boolean logout = false;
 	
 	System.out.println("Kies en type in wat u wilt doen?");
@@ -31,7 +28,8 @@ public class KlantgegevensMenu {
 		System.out.println( "1 :Voeg klantgegevens toe");
 		System.out.println( "2 :Wijzig klantgegevens");		
 		System.out.println( "3 :Verwijder klantgegevens");
-		System.out.println( "4 :Zoek klant"); 
+		System.out.println( "4 :Zoek een klant"); 
+		System.out.println( "5 :Toon alle klanten:");
 		System.out.println( "0 :Terug naar Hoofdmenu");
 		
 	   int actie = input.nextInt();
@@ -41,46 +39,49 @@ public class KlantgegevensMenu {
 
 			break;
 		case 2:
-			System.out.println("Voer het nummer in van het klant dat u wilt aanpassen");
-			pasKlantAan(input.nextInt(),accountId);
+			pasKlantAan();
 			break;
 		case 3:
-			System.out.println("Voer het nummer in van het klant dat u wilt Verwijderen");
-			deleteKlant(input.nextInt());
+			deleteKlant();
 			break;
 		case 4:
-			System.out.println("Voer het nummer in van het klant dat u wilt zoeken");
-			zoekKlant(input.nextInt(),accountId);
+			zoekKlant();
+			break;
+		case 5:
+			printAlleKlanten();
 			break;
 		case 0:
-			hoofdMenu = new Menu();
-			hoofdMenu.actie();
+			logout=true;
 			break;
 		default:
 			System.out.println("Ongeldige keuze");
-			klantGegevensMenu(accountId);
+		
 		}       	   
 	}  	
  }
 	
-	public static void voegKlantToe(){
+	public void voegKlantToe(){
+		
+		System.out.println("Welk accountnummer moet een klant aan toegevoegd worden?");
+		int accountId = input.nextInt();    
 		System.out.println("Wat is de voornaam van deze klant?");
 		String voornaam = input.next();
-		System.out.println("Wat is de tussenvoegsel van deze klant?");
+		System.out.println("Wat is de tussenvoegsel van deze klant?"); // als niets ingevoerd wordt dan gaat het mis.
 		String tussenvoegsel = input.next();
 		System.out.println("Wat is de achternaam van deze klant?");
 		String achternaam = input.next();
-		int accountId = input.nextInt();                  
+		//adres info vragen en aanmaken postadres
 		if(klantController.voegKlantToe(voornaam, tussenvoegsel, achternaam,accountId)){
 			System.out.println("Klant toegevoegd!");
 		}
 		else{
 			System.err.println("Kon klant niet toevoegen!");
 		}
-		start();
 	}
 	
-	public static void pasKlantAan(int klantId,int accountId){
+	public void pasKlantAan(){
+		System.out.println("Welk klantid aangepast worden?");
+		int klantId = input.nextInt();    
 		System.out.println("Wat wilt u aanpassen?");
 		System.out.println("1: voornaam aanpassen");
 		System.out.println("2: tussenvoegsel aanpassen");
@@ -89,85 +90,84 @@ public class KlantgegevensMenu {
 		int keuze = input.nextInt();
 		switch(keuze){
 		case 1:
-			pasVoornaamAan(klantId,accountId);
+			pasVoornaamAan(klantId);
 			break;
 		case 2:
-			pasTussenvoegselAan(klantId,accountId);
+			pasTussenvoegselAan(klantId);
 			break;
 		case 3:
-			pasAchternaamAan(klantId,accountId);
+			pasAchternaamAan(klantId);
 			break;
-		case 4:
-			start();
-			break;
+		
 		default:
 			System.out.println("Ongeldige keuze");
-			pasKlantAan(klantId,accountId);
+			pasKlantAan();
 		}
 	}
 	
-	public static void pasVoornaamAan(int id,int accountId){
+	public void pasVoornaamAan(int klantid){
 		System.out.println("Vul nieuwe naam in");
 		String voornaam = input.next();
-		if(KlantController.pasVoornaamAan(id, voornaam,accountId)){ 
+		if(klantController.pasVoornaamAan(klantid, voornaam)){ 
 			System.out.println("VoorNaam aangepast!");
 		}
 		else{
 			System.err.println("voornaam kon niet aangepast worden!"); 
 		}
-		start();
+		
 	}
 	
-	public static void pasTussenvoegselAan(int id,int accountId){
+	public void pasTussenvoegselAan(int id){
 		System.out.println("Vul nieuwe tussenvoegsel in");
 		String tussenvoegsel = input.next();
-		if(KlantController.pasTussenvoegselAan(id, tussenvoegsel,accountId)){ 
+		if(klantController.pasTussenvoegselAan(id, tussenvoegsel)){ 
 			System.out.println("Tussenvoegsel aangepast!");
 		}
 		else{
 			System.err.println("Tussenvoegsel kon niet aangepast worden!"); 
 		}
-		start();
+	
 	}
 	
-	public static void pasAchternaamAan(int id,int accountId){
+	public void pasAchternaamAan(int id){
 		System.out.println("Vul nieuwe achternaam  in");
 		String achternaam = input.next();
-		if(KlantController.pasAchternaamAan(id, achternaam,accountId)){ 
+		if(klantController.pasAchternaamAan(id, achternaam)){ 
 			System.out.println("achternaam aangepast!");
 		}
 		else{
 			System.err.println("achternaam kon niet aangepast worden!"); 
 		}
-		start();
+	
 	}
 	
-	public static void zoekKlant(int id,int accountId){
+	public void zoekKlant(){
 		System.out.println("Vul  klant id in te zoeken");
 		int klantid = input.nextInt();
-		if(KlantController.zoekKlant(klantid,accountId)){ 
-			System.out.println("Klant gevonden!");
+		String klantInfo =klantController.zoekKlant(klantid);
+		if (klantInfo!=null) {
+			System.out.println( "klant gevonden: "+ klantInfo  );
 		}
-		else{
-			System.err.println("Klant is niet gevonden!"); 
-		}
-		start();
+		else {
+			System.out.println("Account niet gevonden");
+		};
+		
 	}
-	
-	public static void deleteKlant(int id){
-		System.out.println("Wat is de Account id om te verwijderen?");
+		
+	public void deleteKlant(){
+		System.out.println("Wat is de klant id om te verwijderen?");
 		int Id = input.nextInt();
-		if(KlantController.deleteKlant(Id)){ 
+		if(klantController.deleteKlant(Id)){ 
 			System.out.println("klant deleted!");
 		}
 		else{
 			System.err.println("Kon Klant niet delete worden!");
 		}
-		start();
+		
 	}
 	
-	public static void printAlleKlanten(){
-		for(String s : KlantController.getAlleKlanten()){
+	public void printAlleKlanten(){
+		for(String s : klantController.getAlleKlanten()){
 			System.out.println(s);
 		}
 	}

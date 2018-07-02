@@ -10,6 +10,7 @@ public class BestelRegel {
 	private Artikel artikel;
 	private int aantal;
 	private BigDecimal prijs;
+	private Bestelling bestelling;//bestelling updaten als bestelregel aangepast wordt of verwijdert wordt
 	
 	/**
 	 * Creëert een extra bestelregel voor een bestelling op basis van het gewenste artikel en aantal.

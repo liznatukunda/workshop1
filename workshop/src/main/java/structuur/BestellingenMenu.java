@@ -1,108 +1,126 @@
 package structuur;
 
 import java.util.Scanner;
-import Controllers.BestellingConntroller;
+import Controllers.BestellingController;
 import java.math.BigDecimal;
 
 
 public class BestellingenMenu {
 	
-	private static  Scanner input = new Scanner(System.in);
-	private static BestellingConntroller bestellingConntroller;
-	private static Menu hoofdMenu;
+	private   Scanner input = new Scanner(System.in);
+	private  BestellingController bestellingController;
+	private  Menu hoofdMenu;
 	
 	
 	public BestellingenMenu(){
-		bestellingConntroller = new BestellingConntroller();
+		bestellingController = new BestellingController();
 	}	
 		
 	
-	public static void bestellingMenu(int klantid) {
+	public  void bestellingMenu() {
 	boolean logout = false;	
 	while(!logout) {	
 		System.out.println("Kies en type in wat u wilt doen?");
 			System.out.println( "1 :Voeg Nieuwe bestelling toe");
-			System.out.println( "2 :Zoek bestelling");
+			System.out.println( "2 :Zoek bestelling per klant");
+			System.out.println( "3 :Zoek bestelling per bestelling_id");
+			System.out.println( "4 :Toon alle bestellingen");
 			System.out.println( "0 :Terug naar Hoofdmenu");
 			int actie = input.nextInt();
 		       switch(actie) {             
 		       case 1:   	   
-		    		voegBestellingToe(klantid);
+		    		voegBestellingToe();
 
 					break;
 				case 2:
+					zoekBestellingenPerKlant();
+					break;
+				case 3:
 					zoekBestelling();
 					break;
+				case 4:
+					printAlleBestellingen();
+					break;
 				case 0:
-					hoofdMenu = new Menu();
-					hoofdMenu.actie();
+					logout=true;
 					break;
 				default:
 					System.out.println("Ongeldige keuze");
-					bestellingMenu(klantid);
+					
 				}       	   
 			}  	
 		 }
-	
-	public static void zoekBestelling(){
-		System.out.println("Vul  Bestelling nummer  in te zoeken");
-		int nummer = input.nextInt();
-		if(bestellingConntroller.zoekBestelling(nummer)){ 
-		System.out.println("Bestelling gevonden: " + nummer);
-		System.out.println("Wat wilt u doen?");
-		System.out.println( "1 :Pas bestelling aan");		
-		System.out.println( "2 :Verwijder bestelling"); 
-		
-		int actie = input.nextInt();
-	       switch(actie) {	       
-	       case 1:
-	    		System.out.println("Voer het nummer in van het Bestelling dat u wilt aanpassen");
-	    		pasBestellingAan(input.nextInt());
-	    		break;
-	    		
-	    	case 2:
-	    		System.out.println("Voer het nummer in van het Bestelling dat u wilt Verwijderen");
-	    		deleteBestelling(input.nextInt());	default:
-				System.out.println( "Kies 1 t/m 2");
-				zoekBestelling(); 
-	       }
+	public void zoekBestellingenPerKlant() {
+		System.out.println("Vul  Klant Id in om haar bestellingen te tonen");
+		int klantId = input.nextInt();
+		for(String s : bestellingController.zoekBestellingenPerKlant(klantId)){
+			System.out.println(s);
 		}
 	}
 	
-	public static void voegBestellingToe(int klantid){
-		System.out.println("Vul nieuwe prijs in");
-		BigDecimal totaalprijs = input.nextBigDecimal();		               
-		if(bestellingConntroller.voegBestellingToe(totaalprijs,klantid)){
+	public void zoekBestelling(){
+		System.out.println("Vul  Bestelling Id in om te zoeken");
+		int id = input.nextInt();
+		String bestellingInfo = bestellingController.zoekBestelling(id);
+		if (bestellingInfo!=null) {
+		System.out.println("Bestelling gevonden: " + bestellingInfo);
+		System.out.println("Wat wilt u doen?");
+		System.out.println( "1 :Pas bestelling aan");		
+		System.out.println( "2 :Verwijder bestelling"); 
+		System.out.println( "3 :terug naar bestellingen menu"); 
+		int actie = input.nextInt();
+	       switch(actie) {	       
+	       case 1:
+	    		pasBestellingAan(id);
+	    		break;
+	    		
+	    	case 2:
+	    		deleteBestelling(id);
+	    		break;
+	    	case 3:
+	    		break;
+	    	default:
+				System.out.println( "Kies 1 t/m 3");
+				zoekBestelling(); 
+	       }
+		}
+		
+	}
+	
+	public  void voegBestellingToe(){
+		System.out.println("Voer klant_id in ");
+		int klantId = input.nextInt();		               
+		if(bestellingController.voegBestellingToe(klantId)){
 			System.out.println("Bestelling toegevoegd!");
 		}
 		else{
 			System.err.println("Kon Bestelling niet toevoegen!");
 		}
-		bestellingMenu(klantid);
+		
 	}
 	
-	public static void pasBestellingAan(int bestellingNummer){
+	public void pasBestellingAan(int bestellingId){
 		System.out.println("Wat wilt u doen?");
 		System.out.println("1: totaal prijs aanpassen");	
 		System.out.println("2: Annuleer");
 		int keuze = input.nextInt();
 		switch(keuze){
 		case 1:
-			pasPrijsAan(bestellingNummer);
+			pasPrijsAan(bestellingId);
 			break;
 		case 2:
 			zoekBestelling();
 			break;
 		default:
 			System.out.println("Ongeldige keuze");
-			pasBestellingAan(bestellingNummer);
+			pasBestellingAan(bestellingId);
 		}
 	}	
 	
-	public static void pasPrijsAan(int bestellingNummer){
+	public void pasPrijsAan(int bestellingId){
 		System.out.println("Vul nieuwe prijs in");
 		BigDecimal prijs = input.nextBigDecimal();
-		if(bestellingConntroller.pasPrijsAan(bestellingNummer, prijs)){
+		if(bestellingController.pasPrijsAan(bestellingId, prijs)){
 			System.out.println("Prijs aangepast!");
 		}
 		else{
@@ -111,20 +129,32 @@ public class BestellingenMenu {
 		zoekBestelling();
 	}
 	
-	public static void deleteBestelling(int bestellingNummer){
-		System.out.println("Wat is de bestelling nummer om te verwijderen?");
+/*	public void pasPrijsAan(int bestellingId){
+		System.out.println("Vul nieuwe prijs in");
+		BigDecimal prijs = input.nextBigDecimal();
+		if(bestellingController.pasPrijsAan(bestellingId, prijs)){
+			System.out.println("Prijs aangepast!");
+		}
+		else{
+			System.err.println("Prijs kon niet aangepast worden!");
+		}
+		zoekBestelling();
+	}
+*/	
+	public void deleteBestelling(int bestellingNummer){
+		System.out.println("Wat is het bestelling nummer om te verwijderen?");
 		int nummer = input.nextInt();
-		if(bestellingConntroller.deleteBestelling(nummer)){ 
+		if(bestellingController.deleteBestelling(nummer)){ 
 			System.out.println("Bestelling deleted!");
 		}
 		else{
-			System.err.println("Kon Bestelling niet delete worden!");
+			System.err.println("Kon Bestelling niet deleten!");
 		}
 		zoekBestelling();
 	}
 	
-	public static void printAlleBestelling(){
-		for(String s : bestellingConntroller.getAlleBestelling()){
+	public void printAlleBestellingen(){
+		for(String s : bestellingController.getAlleBestelling()){
 			System.out.println(s);
 		}
 	}
