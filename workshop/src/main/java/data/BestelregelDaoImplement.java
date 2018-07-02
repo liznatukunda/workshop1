@@ -11,15 +11,15 @@ import domein.Artikel;
 public class BestelregelDaoImplement {
 //private  static Connection con = ConnectieDatabase.getConnection();
 	
-	public int createBestelregel(BestelRegel bestelregel,int bestellingnummer,int artikelnummer){		
+	public int createBestelregel(BestelRegel bestelregel){		
 		int insertId = -1;
 		String sql = "INSERT INTO Bestelregel (aantal,prijs,Bestelling_idBestelling,Artikel_idArtikel) VALUES (?,?,?,?);";
 		try ( Connection con= ConnectieDatabase.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);){
 			stmt.setObject(1, bestelregel.getAantal());
 			stmt.setObject(2, bestelregel.getPrijs());
-			stmt.setObject(3, bestellingnummer);
-			stmt.setObject(4, artikelnummer);		// of moeten we hier werken met artikelnummer in de methode?
+			stmt.setObject(3, bestelregel.getBestelling().getId());
+			stmt.setObject(4, bestelregel.getArtikel().getId());		// of moeten we hier werken met artikelnummer in de methode?
 			stmt.executeUpdate();
 			ResultSet resultSet = stmt.getGeneratedKeys();
             if (resultSet.isBeforeFirst()) {
@@ -135,5 +135,29 @@ public class BestelregelDaoImplement {
 	public boolean deleteBestelRegel(BestelRegel bestelregel){
 		return deleteBestelRegel(bestelregel.getId());
 	}
-
+	public ArrayList<BestelRegel> getAlleBestelregelsPerBestelling(int bestellingId){
+		String sql = "SELECT * FROM bestelregel WHERE Bestelling_idBestelling=?";
+		ArrayList<BestelRegel> returnedBestelregel = new ArrayList<>();
+		try (Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement stmt = con.prepareStatement(sql);){
+			stmt.setObject(1, bestellingId);
+			ResultSet resultSet = stmt.executeQuery();
+			 while(resultSet.next()){
+	            	
+	            	int bestelregelId = resultSet.getInt(1);
+	            	int aantal =  resultSet.getInt(2);
+	                BigDecimal totaalPrijs =  resultSet.getBigDecimal(3);
+	                int bestellingnummer = resultSet.getInt(4);
+	                int artikelnummer = resultSet.getInt(5);
+	                Artikel artikel =new Artikel(artikelnummer);
+	              BestelRegel returnedBestelRegel = new BestelRegel (artikel, aantal);
+	              
+	            	returnedBestelregel.add(returnedBestelRegel);
+	            }
+	            
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return returnedBestelregel;
+		}
 }

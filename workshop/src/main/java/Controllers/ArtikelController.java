@@ -1,8 +1,7 @@
 package Controllers;
 
 import java.math.BigDecimal;
-import java.util.List;
-
+import java.util.ArrayList;
 import domein.Artikel;
 import data.ArtikelDaoImplement;
 
@@ -14,7 +13,7 @@ private ArtikelDaoImplement artikelDao;
 	}
 	
 	public String[] getAlleArtikelen(){
-		List<Artikel> artikelen = artikelDao.getAlleArtikelen();
+		ArrayList<Artikel> artikelen = artikelDao.getAlleArtikelen();
 		String[] returnArray = new String[artikelen.size()];
 		for(int i=0; i<artikelen.size(); i++){
 			Artikel a = artikelen.get(i);
@@ -24,7 +23,7 @@ private ArtikelDaoImplement artikelDao;
 		return returnArray;
 	}
 	
-	public boolean voegArtikelToe(String naam, BigDecimal prijs, Integer voorraad){
+	public boolean voegArtikelToe(String naam, BigDecimal prijs, int voorraad){
 		Integer id = artikelDao.createArtikel(new Artikel(naam, prijs, voorraad));
 		return id > 0;
 	}
@@ -54,5 +53,25 @@ private ArtikelDaoImplement artikelDao;
 		}
 		artikel.setVoorraad(aantal);
 		return artikelDao.updateArtikel(artikel);
+	}
+
+
+	public String zoekArtikel(int artikelId) {
+		Artikel artikel =artikelDao.getArtikel(artikelId);
+		if (artikel==null) {
+			return null;
+		}
+		else {
+		String  returnstring = ("" + artikel.getId() +" "+ artikel.getNaam()+" " + artikel.getPrijs()+" " + artikel.getVoorraad());
+		return returnstring;
+		}
+		}
+
+	public  boolean deleteArtikel(int artikelId){
+		Artikel artikel = artikelDao.getArtikel(artikelId);
+		if(artikel == null){
+			return false;
+		}
+		return artikelDao.deleteArtikel(artikel); 
 	}
 }

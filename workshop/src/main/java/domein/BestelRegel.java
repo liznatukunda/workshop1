@@ -8,6 +8,7 @@ public class BestelRegel {
 	
 	private int id;
 	private Artikel artikel;
+	
 	private int aantal;
 	private BigDecimal prijs;
 	private Bestelling bestelling;//bestelling updaten als bestelregel aangepast wordt of verwijdert wordt
@@ -18,8 +19,15 @@ public class BestelRegel {
 	 * @param artikel het artikel dat besteld moet worden
 	 * @param aantal het aantal stuks van het artikel dat besteld moet worden
 	 */
-	public BestelRegel ( Artikel artikel,int aantal) {
+	public BestelRegel ( Artikel artikel, int aantal) {
 		this.artikel=artikel;
+		this.aantal=aantal;
+		setPrijs();
+	}
+	
+	public BestelRegel ( int bestellingId, Artikel artikel, int aantal) {
+		this.artikel=artikel;
+		this.bestelling.setId(bestellingId);
 		this.aantal=aantal;
 		setPrijs();
 	}
@@ -56,9 +64,10 @@ public class BestelRegel {
 		return this.artikel;
 	}
 	
-	// public Bestelling getBestelling() {
-	// 	return this.bestelling;
-	// }
+
+	 public Bestelling getBestelling() {
+	 	return this.bestelling;
+	 }
 	
 	public int getAantal() {
 		return this.aantal;

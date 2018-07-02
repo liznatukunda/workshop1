@@ -78,8 +78,8 @@ public class Menu {
 	       			//bestellingen.bestellingMenu();
 	       			break;
 	       		case 4:
-	       			KazenMenu kazenmenu = new KazenMenu();
-	       			kazenmenu.kazenMenu();
+	       			ArtikelMenu artikelmenu = new ArtikelMenu();
+	       			artikelmenu.artikelMenu();
 	       			break;
 	       		case 5:
 	       			{ System.out.println( "Uitloggen");
