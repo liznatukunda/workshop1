@@ -8,7 +8,7 @@ import java.sql.Statement;
 import domein.Adres;
 import domein.Adres.AdresType;
 
-public class AdresDaoImplement {
+public class AdresDaoImplement implements AdresDao {
 
 //	private  Connection con;
 //	private  PreparedStatement pStatementVoegToe;
@@ -16,19 +16,6 @@ public class AdresDaoImplement {
 //	private  PreparedStatement pStatementUpdate;
 //	private  PreparedStatement pStatementDeleteAdres;
 
-	
-	private  AdresType toAdresType(String adresType) {
-		if (adresType.equals("postadres")) {
-			return AdresType.POSTADRES;
-		}
-		else if (adresType.equals("bezorgadres")) {
-			return AdresType.BEZORGADRES;
-		}
-		else if (adresType.equals("factuuradres")) {
-			return AdresType.FACTUURADRES;
-		}
-		else return null;
-	}
 	
 /*	private  void initialiseer() throws SQLException{
 		ConnectieDatabase.maakVerbinding();
@@ -51,7 +38,7 @@ public class AdresDaoImplement {
 */	
 	
 	
-	public  boolean createAdres(Adres adres, int klantid) throws SQLException{
+	public  boolean createAdres(Adres adres, int klantid) {
 		boolean created=false;
 		int insertId = -1;
 	//	initialiseer();
@@ -73,21 +60,18 @@ public class AdresDaoImplement {
             }
             created=true;
 		} catch (SQLException e) {
-			//einde();
-			throw new SQLException("Kon geen nieuw adres in database opslaan");
+			e.printStackTrace();
 		}
-		//einde();
 		return created;
 	}
 	
 	
-	public  Adres getAdres(int id) throws SQLException{
+	public  Adres getAdres(int klantid, AdresType adrestype) {
 		Adres adres=null;
-		//initialiseer();
-
 		try ( Connection con= ConnectieDatabase.getConnection();
-			PreparedStatement pStatementGet=con.prepareStatement("SELECT * FROM adres WHERE id=?;");){
-			pStatementGet.setObject(1, id);
+			PreparedStatement pStatementGet=con.prepareStatement("select * from adres where klant_idKlant=? && Adrestype=?");){
+			pStatementGet.setObject(1, klantid);
+			pStatementGet.setObject(2, adrestype.toString());
 
 			ResultSet resultSet = pStatementGet.executeQuery();
 			if (resultSet.isBeforeFirst()) {
@@ -99,28 +83,24 @@ public class AdresDaoImplement {
                 String toevoeging =  resultSet.getString(4);
                 String postcode =  resultSet.getString(5);
                 String woonplaats =  resultSet.getString(6);
-                AdresType adresType =  toAdresType(resultSet.getString(7));
+                AdresType adresType =  Adres.AdresType.toAdresType(resultSet.getString(7));
                 
-                adres = new Adres (adresType,straatnaam,huisnummer,toevoeging, postcode, woonplaats);
+                adres = new Adres (adresType,straatnaam,huisnummer,toevoeging, postcode, woonplaats, klantid);
                 adres.setId(id1);
             }
             else{
-            	//einde();
             	throw new SQLException("Kon gevraagde adres niet vinden in database");
             }
             
 		} catch (SQLException e) {
-			//einde();
-			throw new SQLException("Kon geen adres uit database ophalen");
+			e.printStackTrace();
 		}
-		//einde();
 		return adres;
 	}
-
 	
-	public  boolean updateAdres(Adres gewijzigdAdres, int adresId) throws SQLException {
+	
+	public  boolean updateAdres(Adres gewijzigdAdres, int adresId) {
 		boolean updated=false;
-		//initialiseer();
 		try ( Connection con= ConnectieDatabase.getConnection();
 			PreparedStatement pStatementUpdate=con.prepareStatement("UPDATE adres SET straatnaam=?, huisnummer=?, toevoeging=?,postcode=?,woonplaats=?,adrestype=? WHERE id=?");){
 			pStatementUpdate.setObject(1, gewijzigdAdres.getStraatnaam());
@@ -135,18 +115,15 @@ public class AdresDaoImplement {
 			gewijzigdAdres.setId(adresId);
 		}
 		catch (SQLException e) {
-		//	einde();
-			throw new SQLException("Kon adres niet in database opslaan");
+			e.printStackTrace();
 		}
-		//einde();
 		return updated;
 	}
 	
 	
 	
-	public boolean deleteAdres(int id) throws SQLException {
+	public boolean deleteAdres(int id) {
 		boolean deleted=false;
-		//initialiseer();
 		try ( Connection con= ConnectieDatabase.getConnection();
 			PreparedStatement pStatementDeleteAdres=con.prepareStatement("DELETE FROM adres where id=?");){
 			pStatementDeleteAdres.setObject(1, id);
@@ -154,15 +131,99 @@ public class AdresDaoImplement {
 			deleted=true;
 		}
 		catch (SQLException e) {
-			//einde();
-			throw new SQLException("Kon adres niet verwijderen uit database");
+			e.printStackTrace();
 		}
-		//einde();
 		return deleted;
 	}
 	
-	public boolean deleteAdres(Adres teVerwijderenAdres) throws SQLException {
+	public boolean deleteAdres(Adres teVerwijderenAdres) {
 		return deleteAdres(teVerwijderenAdres.getId());
+	}
+	
+	
+	public boolean factuurAdresAanwezig(int klantid) {
+		try ( Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement pfactuurAdresAanwezig=con.prepareStatement("select * from adres where klant_idKlant= "+klantid+" && Adrestype=\"factuuradres\"");){
+			ResultSet resultSet = pfactuurAdresAanwezig.executeQuery();
+			if (resultSet.next()) {
+				return true;
+			}
+		}
+		catch (SQLException e) {
+			e.printStackTrace();;
+		} 
+		return false;
+	}
+	
+	public boolean bezorgAdresAanwezig(int klantid) {
+		try ( Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement pbezorgAdresAanwezig=con.prepareStatement("select * from adres where klant_idKlant= "+klantid+" && Adrestype=\"bezorgadres\"");){
+			ResultSet resultSet = pbezorgAdresAanwezig.executeQuery();
+			if (resultSet.next()) {
+				return true;
+			}
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		return false;
+	}
+
+	public String toonPostadres(int klantId) {
+		String adres="";
+		try ( Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement ptoonadres=con.prepareStatement("select * from adres where klant_idKlant= "+klantId+" && Adrestype=\"postadres\"");){
+			ResultSet resultSet=ptoonadres.executeQuery();
+			if (resultSet.next()) {
+				adres="straatnaam: "+resultSet.getString(2) + System.lineSeparator();
+				adres=adres+"huisnummer: "+resultSet.getInt(3)+ System.lineSeparator();
+				adres=adres+"toevoeging: "+resultSet.getString(4)+ System.lineSeparator();
+				adres=adres+"postcode: "+resultSet.getString(5)+ System.lineSeparator();
+				adres=adres+"plaats: "+resultSet.getString(6);
+			}
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		return adres;
+	}
+	
+	public String toonFactuuradres(int klantId) {
+		String adres="";
+		try ( Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement ptoonadres=con.prepareStatement("select * from adres where klant_idKlant= "+klantId+" && Adrestype=\"factuuradres\"");){
+			ResultSet resultSet=ptoonadres.executeQuery();
+			if (resultSet.next()) {
+				adres="straatnaam: "+resultSet.getString(2) + System.lineSeparator();
+				adres=adres+"huisnummer: "+resultSet.getInt(3)+ System.lineSeparator();
+				adres=adres+"toevoeging: "+resultSet.getString(4)+ System.lineSeparator();
+				adres=adres+"postcode: "+resultSet.getString(5)+ System.lineSeparator();
+				adres=adres+"plaats: "+resultSet.getString(6);
+			}			
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		return adres;
+	}
+
+	public String toonBezorgadres(int klantId) {
+		String adres="";
+		try ( Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement ptoonadres=con.prepareStatement("select * from adres where klant_idKlant= "+klantId+" && Adrestype=\"bezorgadres\"");){
+			ResultSet resultSet=ptoonadres.executeQuery();
+			if (resultSet.next()) {
+				adres="straatnaam: "+resultSet.getString(2) + System.lineSeparator();
+				adres=adres+"huisnummer: "+resultSet.getInt(3)+ System.lineSeparator();
+				adres=adres+"toevoeging: "+resultSet.getString(4)+ System.lineSeparator();
+				adres=adres+"postcode: "+resultSet.getString(5)+ System.lineSeparator();
+				adres=adres+"plaats: "+resultSet.getString(6);
+			}			
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		return adres;
 	}
 	
 }

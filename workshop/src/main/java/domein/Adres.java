@@ -24,40 +24,29 @@ public class Adres {
 	private String postcode;
 	private String woonplaats;
 	private int id;
+	private int klantid;
 	
-	/**
-	 * Creëert een adres als er geen toevoeging bij het huisnummer hoort
-	 * @param adresType het soort adres
-	 * @param straatnaam de naam van de straat
-	 * @param huisnummer het huisnummer
-	 * @param postcode de postcode het adres
-	 * @param woonplaats het dorp of de stad
-	 */
-	public Adres (AdresType adresType, String straatnaam, int huisnummer, String postcode, String woonplaats) {
+
+	public Adres (AdresType adresType, String straatnaam, int huisnummer, String postcode, String woonplaats, int klantid) {
 		this.adresType=adresType;
 		this.straatnaam=straatnaam;
 		this.huisnummer=huisnummer;
 		this.toevoeging="";
 		this.postcode=postcode;
 		this.woonplaats=woonplaats;
+		this.klantid=klantid;
+				
 	}
 	
-	/**
-	 * Creëert een adres als er wel een toevoeging bij het huisnummer hoort
-	 * @param adresType het soort adres
-	 * @param straatnaam de naam van de straat
-	 * @param huisnummer het huisnummer
-	 * @param toevoeging de toevoeging behorende bij het huisnummer
-	 * @param postcode de postcode het adres
-	 * @param woonplaats het dorp of de stad
-	 */
-	public Adres (AdresType adresType, String straatnaam, int huisnummer, String toevoeging, String postcode, String woonplaats) {
+	public Adres (AdresType adresType, String straatnaam, int huisnummer, String toevoeging, String postcode, String woonplaats, int klantid) {
 		this.adresType=adresType;
 		this.straatnaam=straatnaam;
 		this.huisnummer=huisnummer;
 		this.toevoeging=toevoeging;
 		this.postcode=postcode;
 		this.woonplaats=woonplaats;
+		this.klantid=klantid;
+		
 	}
 
 	public void setStraatnaam(String straatnaam) {
@@ -79,7 +68,6 @@ public class Adres {
 	public void setId(int id) {
 		this.id=id;
 	}
-	
 	
 	public String getStraatnaam() {
 		return this.straatnaam;
@@ -103,6 +91,10 @@ public class Adres {
 	
 	public int getId() {
 		return this.id;
+	}
+	
+	public int getKlantId() {
+		return this.klantid;
 	}
 	
 	public boolean equals(Adres adres) {

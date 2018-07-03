@@ -1,11 +1,16 @@
 package Controllers;
 import java.util.ArrayList;
+
+import data.AdresDaoImplement;
 import data.KlantDaoImplement;
 import domein.Account;
+import domein.Adres;
 import domein.Klant;
+import domein.Adres.AdresType;
 
 public class KlantController {
 	private KlantDaoImplement klantDao;
+	private AdresDaoImplement adresDao;
 	
 	public KlantController(){
 		klantDao = new KlantDaoImplement();
@@ -17,8 +22,13 @@ public class KlantController {
 		return klant;
 	}
 	
-	public boolean voegKlantToe(String voornaam, String tussenvoegsel, String achternaam,int accountId){
-		Integer id = klantDao.createKlant(new Klant(voornaam, tussenvoegsel, achternaam, accountId));        
+	public boolean voegKlantToe(String voornaam, String tussenvoegsel, String achternaam,int accountId, String straatnaam, int huisnummer, String toevoeging, String postcode, String woonplaats){
+		Klant klant=new Klant(voornaam, tussenvoegsel, achternaam, accountId);
+		Integer id = klantDao.createKlant(klant);
+		int klantid=klant.getId();
+		Adres adres =new Adres(AdresType.POSTADRES, straatnaam, huisnummer,toevoeging, postcode, woonplaats, klantid);
+		adresDao=new AdresDaoImplement();
+		adresDao.createAdres(adres, klantid);
 		return id > 0;
 	}
 	
