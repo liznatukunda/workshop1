@@ -22,14 +22,14 @@ public class BestelRegel {
 	public BestelRegel ( Artikel artikel, int aantal) {
 		this.artikel=artikel;
 		this.aantal=aantal;
-		setPrijs();
+		
 	}
 	
-	public BestelRegel ( int bestellingId, Artikel artikel, int aantal) {
+	public BestelRegel ( int aantal ,int bestellingId, Artikel artikel ) {
 		this.artikel=artikel;
 		this.bestelling.setId(bestellingId);
 		this.aantal=aantal;
-		setPrijs();
+		
 	}
 	
 	public void setId(int id) {
@@ -48,12 +48,12 @@ public class BestelRegel {
 	
 	public void setAantal(int aantal) {
 		this.aantal=aantal;
-		// als er een ander aantal is gekozen, dan heeft dat ook consequenties voor de prijs, dus volgt:
-		setPrijs();
+		
+		
 	}
 	
-	public void setPrijs() {
-		this.prijs=getPrijs();
+	public void setPrijs(BigDecimal prijs) {
+		this.prijs=prijs;
 	}
 	
 	public int getId() {
@@ -78,8 +78,8 @@ public class BestelRegel {
 	 * @return de vermenigvuldiging van de stukprijs met het aantal bestelde artikelen
 	 */
 	public BigDecimal getPrijs() {
-		BigDecimal stukprijs=artikel.getPrijs();
-		return stukprijs.multiply(new BigDecimal(aantal));
+		
+		return this.prijs;
 	}
 	
 	public boolean equals (BestelRegel bestelregel) {

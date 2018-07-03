@@ -28,8 +28,9 @@ public class Menu {
 			}
 			else {
 			 System.out.println( "Log in om verder te gaan" );
-			 
+			 System.out.println( "Usernaam?" );
 			 String user = input.nextLine();
+			 System.out.println( "Password?" );
 			 String password = input.nextLine(); 
 	
 			 String dbUser = "User";
@@ -56,12 +57,10 @@ public class Menu {
 	public  void actie() {  
 		boolean logout = false;
 		while(!logout) {
-			System.out.println( "Kies en type in wat u wilt doen:  1 :Accounts");
-			System.out.println( "Kies en type in wat u wilt doen:  2 :Klantgegevens");	
-			System.out.println( "Kies en type in wat u wilt doen:  3 :Bestellingen");	
-			System.out.println( "Kies en type in wat u wilt doen:  4 :Kazen");
-						
-			System.out.println( "Kies en type in wat u wilt doen:  5 :Uitloggen");
+			System.out.println( "Kies en type in wat u wilt doen:  1 :Accounts bekijken");
+			System.out.println( "Kies en type in wat u wilt doen:  2 :Klanten bekijken");
+			System.out.println( "Kies en type in wat u wilt doen:  3 :Artikelen bekijken");
+			System.out.println( "Kies en type in wat u wilt doen:  0 :Uitloggen");
 	         
 			int actie = input.nextInt();
 	       switch(actie) {
@@ -69,25 +68,21 @@ public class Menu {
 		       		AccountsMenu accountMenu = new AccountsMenu();
 		       		accountMenu.accountsMenu();
 		       		break;
-	       		case 2: 
-	       			KlantgegevensMenu klant = new KlantgegevensMenu();
-	       		    klant.klantGegevensMenu();
-	       			break;    
-	       		case 3: 
-	       			BestellingenMenu bestellingen = new BestellingenMenu();
-	       			//bestellingen.bestellingMenu();
+	       		case 2:
+	       			KlantgegevensMenu klantgegevensMenu = new KlantgegevensMenu();
+	       			klantgegevensMenu.klantgegevensMenu();
 	       			break;
-	       		case 4:
+	       		case 3: 
 	       			ArtikelMenu artikelmenu = new ArtikelMenu();
 	       			artikelmenu.artikelMenu();
 	       			break;
-	       		case 5:
+	       		case 0:
 	       			{ System.out.println( "Uitloggen");
 	       			logout=true;
 	       			break;
 	       			}
 	       		default: 
-	       			System.out.println( "Kies 1 t/m 5");
+	       			System.out.println( "Kies 1 t/m 3");
 	       }
 	    	   
 	       	

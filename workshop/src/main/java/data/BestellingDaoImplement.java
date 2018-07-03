@@ -5,6 +5,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import domein.Bestelling;
+import domein.Klant;
 
 
 public class BestellingDaoImplement {
@@ -32,12 +33,12 @@ public class BestellingDaoImplement {
 		return insertId;
 	}
 	
-	public Bestelling getBestelling(int id){
+	public Bestelling getBestelling(Klant klant){
 		String sql = "SELECT * FROM Bestelling WHERE id=?";
 		Bestelling returnedBestelling = null;
 		try (Connection con= ConnectieDatabase.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
-			stmt.setObject(1, id);
+			stmt.setObject(1, klant.getId());
 			ResultSet resultSet = stmt.executeQuery();
             if (resultSet.isBeforeFirst()) {
                 resultSet.next();
@@ -45,7 +46,7 @@ public class BestellingDaoImplement {
                 int id1 = resultSet.getInt(1);
                  BigDecimal totaalprijs =  resultSet.getBigDecimal(2);
                int Klant_id =  resultSet.getInt(3);             
-                returnedBestelling = new Bestelling (id1, totaalprijs, Klant_id);
+                returnedBestelling = new Bestelling (id1, totaalprijs, klant);
                 
                 
             //    returnedBestelling.setId(id1);
@@ -63,7 +64,7 @@ public class BestellingDaoImplement {
 		return returnedBestelling;
 	}
 	
-	public ArrayList<Bestelling> getAlleBestelling(){
+/*	public ArrayList<Bestelling> getAlleBestelling(){
 		String sql = "SELECT * FROM bestelling;";
 		ArrayList<Bestelling> returnedBestelling = new ArrayList<>();
 		try (Connection con= ConnectieDatabase.getConnection();
@@ -87,7 +88,7 @@ public class BestellingDaoImplement {
 		}
 		return returnedBestelling;
 	}
-	
+*/	
 	public boolean updateBestellingen(BigDecimal totaalprijs, int id){
 		String sql = "UPDATE bestelling SET totaalprijs = ? WHERE id = ?";
 		int rows = -1;
@@ -126,12 +127,12 @@ public class BestellingDaoImplement {
 		return deleteBestellingen(bestellingen.getId());
 	}
 	
-	public ArrayList<Bestelling> getAlleBestellingenPerKlant(int klantId){
+	public ArrayList<Bestelling> getAlleBestellingenPerKlant(Klant klant){
 		String sql = "SELECT * FROM Bestelling WHERE Klant_idKlant=?";
 		ArrayList<Bestelling> returnedBestelling = new ArrayList<>();
 		try (Connection con= ConnectieDatabase.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
-			stmt.setObject(1, klantId);
+			stmt.setObject(1, klant.getId());
 			ResultSet resultSet = stmt.executeQuery();
 			 while(resultSet.next()){
 	            	
@@ -139,7 +140,7 @@ public class BestellingDaoImplement {
 	            	 BigDecimal totaalprijs =  resultSet.getBigDecimal(2);
 	               int klantid =  resultSet.getInt(3);
 	               // Bestellingen bestellingen = new Bestellingen (bestellingNummer,totaalprijs,klantid);
-	            	Bestelling bestellingen = new Bestelling (bestellingId, totaalprijs, klantid);
+	            	Bestelling bestellingen = new Bestelling (bestellingId, totaalprijs, klant);
 	               // bestellingen.setId(bestellingId);
 	            	
 	            	//System.out.println("Bestellingen gevonden: " + bestellingen.getBestellingNummer());

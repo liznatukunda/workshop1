@@ -11,6 +11,11 @@ public class KlantController {
 		klantDao = new KlantDaoImplement();
 	}
 	
+	public Klant getKlant(int klantId) {
+		Klant klant = klantDao.getKlant(klantId);           
+		
+		return klant;
+	}
 	
 	public boolean voegKlantToe(String voornaam, String tussenvoegsel, String achternaam,int accountId){
 		Integer id = klantDao.createKlant(new Klant(voornaam, tussenvoegsel, achternaam, accountId));        

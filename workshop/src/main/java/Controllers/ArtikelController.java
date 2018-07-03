@@ -18,7 +18,7 @@ private ArtikelDaoImplement artikelDao;
 		for(int i=0; i<artikelen.size(); i++){
 			Artikel a = artikelen.get(i);
 			String inVoorraad = a.getVoorraad() > 0 ? a.getVoorraad() + " in voorraad." : "UITVERKOCHT!";
-			returnArray[i] = a.getId() + ": " + a.getNaam() + ". €" + a.getPrijs().toPlainString() + " " + inVoorraad;
+			returnArray[i] = "artikelnummer: "+ i + ": " + a.getNaam() + ". €" + a.getPrijs().toPlainString() + " " + inVoorraad;
 		}
 		return returnArray;
 	}

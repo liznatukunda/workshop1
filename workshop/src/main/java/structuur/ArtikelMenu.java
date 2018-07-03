@@ -58,10 +58,11 @@ public class ArtikelMenu {
 	public void voegArtikelToe(){
 
 		System.out.println("Wat is de naam van het Artikel?");
-		String naam = input.next();
-		System.out.println("Wat is de prijs van deze Artikel?"); 
+		input.nextLine();
+		String naam = input.nextLine();
+		System.out.println("Wat is de prijs van het Artikel?"); 
 		BigDecimal prijs = input.nextBigDecimal();
-		System.out.println("Wat is de achternaam van deze Artikel?");
+		System.out.println("Wat is de voorraad van het Artikel?");
 		int voorraad = input.nextInt();
 		if(artikelController.voegArtikelToe(naam, prijs, voorraad)){
 			System.out.println("Artikel toegevoegd!");

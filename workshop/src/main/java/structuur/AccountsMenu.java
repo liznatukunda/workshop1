@@ -4,12 +4,12 @@ import java.util.Scanner;
 import Controllers.AccountController;
 import domein.Account;
 import domein.Account.Rol;
-import logger.menu;
+
 
 public class AccountsMenu {
 	private  Scanner input = new Scanner(System.in);
 	private AccountController accountController;
-
+	private KlantgegevensMenu klantgegevensMenu= new KlantgegevensMenu();
 	
 	
 	public AccountsMenu(){
@@ -21,14 +21,14 @@ public class AccountsMenu {
 
 	// this menu is meant for only the administrator 
 	while(!logout) {
-		
+		toonAccounts();
 		System.out.println("Kies en type in wat u wilt doen?");
 		System.out.println( "1 :Maak nieuwe Accounts");
 		System.out.println( "2 :Zoek een Account");
 		System.out.println( "3 :Pas account aan");	
 		System.out.println( "4 :delete account ");		
-		System.out.println( "5 :Toon alle accounts ");
-		System.out.println( "6 :Terug naar Hoofdmenu");
+		System.out.println( "5 :Toon alle klanten ");
+		System.out.println( "0 :Terug naar Hoofdmenu");
          
 		int actie = input.nextInt();
        switch(actie) {
@@ -49,9 +49,9 @@ public class AccountsMenu {
 			deleteAcount(input.nextInt());
 				break;
 	    case 5:
-	    	toonAccounts();
+	    	klantgegevensMenu.klantgegevensMenu();
 	    	break;
-		case 6:
+		case 0:
 			logout=true;
 			break;
 		default:

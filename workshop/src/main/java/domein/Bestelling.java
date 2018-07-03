@@ -14,14 +14,16 @@ public class Bestelling {
 	//	this.totaalPrijs=totaalPrijs;
 	//}
 	
-	public Bestelling(int id, BigDecimal totaalPrijs, int klantId) {
+	public Bestelling(int id, BigDecimal totaalPrijs, Klant klant) {
 		this.id=id;
 		this.totaalPrijs=totaalPrijs;
-		this.klant.setId(klantId);;
+		this.klant=klant;
+		
 	}	
-public Bestelling(int klantId) {
+public Bestelling(Klant klant) {
 		this.totaalPrijs=new BigDecimal("0.00");
-		this.klant.setId(klantId);
+		//this.klant.setId(klantId);
+		this.klant=klant;
 	}
 	
 	
