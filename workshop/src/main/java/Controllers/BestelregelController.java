@@ -26,19 +26,27 @@ private ArrayList<Artikel>artikelen;
 	
 	
 	public String voegBestelregelToe(int bestellingId, int artikelIndex, int aantal){
+		artikelen = artikelDao.getAlleArtikelen();
 		Artikel artikel =artikelen.get(artikelIndex);
 		BestelRegel bestelregel = new BestelRegel(aantal, bestellingId, artikel);
 		bestelregel.setPrijs(artikel.getPrijs().multiply(new BigDecimal(aantal)));
-		Integer id = bestelregelDao.createBestelregel(bestelregel);
-		
-		if (id>0) {
-		 if (bestellingTotaalPrijsUpdate(bestelregel.getBestellingId())) {;
-		 return "bestelregel aangemaakt en bestellingprijs bijgewerkt";
-		 }
-		return "Bestelregel aangemaakt bestellingprijs update mislukt";
+		if(artikel.verlaagVoorraad(aantal)) {
+			if (voorraadVerlagen(artikel,aantal)) {
+					
+				Integer id = bestelregelDao.createBestelregel(bestelregel);
+				
+				if (id>0) {
+					if (bestellingTotaalPrijsUpdate(bestelregel.getBestellingId())) {;
+				 	
+				 return "bestelregel aangemaakt en bestellingprijs bijgewerkt";
+				 }
+				return "Bestelregel aangemaakt bestellingprijs update mislukt";
+				}
+				return "Bestelregel aanmaken mislukt";
+			}
+			return "voorraadverlagen mislukt";
 		}
-		return "Bestelregel aanmaken mislukt";
-		
+		return "voorraad te klein";
 	}
 	
 	public boolean bestellingTotaalPrijsUpdate(int bestellingId){
@@ -49,23 +57,36 @@ private ArrayList<Artikel>artikelen;
 		return false;
 	}
 	
-	public String pasBestelregelAan(int bestelregelId,int aantal, int artikelIndex){   
+	public String pasBestelregelAan(int bestelregelId,int aantal, int artikelIndex){  
+		artikelen = artikelDao.getAlleArtikelen();
 		BestelRegel bestelregel = bestelregelDao.getBestelRegel(bestelregelId);
 		if(bestelregel == null){
 			return "bestelregel niet gevonden";
 		}
-		Artikel artikel =artikelen.get(artikelIndex);
+		
+		Artikel artikeloud = artikelDao.getArtikel(bestelregel.getArtikel().getId());
+		artikeloud.verhoogVoorraad(bestelregel.getAantal());
+		artikelDao.updateArtikel(artikeloud);
+		
+		
+		Artikel artikelnieuw =artikelen.get(artikelIndex);
 		bestelregel.setAantal(aantal);
-		bestelregel.setArtikel(artikel);
-		bestelregel.setPrijs(artikel.getPrijs().multiply(new BigDecimal(aantal)));
-		if(bestelregelDao.updateBestelRegel(bestelregel)) {      
-			 if (bestellingTotaalPrijsUpdate(bestelregel.getBestellingId())) {;
-			 return "bestelregel aangemaakt en bestellingprijs bijgewerkt";
-			 }
-			 return "Bestelregel aangemaakt bestellingprijs update mislukt";
+		bestelregel.setArtikel(artikelnieuw);
+		bestelregel.setPrijs(artikelnieuw.getPrijs().multiply(new BigDecimal(aantal)));
+		if(artikelnieuw.verlaagVoorraad(aantal)) {
+			if (voorraadVerlagen(artikelnieuw,aantal)) {
+				if(bestelregelDao.updateBestelRegel(bestelregel)) {      
+					 if (bestellingTotaalPrijsUpdate(bestelregel.getBestellingId())) {;
+					 //update voorraad 
+					 return "bestelregel aangemaakt en bestellingprijs bijgewerkt";
+					 }
+					 return "Bestelregel aangemaakt bestellingprijs update mislukt";
+				}
+				return "Bestelregel aanmaken mislukt";
+			}
+			return "voorraad verlagen mislukt";
 		}
-		return "Bestelregel aanmaken mislukt";
-			
+		return "voorraad te klein";
 	}
 	
 	
@@ -75,9 +96,15 @@ private ArrayList<Artikel>artikelen;
 		if(bestelregel == null){
 			return "bestelregel niet gevonden";
 		}
+		
+		Artikel artikel = artikelDao.getArtikel(bestelregel.getArtikel().getId());
+		artikel.verhoogVoorraad(bestelregel.getAantal());
+		artikelDao.updateArtikel(artikel);
+		
 		int bestellingId=bestelregel.getBestellingId();
 		if (bestelregelDao.deleteBestelRegel(bestelregel)) {
-			if (bestellingTotaalPrijsUpdate(bestelregel.getBestellingId())) {;
+			if (bestellingTotaalPrijsUpdate(bestelregel.getBestellingId())) {
+				//update voorraad
 			 return "bestelregel  verwijderd en bestellingprijs bijgewerkt";
 			 }
 			return "Bestelregel verwijderd bestellingprijs update mislukt";
@@ -125,5 +152,19 @@ private ArrayList<Artikel>artikelen;
 		}
 		return totaalprijs;
 	}	
+	
+	public boolean voorraadVerlagen(Artikel artikel, int aantal) {
+		if(artikelDao.updateArtikel(artikel)) {
+				return true;
+			};
+		return false;
+				
+	}
+	
+	public boolean voorraadVerhogen(Artikel artikel, int aantal) {
+		artikel.verhoogVoorraad(aantal);
+		return(artikelDao.updateArtikel(artikel));
+		
+	}
 	
 }
