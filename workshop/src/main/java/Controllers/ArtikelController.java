@@ -14,6 +14,8 @@ private ArrayList<Artikel>artikelen;
 		artikelen = artikelDao.getAlleArtikelen();
 	}
 	
+	
+	
 	public ArtikelController(ArtikelDaoImplement artikelDao){
 		this.artikelDao=artikelDao;
 	}  
@@ -28,6 +30,11 @@ private ArrayList<Artikel>artikelen;
 		}
 		return returnArray;
 	}
+	
+	public boolean voegArtikelToe2(Artikel artikel){
+		Integer id = artikelDao.createArtikel(artikel);	
+		return id > 0;
+	} 
 	
 	public boolean voegArtikelToe(String naam, BigDecimal prijs, int voorraad){
 		Integer id = artikelDao.createArtikel(new Artikel(naam, prijs, voorraad));
