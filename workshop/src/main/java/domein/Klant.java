@@ -12,9 +12,9 @@ public class Klant {
 	private String achternaam;
 	private int accountId; // foreign key opgenomen om het leven makkelijk te maken
 	private ArrayList <Bestelling> bestellingen= new ArrayList <Bestelling>();
-	private Adres postadres;
-	private Adres factuuradres;
-	private Adres bezorgadres;
+	private boolean postadres=false;
+	private boolean factuuradres=false;
+	private boolean bezorgadres=false;
 	
 
 	/**
@@ -28,7 +28,7 @@ public class Klant {
 		this.voornaam=voornaam;
 		this.tussenvoegsel=tussenvoegsel;
 		this.achternaam=achternaam;
-		this.postadres=postadres;
+		this.postadres=true;
 	}
 	
 	/**
@@ -41,7 +41,7 @@ public class Klant {
 		this.voornaam=voornaam;
 		this.tussenvoegsel=null;
 		this.achternaam=achternaam;
-		this.postadres=postadres;
+		this.postadres=true;
 	}
 
 	/**
@@ -78,16 +78,16 @@ public class Klant {
 		this.achternaam=achternaam;
 	}
 	
-	public void setPostadres(Adres adres) {
-		this.postadres=adres;
+	public void setPostadres (boolean heeftPostadres) {
+		this.postadres=heeftPostadres;
 	}
 	
-	public void setFactuurAdres(Adres adres) {
-		this.factuuradres=adres;
+	public void setFactuuradres (boolean heeftFactuuradres) {
+		this.factuuradres=heeftFactuuradres;
 	}
 	
-	public void setBezorgAdres (Adres adres) {
-		this.bezorgadres=adres;
+	public void setBezorgadres (boolean heeftBezorgadres) {
+		this.bezorgadres=heeftBezorgadres;
 	}
 
 	
@@ -107,72 +107,26 @@ public class Klant {
 		return this.accountId;
 	}
 	
-	
-	public Adres getAdres(AdresType adrestype) {
-		if (adrestype.equals(AdresType.POSTADRES)) {
-			return postadres;
-		}
-		if (adrestype.equals(AdresType.FACTUURADRES)) {
-			return factuuradres;
-		}
-		if (!adrestype.equals(AdresType.BEZORGADRES)) {
-			return bezorgadres;
-		}
-		else return null;
+	public boolean getPostadres() {
+		return this.postadres;
 	}
 	
-	
-	public void maakAdresAan(AdresType adrestype, String straatnaam, int huisnummer, String toevoeging, String postcode, String woonplaats) {
-		Adres adres = new Adres (adrestype, straatnaam, huisnummer, toevoeging, postcode, woonplaats);
-		if (!adrestype.equals(AdresType.POSTADRES)) {
-			postadres=adres;
-		}
-		if (!adrestype.equals(AdresType.FACTUURADRES)) {
-			factuuradres=adres;
-		}
-		if (!adrestype.equals(AdresType.BEZORGADRES)) {
-			bezorgadres=adres;
-		}
+	public boolean getFactuuradres() {
+		return this.factuuradres;
 	}
 	
-	public void wijzigAdres (AdresType adrestype, String straatnaam, int huisnummer, String toevoeging, String postcode, String woonplaats) {
-		Adres adres=null;
-		if (adrestype.equals(AdresType.POSTADRES)) {
-			adres=this.postadres;
-		}
-		if (adrestype.equals(AdresType.FACTUURADRES)) {
-			adres=this.factuuradres;
-		}
-		if (adrestype.equals(AdresType.BEZORGADRES)) {
-			adres=this.bezorgadres;
-		}		
-		adres.setStraatnaam(straatnaam);
-		adres.sethuisnummer(huisnummer);
-		adres.setToevoeging(toevoeging);
-		adres.setPostcode(postcode);
-		adres.setWoonplaats(woonplaats);
-		if (adrestype.equals(AdresType.POSTADRES)) {
-			this.postadres=adres;
-		}
-		if (adrestype.equals(AdresType.FACTUURADRES)) {
-			this.factuuradres=adres;
-		}
-		if (adrestype.equals(AdresType.BEZORGADRES)) {
-			this.bezorgadres=adres;
-		}	
+	public boolean getBezorgadres() {
+		return this.bezorgadres;
 	}
 	
-	public void verwijderAdres (AdresType adrestype) {
-		if (adrestype.equals(AdresType.POSTADRES)) {
-			this.postadres=null;
-		}
-		if (adrestype.equals(AdresType.FACTUURADRES)) {
-			this.factuuradres=null;
-		}
-		if (adrestype.equals(AdresType.BEZORGADRES)) {
-			this.bezorgadres=null;
-		}		
-	}
+
+	
+	
+
+	
+
+	
+
 	
 	public void maakBestellingAan() {
 		Bestelling bestelling=new Bestelling();
@@ -209,19 +163,15 @@ public class Klant {
 		if (!this.achternaam.equals(klant.getAchternaam())){
 			return false;
 		}
-		if (!this.postadres.equals(klant.getAdres(AdresType.POSTADRES))) {
+		if (this.postadres!=klant.getPostadres()) {
 			return false;
 		}
-		if (!this.factuuradres.equals(klant.getAdres(AdresType.FACTUURADRES))) {
+		if (this.factuuradres!=klant.getFactuuradres()) {
 			return false;
 		}
-		if (!this.bezorgadres.equals(klant.getAdres(AdresType.BEZORGADRES))) {
+		if (this.bezorgadres!=klant.getBezorgadres()) {
 			return false;
 		}
-		for (int index=0; index<bestellingen.size();index++)
-			if (!this.bestellingen.get(index).equals(klant.leesAlleBestellingen().get(index))) {
-				return false;
-			}
 		return true;
 	}
 
