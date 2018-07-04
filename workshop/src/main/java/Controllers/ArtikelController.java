@@ -12,13 +12,17 @@ private ArtikelDaoImplement artikelDao;
 		artikelDao = new ArtikelDaoImplement();
 	}
 	
+	public ArtikelController(ArtikelDaoImplement artikelDao){
+		this.artikelDao=artikelDao;
+	}  
+	
 	public String[] getAlleArtikelen(){
 		ArrayList<Artikel> artikelen = artikelDao.getAlleArtikelen();
 		String[] returnArray = new String[artikelen.size()];
 		for(int i=0; i<artikelen.size(); i++){
 			Artikel a = artikelen.get(i);
 			String inVoorraad = a.getVoorraad() > 0 ? a.getVoorraad() + " in voorraad." : "UITVERKOCHT!";
-			returnArray[i] = "artikelnummer: "+ i + ": " + a.getNaam() + ". €" + a.getPrijs().toPlainString() + " " + inVoorraad;
+			returnArray[i] = a.getId() + ": " + a.getNaam() + ". €" + a.getPrijs().toPlainString() + " " + inVoorraad;
 		}
 		return returnArray;
 	}
