@@ -30,8 +30,9 @@ private ArrayList<Artikel>artikelen;
 		BestelRegel bestelregel = new BestelRegel(aantal, bestellingId, artikel);
 		bestelregel.setPrijs(artikel.getPrijs().multiply(new BigDecimal(aantal)));
 		Integer id = bestelregelDao.createBestelregel(bestelregel);
+		
 		if (id>0) {
-		 if (bestellingTotaalPrijsUpdate(bestelregel.getBestelling().getId())) {;
+		 if (bestellingTotaalPrijsUpdate(bestelregel.getBestellingId())) {;
 		 return "bestelregel aangemaakt en bestellingprijs bijgewerkt";
 		 }
 		return "Bestelregel aangemaakt bestellingprijs update mislukt";
@@ -58,7 +59,7 @@ private ArrayList<Artikel>artikelen;
 		bestelregel.setArtikel(artikel);
 		bestelregel.setPrijs(artikel.getPrijs().multiply(new BigDecimal(aantal)));
 		if(bestelregelDao.updateBestelRegel(bestelregel)) {      
-			 if (bestellingTotaalPrijsUpdate(bestelregel.getBestelling().getId())) {;
+			 if (bestellingTotaalPrijsUpdate(bestelregel.getBestellingId())) {;
 			 return "bestelregel aangemaakt en bestellingprijs bijgewerkt";
 			 }
 			 return "Bestelregel aangemaakt bestellingprijs update mislukt";
@@ -74,9 +75,9 @@ private ArrayList<Artikel>artikelen;
 		if(bestelregel == null){
 			return "bestelregel niet gevonden";
 		}
-		int bestellingId=bestelregel.getBestelling().getId();
+		int bestellingId=bestelregel.getBestellingId();
 		if (bestelregelDao.deleteBestelRegel(bestelregel)) {
-			if (bestellingTotaalPrijsUpdate(bestelregel.getBestelling().getId())) {;
+			if (bestellingTotaalPrijsUpdate(bestelregel.getBestellingId())) {;
 			 return "bestelregel  verwijderd en bestellingprijs bijgewerkt";
 			 }
 			return "Bestelregel verwijderd bestellingprijs update mislukt";
@@ -90,10 +91,10 @@ private ArrayList<Artikel>artikelen;
 		if(bestelregel == null){
 			return null;
 		}
-		if (bestelregel.getBestelling().getId()!=bestellingId) {
+		if (bestelregel.getBestellingId()!=bestellingId) {
 			return null;
 		}
-		return (bestelregel.getId() + ": " + bestelregel.getAantal() + "‚ " + bestelregel.getPrijs() + ", " + bestelregel.getBestelling().getId()+ " " + bestelregel.getArtikel().getId());
+		return (bestelregel.getId() + ": " + bestelregel.getAantal() + "‚ " + bestelregel.getPrijs() + ", " + bestelregel.getBestellingId()+ " " + bestelregel.getArtikel().getId());
 		
 	}
 	
@@ -102,7 +103,7 @@ private ArrayList<Artikel>artikelen;
 		String[] returnArray = new String[bestelregels.size()];
 		for(int i=0; i<bestelregels.size(); i++){
 			BestelRegel bestelregel = bestelregels.get(i);	
-			returnArray[i] = (bestelregel.getId() + ": " + bestelregel.getAantal() + "‚ " + bestelregel.getPrijs() + ", " + bestelregel.getBestelling().getId()+ " " + bestelregel.getArtikel().getId());
+			returnArray[i] = (bestelregel.getId() + ": " + bestelregel.getAantal() + "‚ " + bestelregel.getPrijs() + ", " + bestelregel.getBestellingId()+ " " + bestelregel.getArtikel().getId());
 				}
 		return returnArray;
 	}
@@ -111,13 +112,13 @@ private ArrayList<Artikel>artikelen;
 		String[] returnArray = new String[bestelregels.size()];
 		for(int i=0; i<bestelregels.size(); i++){
 			BestelRegel b = bestelregels.get(i);	
-			returnArray[i] = (b.getId() + ": " + b.getAantal() + "‚ " + b.getPrijs() + ", " + b.getBestelling().getId()+ " " + b.getArtikel().getId());
+			returnArray[i] = ("id: " + b.getId() + " aantal: " + b.getAantal() + "‚prijs: " + b.getPrijs() + ",bestellingId: " + b.getBestellingId()+ ", artikelId: " + b.getArtikel().getId());
 		}
 		return returnArray;
 	}	
 	public BigDecimal bepaalBestelregelsTotaalprijs(int bestellingId){		
 		ArrayList<BestelRegel> bestelregels = bestelregelDao.getAlleBestelregelsPerBestelling(bestellingId);
-		BigDecimal totaalprijs = new BigDecimal ("0");
+		BigDecimal totaalprijs = new BigDecimal ("0.00");
 		for(int i=0; i<bestelregels.size(); i++){
 			totaalprijs = totaalprijs.add(bestelregels.get(i).getPrijs());
 			

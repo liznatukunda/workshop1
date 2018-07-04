@@ -18,7 +18,7 @@ public class BestelregelDaoImplement {
 				PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);){
 			stmt.setObject(1, bestelregel.getAantal());
 			stmt.setObject(2, bestelregel.getPrijs());
-			stmt.setObject(3, bestelregel.getBestelling().getId());
+			stmt.setObject(3, bestelregel.getBestellingId());
 			stmt.setObject(4, bestelregel.getArtikel().getId());		// of moeten we hier werken met artikelnummer in de methode?
 			stmt.executeUpdate();
 			ResultSet resultSet = stmt.getGeneratedKeys();
@@ -51,7 +51,7 @@ public class BestelregelDaoImplement {
                 int bestellingnummer = resultSet.getInt(4);
                 int artikelnummer = resultSet.getInt(5);
                 Artikel artikel =new Artikel(artikelnummer);
-               returnedBestelRegel = new BestelRegel (artikel, aantal);
+               returnedBestelRegel = new BestelRegel (aantal, bestellingnummer, artikel, totaalPrijs);
            //ToDo     nieuwe constructor met artikelnummer of artikel behorende bij artikelnummer
                 //hier opvragen met artikeldao??
                 
@@ -85,7 +85,7 @@ public class BestelregelDaoImplement {
                 int bestellingnummer = resultSet.getInt(4);
                 int artikelnummer = resultSet.getInt(5);
                 Artikel artikel = new Artikel (artikelnummer);
-            	BestelRegel bestelregel = new BestelRegel (artikel, aantal);
+            	BestelRegel bestelregel = new BestelRegel (aantal, bestellingnummer,artikel,totaalPrijs );
                 bestelregel.setId(id1);
             	
             	//System.out.println("Bestellingen gevonden: " + bestellingen.getBestellingNummer());
@@ -98,13 +98,15 @@ public class BestelregelDaoImplement {
 		return returnedBestelRegel;
 	}
 	
-	public boolean updateBestelRegel(int aantal, int id){
-		String sql = "UPDATE bestelregel SET aantal = ? WHERE id = ?";
+	public boolean updateBestelRegel(BestelRegel bestelregel){
+		String sql = "UPDATE bestelregel SET aantal = ?, prijs = ?, Artikel_idArtikel = ? WHERE id = ?";
 		int rows = -1;
 		try ( Connection con= ConnectieDatabase.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
-			stmt.setObject(1, aantal);
-			stmt.setObject(2, id);
+			stmt.setObject(1, bestelregel.getAantal());
+			stmt.setObject(2, bestelregel.getPrijs());
+			stmt.setObject(3, bestelregel.getArtikel().getId());
+			stmt.setObject(4, bestelregel.getId());
 			rows = stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -115,10 +117,10 @@ public class BestelregelDaoImplement {
 		return rows > 0;
 	}
 	
-	public boolean updateBestelRegel(BestelRegel bestelregel){
+/*	public boolean updateBestelRegel(BestelRegel bestelregel){
 		return updateBestelRegel(bestelregel.getAantal(), bestelregel.getId());
 	}
-	
+*/	
 	public boolean deleteBestelRegel(int id){
 		String sql = "DELETE FROM bestelregel WHERE id = ?";
 		int rows = -1;
@@ -150,8 +152,8 @@ public class BestelregelDaoImplement {
 	                int bestellingnummer = resultSet.getInt(4);
 	                int artikelnummer = resultSet.getInt(5);
 	                Artikel artikel =new Artikel(artikelnummer);
-	              BestelRegel returnedBestelRegel = new BestelRegel (artikel, aantal);
-	              
+	              BestelRegel returnedBestelRegel = new BestelRegel (aantal,bestellingId,artikel,totaalPrijs);
+	              returnedBestelRegel.setId(bestelregelId);
 	            	returnedBestelregel.add(returnedBestelRegel);
 	            }
 	            

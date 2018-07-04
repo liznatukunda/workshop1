@@ -12,24 +12,30 @@ public class BestelRegel {
 	private int aantal;
 	private BigDecimal prijs;
 	private Bestelling bestelling;//bestelling updaten als bestelregel aangepast wordt of verwijdert wordt
-	
+	private int bestellingId;
 	/**
 	 * Creëert een extra bestelregel voor een bestelling op basis van het gewenste artikel en aantal.
 	 * Berekent tevens de prijs voor deze bestelregel.
 	 * @param artikel het artikel dat besteld moet worden
 	 * @param aantal het aantal stuks van het artikel dat besteld moet worden
 	 */
-	public BestelRegel ( Artikel artikel, int aantal) {
+/*	public BestelRegel ( Artikel artikel, int aantal) {
 		this.artikel=artikel;
 		this.aantal=aantal;
 		
 	}
-	
+*/	
 	public BestelRegel ( int aantal ,int bestellingId, Artikel artikel ) {
 		this.artikel=artikel;
-		this.bestelling.setId(bestellingId);
+		this.setBestellingId(bestellingId);
 		this.aantal=aantal;
 		
+	}
+	public BestelRegel ( int aantal ,int bestellingId, Artikel artikel, BigDecimal totaalprijs ) {
+		this.artikel=artikel;
+		this.setBestellingId(bestellingId);
+		this.aantal=aantal;
+		this.prijs=totaalprijs;
 	}
 	
 	public void setId(int id) {
@@ -96,6 +102,14 @@ public class BestelRegel {
 			return false;
 		}
 		return true;
+	}
+
+	public int getBestellingId() {
+		return bestellingId;
+	}
+
+	public void setBestellingId(int bestellingId) {
+		this.bestellingId = bestellingId;
 	}
 	
 }
