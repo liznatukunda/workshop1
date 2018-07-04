@@ -1,4 +1,5 @@
 package structuur;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import Controllers.AccountController;
@@ -59,7 +60,8 @@ public class KlantgegevensMenu {
 		System.out.println("Kies en type in wat u wilt doen?");
 		System.out.println( "1 :pas klantgegevens aan");
 		System.out.println( "2 :deleteklant");		
-		System.out.println( "3 :wijzig bestellingen van klant"); 
+		System.out.println( "3 :wijzig bestellingen van klant");
+		System.out.println( "4 :ga naar adressen van klant"); 
 		System.out.println( "0 :Terug naar Hoofdmenu");
 		 int actie = input.nextInt();
 	       switch(actie) {   
@@ -71,6 +73,9 @@ public class KlantgegevensMenu {
 			break;
 		case 3: 
 			bestellingenMenu.bestellingMenu(klantId);
+			break;
+		case 4:
+			AdresMenu adresmenu=new AdresMenu(klantId);
 			break;
 		case 0:
 			break;
@@ -100,8 +105,26 @@ public class KlantgegevensMenu {
 		System.out.println("Wat is de achternaam van deze klant?");
 		
 		String achternaam = input.nextLine();
-		//adres info vragen en aanmaken postadres
-		if(klantController.voegKlantToe(voornaam, tussenvoegsel, achternaam,accountId)){
+		System.out.println("Wat is de straatnaam van het postadres van deze klant?");
+		String straatnaam=input.nextLine();
+		System.out.println("Wat is het huisnummer van het postadres van deze klant?");
+		int huisnummer=input.nextInt();
+		input.nextLine();
+		System.out.println("Heeft het postadres van deze klant een toevoeging op het huisnummer: toets 1");
+		System.out.println("Heeft het postadres van deze klant een toevoeging op het huisnummer: toets 0");
+		String toevoeging=null;
+		int toevoegingAanwezig = input.nextInt();
+		input.nextLine();
+		if (toevoegingAanwezig==1) {
+			System.out.println("Wat is de toevoeging op het huisnummer?");
+			toevoeging=input.nextLine();
+		}
+		System.out.println("Wat is de postcode van het postadres van deze klant?");
+		String postcode=input.nextLine();
+		System.out.println("Wat is de woonplaats van het postadres van deze klant?");
+		String woonplaats=input.nextLine();
+		//System.out.println("toevoeging is: "+toevoeging);
+		if(klantController.voegKlantToe(voornaam, tussenvoegsel, achternaam,accountId, straatnaam, huisnummer, toevoeging, postcode, woonplaats)){
 			System.out.println("Klant toegevoegd!");
 		}
 		else{

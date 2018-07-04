@@ -88,9 +88,21 @@ public class Artikel {
 	 * Verlaagt de voorraad mits de gewenste verlaging een positief aantal is en de verlaging niet groter is dan de huidige voorraad
 	 * @param aantal de hoeveelheid waarmee de voorraad verlaagt moet worden
 	 */
-	public void verlaagVoorraad(int aantal)  {
+	public boolean verlaagVoorraad(int aantal)  {
 		if (aantal>0) {
+			if ((getVoorraad()-aantal)<0) {
+				return false;
+			}
+			
 			setVoorraad(getVoorraad()-aantal);
+			return true;
+		}
+		return false;
+	}
+	
+	public void verhoogVoorraad(int aantal)  {
+		if (aantal>0) {
+			setVoorraad(getVoorraad()+aantal);
 		}
 	}
 	

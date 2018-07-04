@@ -73,7 +73,7 @@ public class ArtikelMenu {
 	}
 	
 	public void pasArtikelAan(){
-		System.out.println("Welk Artikelid aangepast worden?");
+		System.out.println("Welk Artikelnummer moet aangepast worden?");
 		int artikelId = input.nextInt();    
 		System.out.println("Wat wilt u aanpassen?");
 		System.out.println("1: naam aanpassen");
@@ -136,7 +136,7 @@ public class ArtikelMenu {
 	}
 	
 	public void zoekArtikel(){
-		System.out.println("Vul  klant id in te zoeken");
+		System.out.println("Vul  artikelnummer in om te zoeken");
 		int artikelId = input.nextInt();
 		String artikelInfo =artikelController.zoekArtikel(artikelId);
 		if (artikelInfo!=null) {
@@ -149,7 +149,7 @@ public class ArtikelMenu {
 	}
 		
 	public void deleteArtikel(){
-		System.out.println("Wat is de artikel id om te verwijderen?");
+		System.out.println("Wat is het artikel nummer om te verwijderen?");
 		int artikelId = input.nextInt();
 		if(artikelController.deleteArtikel(artikelId)){ 
 			System.out.println("Artikel deleted!");

@@ -7,9 +7,11 @@ import data.ArtikelDaoImplement;
 
 public class ArtikelController {
 private ArtikelDaoImplement artikelDao;
+private ArrayList<Artikel>artikelen;
 	
 	public ArtikelController(){
 		artikelDao = new ArtikelDaoImplement();
+		artikelen = artikelDao.getAlleArtikelen();
 	}
 	
 	public ArtikelController(ArtikelDaoImplement artikelDao){
@@ -29,11 +31,13 @@ private ArtikelDaoImplement artikelDao;
 	
 	public boolean voegArtikelToe(String naam, BigDecimal prijs, int voorraad){
 		Integer id = artikelDao.createArtikel(new Artikel(naam, prijs, voorraad));
+		artikelen = artikelDao.getAlleArtikelen();
 		return id > 0;
 	}
 	
-	public boolean pasNaamAan(int id, String naam){
-		Artikel artikel = artikelDao.getArtikel(id);
+	public boolean pasNaamAan(int index, String naam){
+		Artikel artikel = artikelen.get(index);
+		artikel = artikelDao.getArtikel(artikel.getId());
 		if(artikel == null){
 			return false;
 		}
@@ -41,8 +45,9 @@ private ArtikelDaoImplement artikelDao;
 		return artikelDao.updateArtikel(artikel);
 	}
 	
-	public boolean pasPrijsAan(int id, BigDecimal prijs){
-		Artikel artikel = artikelDao.getArtikel(id);
+	public boolean pasPrijsAan(int index, BigDecimal prijs){
+		Artikel artikel = artikelen.get(index);
+		artikel = artikelDao.getArtikel(artikel.getId());
 		if(artikel == null){
 			return false;
 		}
@@ -50,8 +55,9 @@ private ArtikelDaoImplement artikelDao;
 		return artikelDao.updateArtikel(artikel);
 	}
 	
-	public boolean pasVoorraadAan(int id, int aantal){
-		Artikel artikel = artikelDao.getArtikel(id);
+	public boolean pasVoorraadAan(int index, int aantal){
+		Artikel artikel = artikelen.get(index);
+		artikel = artikelDao.getArtikel(artikel.getId());
 		if(artikel == null){
 			return false;
 		}
@@ -60,22 +66,28 @@ private ArtikelDaoImplement artikelDao;
 	}
 
 
-	public String zoekArtikel(int artikelId) {
-		Artikel artikel =artikelDao.getArtikel(artikelId);
+	public String zoekArtikel(int index) {
+		Artikel artikel = artikelen.get(index);
+		artikel = artikelDao.getArtikel(artikel.getId());
 		if (artikel==null) {
 			return null;
 		}
 		else {
-		String  returnstring = ("" + artikel.getId() +" "+ artikel.getNaam()+" " + artikel.getPrijs()+" " + artikel.getVoorraad());
+		String  returnstring = ("" + index +" "+ artikel.getNaam()+" " + artikel.getPrijs()+" " + artikel.getVoorraad());
 		return returnstring;
 		}
-		}
+	}
 
-	public  boolean deleteArtikel(int artikelId){
-		Artikel artikel = artikelDao.getArtikel(artikelId);
+	public  boolean deleteArtikel(int index){
+		Artikel artikel = artikelen.get(index);
+		artikel = artikelDao.getArtikel(artikel.getId());
 		if(artikel == null){
 			return false;
 		}
-		return artikelDao.deleteArtikel(artikel); 
+		if( artikelDao.deleteArtikel(artikel)) {
+			artikelen = artikelDao.getAlleArtikelen();
+			return true; 
+		}
+		return false;
 	}
 }

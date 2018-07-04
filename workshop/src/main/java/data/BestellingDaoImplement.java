@@ -33,12 +33,12 @@ public class BestellingDaoImplement {
 		return insertId;
 	}
 	
-	public Bestelling getBestelling(Klant klant){
+	public Bestelling getBestelling(int bestellingId, int klantId){
 		String sql = "SELECT * FROM Bestelling WHERE id=?";
 		Bestelling returnedBestelling = null;
 		try (Connection con= ConnectieDatabase.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
-			stmt.setObject(1, klant.getId());
+			stmt.setObject(1, bestellingId);
 			ResultSet resultSet = stmt.executeQuery();
             if (resultSet.isBeforeFirst()) {
                 resultSet.next();
@@ -46,7 +46,7 @@ public class BestellingDaoImplement {
                 int id1 = resultSet.getInt(1);
                  BigDecimal totaalprijs =  resultSet.getBigDecimal(2);
                int Klant_id =  resultSet.getInt(3);             
-                returnedBestelling = new Bestelling (id1, totaalprijs, klant);
+                returnedBestelling = new Bestelling (id1, totaalprijs, klantId);
                 
                 
             //    returnedBestelling.setId(id1);
