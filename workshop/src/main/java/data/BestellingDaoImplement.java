@@ -140,7 +140,7 @@ public class BestellingDaoImplement {
 	            	 BigDecimal totaalprijs =  resultSet.getBigDecimal(2);
 	               int klantid =  resultSet.getInt(3);
 	               // Bestellingen bestellingen = new Bestellingen (bestellingNummer,totaalprijs,klantid);
-	            	Bestelling bestellingen = new Bestelling (bestellingId, totaalprijs, klant);
+	            	Bestelling bestellingen = new Bestelling (bestellingId, totaalprijs, klant.getId());
 	               // bestellingen.setId(bestellingId);
 	            	
 	            	//System.out.println("Bestellingen gevonden: " + bestellingen.getBestellingNummer());

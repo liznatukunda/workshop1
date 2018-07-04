@@ -11,7 +11,7 @@ public class BestelRegel {
 	
 	private int aantal;
 	private BigDecimal prijs;
-	private Bestelling bestelling;//bestelling updaten als bestelregel aangepast wordt of verwijdert wordt
+//	private Bestelling bestelling;//bestelling updaten als bestelregel aangepast wordt of verwijdert wordt
 	private int bestellingId;
 	/**
 	 * Creëert een extra bestelregel voor een bestelling op basis van het gewenste artikel en aantal.
@@ -71,10 +71,10 @@ public class BestelRegel {
 	}
 	
 
-	 public Bestelling getBestelling() {
+/*	 public Bestelling getBestelling() {
 	 	return this.bestelling;
 	 }
-	
+	*/
 	public int getAantal() {
 		return this.aantal;
 	}

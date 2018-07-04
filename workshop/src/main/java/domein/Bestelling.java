@@ -7,7 +7,7 @@ public class Bestelling {
 	
 	private int id;
 	private BigDecimal totaalPrijs;
-	private Klant klant;	// misschien moet hier Klant klant m waarvan je alleen de Id set zodat later de klant ingevuld kan worden
+//	private Klant klant;	// misschien moet hier Klant klant m waarvan je alleen de Id set zodat later de klant ingevuld kan worden
 //	private ArrayList<BestelRegel> bestelregels=new ArrayList<BestelRegel>();
 	private int klantId;
 	
@@ -19,16 +19,16 @@ public class Bestelling {
 		
 	}	
 	
-	public Bestelling(int id, BigDecimal totaalPrijs, Klant klant) {
+/*	public Bestelling(int id, BigDecimal totaalPrijs, Klant klant) {
 		this.id=id;
 		this.totaalPrijs=totaalPrijs;
 		this.klant=klant;
 		
-	}	
+	}	*/
 public Bestelling(Klant klant) {
 		this.totaalPrijs=new BigDecimal("0.00");
 		//this.klant.setId(klantId);
-		this.klant=klant;
+		this.klantId=klant.getId();
 	}
 	
 	
@@ -68,7 +68,7 @@ public Bestelling(Klant klant) {
 	}
 	
 	public int GetKlantId() {
-		return this.klant.getId();
+		return this.klantId;
 	}
 	/**
 	 * Voegt aan de bestelling nog een extra regel toe
