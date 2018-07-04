@@ -19,6 +19,10 @@ import org.mockito.internal.matchers.Any;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mockito.Matchers.*;
+
+
+import static org.mockito.Mockito.*;
+
 import org.mockito.*;
 import Controllers.ArtikelController;
 import data.ArtikelDaoImplement;
@@ -70,12 +74,13 @@ public class ArtikelControllerTest {
     	int id1 = nieuweArtikel1.getId();	
 	//	Mockito.when(artikelDaoImplement.createArtikel(new Artikel(nieuweArtikel1.getNaam(), nieuweArtikel1.getPrijs(), nieuweArtikel1.getVoorraad()))).thenReturn(id1);
 	//	Mockito.when(artikelDaoImplement.createArtikel(new Artikel("Oude kaas", new BigDecimal ("7.20"), 100))).thenReturn(10);	
-    	Mockito.when(artikelDaoImplement.createArtikel(ArgumentMatchers.any())).thenReturn(id1);
-    	
+    	Mockito.when(artikelDaoImplement.createArtikel((Artikel)any())).thenReturn(id1);
+    	Mockito.when(artikelDaoImplement.getArtikel(anyInt())).thenReturn(nieuweArtikel1);
 	//	boolean actual =artikelController.voegArtikelToe(nieuweArtikel1.getNaam(), nieuweArtikel1.getPrijs(), nieuweArtikel1.getVoorraad());
-		boolean actual =artikelController.voegArtikelToe2(nieuweArtikel1);
+		artikelController.voegArtikelToe2(nieuweArtikel1);
+		Artikel actual=artikelDaoImplement.getArtikel(id1);
 		System.out.println("testsing "+ actual);
-		Assert.assertTrue(actual);		
+		Assert.assertTrue(actual.equals(nieuweArtikel1));		
 		
 /*		Artikel actual = artikelController.voegArtikelToe(nieuweArtikel1.getNaam(), nieuweArtikel1.getPrijs(), nieuweArtikel1.getVoorraad()); 
  		Assert.assertEquals(nieuweArtikel1.getNaam(), actual.getNaam());
