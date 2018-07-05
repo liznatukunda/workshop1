@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import data.BestellingDaoImplement;
+import data.BestelregelDaoImplement;
 import data.KlantDaoImplement;
+import domein.BestelRegel;
 import domein.Bestelling;
 import domein.Klant;
 
@@ -34,6 +36,14 @@ private KlantDaoImplement klantDao;
 		if(bestelling == null){
 			return false;
 		}
+		BestelregelDaoImplement brdao=new BestelregelDaoImplement();
+		ArrayList<BestelRegel> bestelregellijst=brdao.getAlleBestelregelsPerBestelling(bestellingId);
+		BestelregelController brContr=new BestelregelController();
+		for (int index = bestelregellijst.size(); index>=0;index--) {
+			int bestelregelId=bestelregellijst.get(index).getBestellingId();
+			brContr.deleteBestelregel(bestelregelId);
+		}
+		
 		return bestellingDaoImplement.deleteBestellingen(bestelling);
 	}
 	
