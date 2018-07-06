@@ -5,6 +5,7 @@ import java.util.Scanner;
 import Controllers.AdresController;
 import Controllers.KlantController;
 import domein.Adres;
+import validator.Validator;
 
 public class AdresMenu {
 	private  Scanner input = new Scanner(System.in);
@@ -103,8 +104,14 @@ public class AdresMenu {
 
 	private void VoegBezorgadresToe() {
 		input.nextLine();
-		System.out.println("Geef de straatnaam van het adres op");
-		String straatnaam=input.nextLine();
+		String straatnaam="";
+		while(true) {
+			System.out.println("Geef de straatnaam van het adres op");
+			straatnaam = input.nextLine();
+			if ((Validator.isNaamValid(straatnaam))) {
+			break;
+			}
+		}
 		System.out.println("Geef het huisnummer van het adres op");
 		int huisnummer=input.nextInt();
 		input.nextLine();
@@ -123,10 +130,22 @@ public class AdresMenu {
 		else {
 			System.out.println("Ongelding keuze, er wordt geen toevoeging opgeslagen");
 		}
-		System.out.println("Geef de postcode van het adres op");
-		String postcode=input.nextLine();
-		System.out.println("Geef de plaats van het adres op");
-		String plaats=input.nextLine();
+		String postcode="";
+		while(true) {
+			System.out.println("Geef de postcode van het adres op");
+			postcode=input.nextLine();
+			if ((Validator.postcodeIsValid(postcode))) {
+			break;
+			}
+		}				
+		String plaats="";
+		while(true) {
+			System.out.println("Geef de plaats van het adres op");
+			plaats = input.nextLine();
+			if ((Validator.isNaamValid(plaats))) {
+			break;
+			}
+		}
 		adresController.maakBezorgAdres(straatnaam, huisnummer, toevoeging, postcode, plaats);
 		AdresMenu nieuwAdresMenu=new AdresMenu(klantId);
 		
@@ -134,8 +153,14 @@ public class AdresMenu {
 
 	private void VoegFactuuradresToe() {
 		input.nextLine();
-		System.out.println("Geef de straatnaam van het adres op");
-		String straatnaam=input.nextLine();
+		String straatnaam="";
+		while(true) {
+			System.out.println("Geef de straatnaam van het adres op");
+			straatnaam = input.nextLine();
+			if ((Validator.isNaamValid(straatnaam))) {
+			break;
+			}
+		}
 		System.out.println("Geef het huisnummer van het adres op");
 		int huisnummer=input.nextInt();
 		input.nextLine();
@@ -154,10 +179,22 @@ public class AdresMenu {
 		else {
 			System.out.println("Ongelding keuze, er wordt geen toevoeging opgeslagen");
 		}
-		System.out.println("Geef de postcode van het adres op");
-		String postcode=input.nextLine();
-		System.out.println("Geef de plaats van het adres op");
-		String plaats=input.nextLine();
+		String postcode="";
+		while(true) {
+			System.out.println("Geef de postcode van het adres op");
+			postcode=input.nextLine();
+			if ((Validator.postcodeIsValid(postcode))) {
+			break;
+			}
+		}
+		String plaats="";
+		while(true) {
+			System.out.println("Geef de plaats van het adres op");
+			plaats = input.nextLine();
+			if ((Validator.isNaamValid(plaats))) {
+			break;
+			}
+		}
 		adresController.maakFactuurAdres(straatnaam, huisnummer, toevoeging, postcode, plaats);
 		AdresMenu nieuwAdresMenu=new AdresMenu(klantId);
 	}
@@ -286,8 +323,14 @@ public class AdresMenu {
 	}
 	
 	private void wijzigStraat()  {
-		System.out.println("Geef nieuwe straatnaam in");
-		String nieuweStraat=input.nextLine();
+		String nieuweStraat="";
+		while(true) {
+			System.out.println("Geef nieuwe straatnaam in");
+			nieuweStraat = input.nextLine();
+			if ((Validator.isNaamValid(nieuweStraat))) {
+			break;
+			}
+		}
 		adresController.wijzigStraat(nieuweStraat);
 		System.out.println("Straatnaam aangepast!");
 	}
@@ -313,15 +356,27 @@ public class AdresMenu {
 	}
 	
 	private void wijzigPostcode()  {
-		System.out.println("Geef nieuwe postcode in");
-		String nieuwePostcode=input.nextLine();
+		String nieuwePostcode="";
+		while(true) {
+			System.out.println("Geef de nieuwe postcode van het adres op");
+			nieuwePostcode=input.nextLine();
+			if ((Validator.postcodeIsValid(nieuwePostcode))) {
+			break;
+			}
+		}
 		adresController.wijzigPostcode(nieuwePostcode);
 		System.out.println("Postcode aangepast!");		
 	}
 	
 	private void wijzigPlaats()  {
-		System.out.println("Geef nieuwe plaatsnaam in");
-		String nieuwePlaats=input.nextLine();
+		String nieuwePlaats="";
+		while(true) {
+			System.out.println("Geef nieuwe nieuwePlaats in");
+			nieuwePlaats = input.nextLine();
+			if ((Validator.isNaamValid(nieuwePlaats))) {
+			break;
+			}
+		}
 		adresController.wijzigPlaats(nieuwePlaats);
 		System.out.println("Plaatsnaam aangepast!");		
 	}

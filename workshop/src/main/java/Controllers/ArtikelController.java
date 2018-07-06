@@ -18,7 +18,8 @@ private ArrayList<Artikel>artikelen;
 	
 	public ArtikelController(ArtikelDaoImplement artikelDao){
 		this.artikelDao=artikelDao;
-	}  
+		
+		}  
 	
 	public String[] getAlleArtikelen(){
 		ArrayList<Artikel> artikelen = artikelDao.getAlleArtikelen();
@@ -26,7 +27,7 @@ private ArrayList<Artikel>artikelen;
 		for(int i=0; i<artikelen.size(); i++){
 			Artikel a = artikelen.get(i);
 			String inVoorraad = a.getVoorraad() > 0 ? a.getVoorraad() + " in voorraad." : "UITVERKOCHT!";
-			returnArray[i] = a.getId() + ": " + a.getNaam() + ". €" + a.getPrijs().toPlainString() + " " + inVoorraad;
+			returnArray[i] = "nummer :" + i + " naam: " + a.getNaam() + ". €" + a.getPrijs().toPlainString() + " voorraad: " + inVoorraad;
 		}
 		return returnArray;
 	}
@@ -43,6 +44,7 @@ private ArrayList<Artikel>artikelen;
 	}
 	
 	public boolean pasNaamAan(int index, String naam){
+		artikelen = artikelDao.getAlleArtikelen();
 		Artikel artikel = artikelen.get(index);
 		artikel = artikelDao.getArtikel(artikel.getId());
 		if(artikel == null){
@@ -53,6 +55,7 @@ private ArrayList<Artikel>artikelen;
 	}
 	
 	public boolean pasPrijsAan(int index, BigDecimal prijs){
+		artikelen = artikelDao.getAlleArtikelen();
 		Artikel artikel = artikelen.get(index);
 		artikel = artikelDao.getArtikel(artikel.getId());
 		if(artikel == null){
@@ -63,6 +66,7 @@ private ArrayList<Artikel>artikelen;
 	}
 	
 	public boolean pasVoorraadAan(int index, int aantal){
+		artikelen = artikelDao.getAlleArtikelen();
 		Artikel artikel = artikelen.get(index);
 		artikel = artikelDao.getArtikel(artikel.getId());
 		if(artikel == null){
@@ -74,6 +78,7 @@ private ArrayList<Artikel>artikelen;
 
 
 	public String zoekArtikel(int index) {
+		artikelen = artikelDao.getAlleArtikelen();
 		Artikel artikel = artikelen.get(index);
 		artikel = artikelDao.getArtikel(artikel.getId());
 		if (artikel==null) {
@@ -86,6 +91,7 @@ private ArrayList<Artikel>artikelen;
 	}
 
 	public  boolean deleteArtikel(int index){
+		artikelen = artikelDao.getAlleArtikelen();
 		Artikel artikel = artikelen.get(index);
 		artikel = artikelDao.getArtikel(artikel.getId());
 		if(artikel == null){

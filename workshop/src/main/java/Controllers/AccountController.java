@@ -3,16 +3,20 @@ package Controllers;
 import java.util.ArrayList;
 
 import data.AccountDaoImplement;
+import data.KlantDaoImplement;
 import domein.Account;
 import domein.Bestelling;
+import domein.Klant;
 import domein.Account.Rol;
 
 public class AccountController {
 
 	private  AccountDaoImplement accountDao;
+	private KlantDaoImplement klantDao;
 	
 	public AccountController(){
 		accountDao = new AccountDaoImplement();
+		klantDao = new KlantDaoImplement();
 	}
 	
 	
@@ -78,5 +82,13 @@ public class AccountController {
 			returnArray[i] = a.getId() + ": " + a.getUserNaam()+ " " + a.getRol().toString(); 
 		}
 		return returnArray;
+	}
+	public boolean accountIsKlant(int accountId) {
+		Account account =accountDao.getAccount(accountId);
+		return (account.getRol()==Account.Rol.klant);
+	}
+	public boolean accountHeeftGeenKlant(int accountId) {
+		ArrayList<Klant> klanten = klantDao.getAlleKlantenPerAccount(accountId);
+		return (klanten.isEmpty());
 	}
 }

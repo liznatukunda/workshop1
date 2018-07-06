@@ -240,5 +240,29 @@ public class KlantDaoImplement {
 		return klant.leesAlleBestellingen();
 	
 	}
+	public ArrayList<Klant> getAlleKlantenPerAccount(int accountId){
+		String sql = "SELECT * FROM klant WHERE account_id=?";
+		ArrayList<Klant> returnedKlant = new ArrayList<>();
+		try (Connection con= ConnectieDatabase.getConnection();
+				PreparedStatement stmt = con.prepareStatement(sql);){
+			stmt.setObject(1, accountId);
+			ResultSet resultSet = stmt.executeQuery();
+			 while(resultSet.next()){
+	            	
+				 int id1 = resultSet.getInt(1);
+	                String voornaam =  resultSet.getString(2);
+	                String tussenvoegsel =  resultSet.getString(3);
+	                String achternaam =  resultSet.getString(4);
+	                int accountid = resultSet.getInt(5);
+	            	Klant klanten = new Klant (voornaam,tussenvoegsel,achternaam, accountid);
+
+	            	returnedKlant.add(klanten);
+	            }
+	            
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return returnedKlant;
+		}
 	
 }

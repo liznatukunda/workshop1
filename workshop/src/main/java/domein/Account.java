@@ -6,13 +6,15 @@ public class Account {
 	
 	public enum Rol {klant, medewerker, beheerder;
 		public static Rol toRol (String rol) {
-		if (rol.equals("klant")){
-			return Account.Rol.klant;
+			String rollowercase= rol.toLowerCase()	;
+		if (rollowercase.equals("beheerder")) {	
+			return Account.Rol.beheerder;
 		}
-		if (rol.equals("medewerker")){
+		
+		if (rollowercase.equals("medewerker")){
 			return Account.Rol.medewerker;
 		}
-		else return Account.Rol.beheerder;
+		else return Account.Rol.klant;
 	}}
 	
 	private int id;

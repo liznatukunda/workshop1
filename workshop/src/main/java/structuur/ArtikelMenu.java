@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Scanner;
 
 import Controllers.ArtikelController;
+import validator.Validator;
 
 public class ArtikelMenu {
 	
@@ -56,14 +57,25 @@ public class ArtikelMenu {
  }
 	
 	public void voegArtikelToe(){
-
-		System.out.println("Wat is de naam van het Artikel?");
-		input.nextLine();
-		String naam = input.nextLine();
+		String naam="";
+		while(true) {
+			System.out.println("Wat is de naam van het Artikel?");
+			naam = input.next();
+			if ((Validator.isNaamValid(naam))) {
+			break;
+			}
+		}		
 		System.out.println("Wat is de prijs van het Artikel?"); 
 		BigDecimal prijs = input.nextBigDecimal();
+		int voorraad=0;
+		while(true) {
 		System.out.println("Wat is de voorraad van het Artikel?");
-		int voorraad = input.nextInt();
+		voorraad = input.nextInt();
+		if (Validator.aantalIsPositief(voorraad)) {
+			break;
+			}
+		}
+		
 		if(artikelController.voegArtikelToe(naam, prijs, voorraad)){
 			System.out.println("Artikel toegevoegd!");
 		}
@@ -100,8 +112,14 @@ public class ArtikelMenu {
 	}
 	
 	public void pasNaamAan(int artikelId){
-		System.out.println("Vul nieuwe naam in");
-		String naam = input.next();
+		String naam="";
+		while(true) {
+			System.out.println("Vul nieuwe naam in");
+			naam = input.next();
+			if ((Validator.isNaamValid(naam))) {
+			break;
+			}
+		}
 		if(artikelController.pasNaamAan(artikelId,naam )){ 
 			System.out.println("Naam aangepast!");
 		}
@@ -124,8 +142,14 @@ public class ArtikelMenu {
 	}
 	
 	public void pasVoorraadAan(int artikelId){
-		System.out.println("Vul nieuwe achternaam  in");
-		int voorraad = input.nextInt();
+		int voorraad=0;
+		while(true) {
+		System.out.println("Vul nieuwe voorraad van het Artikel in.");
+		voorraad = input.nextInt();
+		if (Validator.aantalIsPositief(voorraad)) {
+			break;
+			}
+		}
 		if(artikelController.pasVoorraadAan(artikelId, voorraad)){ 
 			System.out.println("voorraad aangepast!");
 		}

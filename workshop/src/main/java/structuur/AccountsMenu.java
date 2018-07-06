@@ -4,6 +4,7 @@ import java.util.Scanner;
 import Controllers.AccountController;
 import domein.Account;
 import domein.Account.Rol;
+import validator.Validator;
 
 
 public class AccountsMenu {
@@ -80,12 +81,31 @@ public class AccountsMenu {
 		
 	}
 	public  void voegAccountToe(){
-		System.out.println("Wat is de Account UserNaam van dit Account?");
-		String userNaam = input.next();
-		System.out.println("Wat is de  User Password van dit Account?");
-		String userPassword = input.next();
-		System.out.println("Wat is de  User rol van dit Account?");
-		Rol rol =Account.Rol.toRol(input.next());                                       
+		String userNaam="";
+		while(true) {
+			System.out.println("Wat is de Account UserNaam van dit Account?");
+			userNaam = input.next();
+			if ((Validator.isNaamValid(userNaam))) {
+			break;
+			}
+		}	
+		String userPassword="";
+		while(true) {
+			System.out.println("Wat is de  User Password van dit Account?");
+			userPassword = input.next();
+			if ((Validator.isNaamValid(userPassword))) {
+			break;
+			}
+		}		
+		String roltemp="";
+		while(true) {
+			System.out.println("Wat is de  User rol van dit Account?");
+			roltemp = input.next();
+			if (Validator.isRol(roltemp)) {
+				break;
+			}
+		}
+		Rol rol =Account.Rol.toRol(roltemp);                                       
 		if(accountController.voegAccountToe(userNaam, userPassword, rol)){ 
 			System.out.println("Account toegevoegd!");
 		}
@@ -121,8 +141,14 @@ public class AccountsMenu {
 	}
 	
 	public void pasUserNaamAan(int Id){
-		System.out.println("Vul nieuwe user naam in");
-		String userNaam = input.next();
+		String userNaam="";
+		while(true) {
+			System.out.println("Vul nieuwe user naam in");
+			userNaam = input.next();
+			if ((Validator.isNaamValid(userNaam))) {
+			break;
+			}
+		}	
 		if(accountController.pasUserNaamAan(Id, userNaam)){
 			System.out.println("UserNaam aangepast!");
 		}
@@ -133,9 +159,15 @@ public class AccountsMenu {
 	}
 	
 	public void pasPasswordAan(int accountId){
-		System.out.println("Vul nieuwe Password in");
-		String password = input.next();
-		if(accountController.pasUserPasswordAan(accountId, password)){
+		String userPassword="";
+		while(true) {
+			System.out.println("Voer het nieuwe password in.");
+			userPassword = input.next();
+			if ((Validator.isNaamValid(userPassword))) {
+			break;
+			}
+		}		
+		if(accountController.pasUserPasswordAan(accountId, userPassword)){
 			System.out.println("Password aangepast!");
 		}
 		else{
@@ -145,8 +177,15 @@ public class AccountsMenu {
 	}
 	
 	public void pasRolAan(int accountId){
-		System.out.println("Vul nieuwe Rol in");
-		Rol rol =Account.Rol.toRol(input.next());   
+		String roltemp="";
+		while(true) {
+			System.out.println("Vul nieuwe Rol in");
+			roltemp = input.next();
+			if (Validator.isRol(roltemp)) {
+				break;
+			}
+		}
+		Rol rol =Account.Rol.toRol(roltemp);   
 		if(accountController.pasRolAan(accountId, rol)){
 			System.out.println("Rol aangepast!");
 		}
