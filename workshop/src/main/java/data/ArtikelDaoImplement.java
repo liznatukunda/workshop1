@@ -13,7 +13,7 @@ public class ArtikelDaoImplement implements ArtikelDao{
 	public int createArtikel(Artikel artikel){
 		// vraag connectie met try with resources
 		int insertId = -1;
-		String sql = "INSERT INTO Artikel (naam, prijs, voorraad) VALUES (?,?,?);";
+		String sql = "INSERT INTO artikel (naam, prijs, voorraad) VALUES (?,?,?);";
 		try ( Connection con= ConnectieDatabase.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);){
 			stmt.setObject(1, artikel.getNaam());
@@ -34,7 +34,7 @@ public class ArtikelDaoImplement implements ArtikelDao{
 	}
 	
 	public Artikel getArtikel(int id){
-		String sql = "SELECT * FROM Artikel WHERE id=?";
+		String sql = "SELECT * FROM artikel WHERE id=?";
 		Artikel returnedArtikel = null;
 		try (Connection con= ConnectieDatabase.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
@@ -66,7 +66,7 @@ public class ArtikelDaoImplement implements ArtikelDao{
 	}
 	
 	public ArrayList<Artikel> getAlleArtikelen(){
-		String sql = "SELECT * FROM Artikel;";
+		String sql = "SELECT * FROM artikel;";
 		ArrayList<Artikel> returnedArtikelen = new ArrayList<>();
 		try (Connection con= ConnectieDatabase.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
@@ -91,7 +91,7 @@ public class ArtikelDaoImplement implements ArtikelDao{
 	}
 	
 	public boolean updateArtikel(String naam, BigDecimal prijs , int voorraad, int id){
-		String sql = "UPDATE Artikel SET naam = ?, prijs = ?, voorraad = ? WHERE id = ?";
+		String sql = "UPDATE artikel SET naam = ?, prijs = ?, voorraad = ? WHERE id = ?";
 		int rows = -1;
 		try (Connection con= ConnectieDatabase.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
@@ -114,7 +114,7 @@ public class ArtikelDaoImplement implements ArtikelDao{
 	}
 	
 	public boolean deleteArtikel(int id){
-		String sql = "DELETE FROM Artikel WHERE id = ?";
+		String sql = "DELETE FROM artikel WHERE id = ?";
 		int rows = -1;
 		try (Connection con= ConnectieDatabase.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){

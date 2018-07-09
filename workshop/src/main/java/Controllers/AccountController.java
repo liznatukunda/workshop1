@@ -15,6 +15,10 @@ public class AccountController {
 		accountDao = new AccountDaoImplement();
 	}
 	
+	public AccountController(AccountDaoImplement accountDao) {
+		this.accountDao=accountDao;
+	}
+	
 	
 	public boolean voegAccountToe(String userNaam, String password, Rol rol){
 		Integer id = accountDao.createAccount(new Account(userNaam, password, rol));  

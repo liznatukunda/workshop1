@@ -46,6 +46,11 @@
     <version>2.0.2-beta</version>
     <scope>test</scope>
 </dependency>
+<dependency>
+        <groupId>org.mongodb</groupId>
+        <artifactId>mongodb-driver-sync</artifactId>
+        <version>3.8.0</version>
+    </dependency>
   </dependencies>
   
 </project>

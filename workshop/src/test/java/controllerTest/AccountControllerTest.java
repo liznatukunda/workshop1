@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -12,9 +13,12 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+import static org.mockito.Mockito.*;
 
 import Controllers.AccountController;
+import Controllers.ArtikelController;
 import data.AccountDao;
+import data.AccountDaoImplement;
 import domein.Account;
 import domein.Account.Rol;
 
@@ -22,7 +26,7 @@ import domein.Account.Rol;
 public class AccountControllerTest {
 	
 	@Mock
-	private AccountDao accountDao;
+	private AccountDaoImplement accountDao;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -34,6 +38,7 @@ public class AccountControllerTest {
 
 	@Before
 	public void setUp() throws Exception {
+		MockitoAnnotations.initMocks(this);
 	}
 
 	@After
@@ -87,7 +92,15 @@ public class AccountControllerTest {
 
 	@Test
 	public void testDeleteAccount() {
-		fail("Not yet implemented");
+		Account account=new Account( "te deleten account", "te deleten password" , Rol.medewerker);
+		int accountId=-1;
+		account.setId(accountId);
+		AccountController accountContr = new AccountController(accountDao);
+		accountContr.deleteAccount(accountId);
+		Mockito.when(accountDao.getAccount(anyInt())).thenReturn(account);
+		Mockito.when(accountDao.deleteAccount((Account)any())).thenReturn(true);
+		
+		Assert.assertTrue(condition);
 	}
 
 }
