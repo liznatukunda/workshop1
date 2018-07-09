@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import Controllers.ArtikelController;
 import Controllers.BestelregelController;
+import validator.Validator;
 
 public class BestelregelMenu {
 	private   Scanner input = new Scanner(System.in);
@@ -93,8 +94,14 @@ public class BestelregelMenu {
 		}
 		System.out.println("Voer artikel nummer in ");
 		int artikelIndex = input.nextInt();
-		System.out.println("Voer aantal in ");
-		int aantal = input.nextInt();
+		int aantal=0;
+		while(true) {
+		System.out.println("Voer het aantal in.");
+		aantal = input.nextInt();
+		if (Validator.aantalIsPositief(aantal)) {
+			break;
+			}
+		}
 		System.out.println(bestelregelController.voegBestelregelToe(bestellingId, artikelIndex, aantal));
 		
 			
@@ -109,10 +116,16 @@ public class BestelregelMenu {
 		for(String s : artikelController.getAlleArtikelen()){
 			System.out.println(s);
 		}
-		System.out.println("Voer artikel nummer in ");
+		System.out.println("Voer artikel nummer in "); 
 		int artikelIndex = input.nextInt();
-		System.out.println("Vul nieuwe aantal in");
-		int aantal = input.nextInt();
+		int aantal=0;
+		while(true) {
+		System.out.println("Voer het nieuwe aantal in.");
+		aantal = input.nextInt();
+		if (Validator.aantalIsPositief(aantal)) {
+			break;
+			}
+		}
 		System.out.println(bestelregelController.pasBestelregelAan(bestelregelId, aantal,artikelIndex));
 				
 		}

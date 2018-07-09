@@ -4,17 +4,20 @@ import java.util.Scanner;
 
 import Controllers.AccountController;
 import Controllers.KlantController;
+import validator.Validator;
 
 
 
 public class KlantgegevensMenu {
 	private  Scanner input = new Scanner(System.in);
 	private KlantController klantController;
+	private AccountController accountController;
 	private BestellingenMenu bestellingenMenu= new BestellingenMenu();
 	
 	
 	public KlantgegevensMenu(){
 		klantController = new KlantController();
+		accountController = new AccountController();
 	}	
 	
 	
@@ -87,49 +90,90 @@ public class KlantgegevensMenu {
 	public void voegKlantToe(){
 		
 		System.out.println("Welk accountnummer moet een klant aan toegevoegd worden?");
-		int accountId = input.nextInt();    
-		System.out.println("Wat is de voornaam van deze klant?");
-		input.nextLine();
-		String voornaam = input.nextLine();
-		System.out.println("Heeft de klant een tussenvoegsel: toets 1");
-		System.out.println("Heeft de klant geen tussenvoegsel: toets 0");
-		String tussenvoegsel="";
-		int tussenvoegselaanwezig = input.nextInt();
-		input.nextLine();
-		if (tussenvoegselaanwezig==1) {
-		System.out.println("Wat is de tussenvoegsel van deze klant?"); 
-		
-		tussenvoegsel = input.nextLine();
+		int accountId = input.nextInt();
+		if (accountController.accountIsKlant(accountId)) {
+			if (accountController.accountHeeftGeenKlant(accountId)) {
+				input.nextLine();
+				String voornaam="";
+				while(true) {
+					System.out.println("Wat is de voornaam van deze klant?");
+					voornaam = input.nextLine();
+					if ((Validator.isNaamValid(voornaam))) {
+					break;
+					}
+				}	
+				System.out.println("Heeft de klant een tussenvoegsel: toets 1");
+				System.out.println("Heeft de klant geen tussenvoegsel: toets 0");
+				String tussenvoegsel="";
+				int tussenvoegselaanwezig = input.nextInt();
+				input.nextLine();
+				if (tussenvoegselaanwezig==1) {
+				System.out.println("Wat is de tussenvoegsel van deze klant?"); 
+				
+				tussenvoegsel = input.nextLine();
+				}
+				String achternaam="";
+				while(true) {
+					System.out.println("Wat is de achternaam van deze klant?");
+					achternaam = input.nextLine();
+					if ((Validator.isNaamValid(achternaam))) {
+					break;
+					}
+				}	
+				String straatnaam="";
+				while(true) {
+					System.out.println("Wat is de straatnaam van het postadres van deze klant?");
+					straatnaam = input.nextLine();
+					if ((Validator.isNaamValid(straatnaam))) {
+					break;
+					}
+				}
+				System.out.println("Wat is het huisnummer van het postadres van deze klant?");
+				int huisnummer=input.nextInt();
+				input.nextLine();
+				System.out.println("Heeft het postadres van deze klant een toevoeging op het huisnummer: toets 1");
+				System.out.println("Heeft het postadres van deze klant geen toevoeging op het huisnummer: toets 0");
+				String toevoeging=null;
+				int toevoegingAanwezig = input.nextInt();
+				input.nextLine();
+				if (toevoegingAanwezig==1) {
+					System.out.println("Wat is de toevoeging op het huisnummer?");
+					toevoeging=input.nextLine();
+				}
+				String postcode="";
+				while(true) {
+					System.out.println("Geef de postcode van het adres op");
+					postcode=input.nextLine();
+					if ((Validator.postcodeIsValid(postcode))) {
+					break;
+					}
+				}
+				String woonplaats="";
+				while(true) {
+					System.out.println("Wat is de woonplaats van het postadres van deze klant?");
+					woonplaats = input.nextLine();
+					if ((Validator.isNaamValid(woonplaats))) {
+					break;
+					}
+				}
+				//System.out.println("toevoeging is: "+toevoeging);
+				if(klantController.voegKlantToe(voornaam, tussenvoegsel, achternaam,accountId, straatnaam, huisnummer, toevoeging, postcode, woonplaats)){
+					System.out.println("Klant toegevoegd!");
+				}
+				else{
+					System.err.println("Kon klant niet toevoegen!");
+				}
+				
+				}
+			
+			else
+			{
+				System.err.println("Account heeft al klantgegevens");
+			}
 		}
-		
-		System.out.println("Wat is de achternaam van deze klant?");
-		
-		String achternaam = input.nextLine();
-		System.out.println("Wat is de straatnaam van het postadres van deze klant?");
-		String straatnaam=input.nextLine();
-		System.out.println("Wat is het huisnummer van het postadres van deze klant?");
-		int huisnummer=input.nextInt();
-		input.nextLine();
-		System.out.println("Heeft het postadres van deze klant een toevoeging op het huisnummer: toets 1");
-		System.out.println("Heeft het postadres van deze klant een toevoeging op het huisnummer: toets 0");
-		String toevoeging=null;
-		int toevoegingAanwezig = input.nextInt();
-		input.nextLine();
-		if (toevoegingAanwezig==1) {
-			System.out.println("Wat is de toevoeging op het huisnummer?");
-			toevoeging=input.nextLine();
-		}
-		System.out.println("Wat is de postcode van het postadres van deze klant?");
-		String postcode=input.nextLine();
-		System.out.println("Wat is de woonplaats van het postadres van deze klant?");
-		String woonplaats=input.nextLine();
-		//System.out.println("toevoeging is: "+toevoeging);
-		if(klantController.voegKlantToe(voornaam, tussenvoegsel, achternaam,accountId, straatnaam, huisnummer, toevoeging, postcode, woonplaats)){
-			System.out.println("Klant toegevoegd!");
-		}
-		else{
-			System.err.println("Kon klant niet toevoegen!");
-		}
+		else {
+				System.err.println("Account is geen klant-account");
+			}
 	}
 	
 	public void pasKlantAan(int klantId){
@@ -158,8 +202,14 @@ public class KlantgegevensMenu {
 	}
 	
 	public void pasVoornaamAan(int klantid){
-		System.out.println("Vul nieuwe naam in");
-		String voornaam = input.next();
+		String voornaam="";
+		while(true) {
+			System.out.println("Vul nieuwe naam in");
+			voornaam=input.nextLine();
+			if ((Validator.postcodeIsValid(voornaam))) {
+			break;
+			}
+		}
 		if(klantController.pasVoornaamAan(klantid, voornaam)){ 
 			System.out.println("VoorNaam aangepast!");
 		}
@@ -182,8 +232,14 @@ public class KlantgegevensMenu {
 	}
 	
 	public void pasAchternaamAan(int id){
-		System.out.println("Vul nieuwe achternaam  in");
-		String achternaam = input.next();
+		String achternaam="";
+		while(true) {
+			System.out.println("Vul nieuwe achternaam  in");
+			achternaam=input.nextLine();
+			if ((Validator.postcodeIsValid(achternaam))) {
+			break;
+			}
+		}
 		if(klantController.pasAchternaamAan(id, achternaam)){ 
 			System.out.println("achternaam aangepast!");
 		}
