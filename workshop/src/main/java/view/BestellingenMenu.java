@@ -1,4 +1,4 @@
-package structuur;
+package view;
 
 import java.util.Scanner;
 import Controllers.BestellingController;

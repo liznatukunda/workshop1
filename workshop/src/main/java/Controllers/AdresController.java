@@ -3,6 +3,7 @@ package Controllers;
 import java.sql.SQLException;
 
 import data.AdresDaoImplement;
+import data.AdresDaoMongoImplement;
 import domein.Adres;
 import domein.Adres.AdresType;
 import domein.Klant;
@@ -10,12 +11,12 @@ import data.KlantDaoImplement;
 
 public class AdresController {
 	
-	AdresDaoImplement adresDao=new AdresDaoImplement();
+	AdresDaoMongoImplement adresDao=new AdresDaoMongoImplement();
 	Klant klant;
 	Adres adres;
 	
 	public AdresController() {
-		adresDao=new AdresDaoImplement();
+		adresDao=new AdresDaoMongoImplement();
 	}
 	
 	public void setKlant(int klantId) {
@@ -57,6 +58,7 @@ public class AdresController {
 
 	public void wijzigStraat(String nieuweStraat)  {
 		adres.setStraatnaam(nieuweStraat);
+		System.out.println("huisnummer: "+adres.getHuisnummer());
 		adresDao.updateAdres(adres, adres.getId());
 	}
 

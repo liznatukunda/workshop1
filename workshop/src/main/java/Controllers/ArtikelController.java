@@ -4,19 +4,20 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import domein.Artikel;
 import data.ArtikelDaoImplement;
+import data.ArtikelDaoMongoImplement;
 
 public class ArtikelController {
-private ArtikelDaoImplement artikelDao;
+private ArtikelDaoMongoImplement artikelDao;
 private ArrayList<Artikel>artikelen;
 	
 	public ArtikelController(){
-		artikelDao = new ArtikelDaoImplement();
+		artikelDao = new ArtikelDaoMongoImplement();
 		artikelen = artikelDao.getAlleArtikelen();
 	}
 	
 	
 	
-	public ArtikelController(ArtikelDaoImplement artikelDao){
+	public ArtikelController(ArtikelDaoMongoImplement artikelDao){
 		this.artikelDao=artikelDao;
 		
 		}  

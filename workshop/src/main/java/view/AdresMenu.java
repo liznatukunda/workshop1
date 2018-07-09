@@ -1,4 +1,4 @@
-package structuur;
+package view;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -22,7 +22,6 @@ public class AdresMenu {
 	}
 	
 	public void adresGegevensMenu()  {   
-		boolean logout = false;
 		boolean erIsEenFactuuradres=adresController.factuurAdresAanwezig();
 		boolean erIseenBezorgadres=adresController.BezorgAdresAanwezig();
 		
@@ -45,7 +44,6 @@ public class AdresMenu {
 		int bezorgadresToevoeging=-2;
 		
 		int menuNummer=1;
-		while(!logout) {
 			System.out.println( "1: Wijzig postadres");
 			if (erIsEenFactuuradres) {
 				factuuradresWijziging=menuNummer+1;
@@ -73,8 +71,7 @@ public class AdresMenu {
 				menuNummer++;
 				System.out.println(""+bezorgadresToevoeging+ ": Voeg bezorgadres toe");
 			}
-			System.out.println("-1: Ga terug naar klantmenu");
-			System.out.println("0: Log uit");
+			System.out.println("0: Ga terug naar klantmenu");
 						
 			int actie = input.nextInt();
 		       if (actie == 1) {
@@ -91,15 +88,13 @@ public class AdresMenu {
 				verwijderBezorgadres();
 			} else if (actie == bezorgadresToevoeging) {
 				VoegBezorgadresToe();
-			} else if (actie == -1) {
-				KlantgegevensMenu klantmenu = new KlantgegevensMenu();
-				klantmenu.klantgegevensMenu();
 			} else if (actie == 0) {
-				logout=true;
-			} else {
+				
+			} 
+			else {
 				System.out.println("Ongeldige keuze");
 			}
-		}
+		
 	}
 
 	private void VoegBezorgadresToe() {
@@ -217,7 +212,7 @@ public class AdresMenu {
 
 	private void wijzigBezorgadres()  {
 		input.nextLine();
-		adresController.setPostadres();
+		adresController.setBezorgadres();
 		System.out.println("Huidig BEZORGADRES:");
 		System.out.println(adresController.toonBezorgadres());
 		wijzigAdres();
@@ -317,9 +312,9 @@ public class AdresMenu {
 		System.out.println("4: Enkel postcode aanpassen");
 		System.out.println("5: Enkel plaats aanpassen");
 		System.out.println("6: Alles aanpassen");
-		System.out.println("");
-		System.out.println("-1: Ga terug naar klantmenu");
-		System.out.println("0: Log uit");
+		//System.out.println("");
+		//System.out.println("-1: Ga terug naar klantmenu");
+		//System.out.println("0: Log uit");
 	}
 	
 	private void wijzigStraat()  {

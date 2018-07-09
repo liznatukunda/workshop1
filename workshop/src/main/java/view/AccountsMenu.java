@@ -1,4 +1,4 @@
-package structuur;
+package view;
 import java.util.Scanner;
 
 import Controllers.AccountController;
@@ -32,6 +32,7 @@ public class AccountsMenu {
 		System.out.println( "0 :Terug naar Hoofdmenu");
          
 		int actie = input.nextInt();
+		input.nextLine();
        switch(actie) {
        
        case 1:
@@ -84,7 +85,7 @@ public class AccountsMenu {
 		String userNaam="";
 		while(true) {
 			System.out.println("Wat is de Account UserNaam van dit Account?");
-			userNaam = input.next();
+			userNaam = input.nextLine();
 			if ((Validator.isNaamValid(userNaam))) {
 			break;
 			}
@@ -92,7 +93,7 @@ public class AccountsMenu {
 		String userPassword="";
 		while(true) {
 			System.out.println("Wat is de  User Password van dit Account?");
-			userPassword = input.next();
+			userPassword = input.nextLine();
 			if ((Validator.isNaamValid(userPassword))) {
 			break;
 			}
@@ -100,7 +101,7 @@ public class AccountsMenu {
 		String roltemp="";
 		while(true) {
 			System.out.println("Wat is de  User rol van dit Account?");
-			roltemp = input.next();
+			roltemp = input.nextLine();
 			if (Validator.isRol(roltemp)) {
 				break;
 			}

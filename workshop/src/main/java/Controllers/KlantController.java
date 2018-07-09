@@ -2,6 +2,7 @@ package Controllers;
 import java.util.ArrayList;
 
 import data.AdresDaoImplement;
+import data.AdresDaoMongoImplement;
 import data.KlantDaoImplement;
 import domein.Account;
 import domein.Adres;
@@ -10,7 +11,7 @@ import domein.Adres.AdresType;
 
 public class KlantController {
 	private KlantDaoImplement klantDao;
-	private AdresDaoImplement adresDao;
+	private AdresDaoMongoImplement adresDao;
 	
 	public KlantController(){
 		klantDao = new KlantDaoImplement();
@@ -27,7 +28,7 @@ public class KlantController {
 		Integer id = klantDao.createKlant(klant);
 		int klantid=klant.getId();
 		Adres adres =new Adres(AdresType.POSTADRES, straatnaam, huisnummer,toevoeging, postcode, woonplaats, klantid);
-		adresDao=new AdresDaoImplement();
+		adresDao=new AdresDaoMongoImplement();
 		adresDao.createAdres(adres, klantid);
 		return id > 0;
 	}

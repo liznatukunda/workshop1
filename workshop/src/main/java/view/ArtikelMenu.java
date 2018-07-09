@@ -1,4 +1,4 @@
-package structuur;
+package view;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
@@ -60,13 +60,20 @@ public class ArtikelMenu {
 		String naam="";
 		while(true) {
 			System.out.println("Wat is de naam van het Artikel?");
-			naam = input.next();
+			naam = input.nextLine();
 			if ((Validator.isNaamValid(naam))) {
 			break;
 			}
-		}		
-		System.out.println("Wat is de prijs van het Artikel?"); 
-		BigDecimal prijs = input.nextBigDecimal();
+		}
+		BigDecimal prijs;
+		while (true) {
+			System.out.println("Wat is de prijs van het Artikel?"); 
+			prijs = input.nextBigDecimal();
+			if(Validator.validBigDecimal(prijs)) {
+				break;
+			}
+		}
+		
 		int voorraad=0;
 		while(true) {
 		System.out.println("Wat is de voorraad van het Artikel?");
@@ -130,11 +137,17 @@ public class ArtikelMenu {
 	}
 	
 	public void pasPrijsAan(int artikelId){
-		System.out.println("Vul nieuwe prijs in");
-		BigDecimal prijs = input.nextBigDecimal();
-		if(artikelController.pasPrijsAan(artikelId, prijs)){ 
-			System.out.println("Prijs aangepast!");
+		BigDecimal prijs;
+		while(true) {
+			System.out.println("Vul nieuwe prijs in");
+			prijs = input.nextBigDecimal();
+			if(Validator.validBigDecimal(prijs)) {
+				break;
+			}
 		}
+		if(artikelController.pasPrijsAan(artikelId, prijs)){ 
+				System.out.println("Prijs aangepast!");
+			}
 		else{
 			System.err.println("Prijs kon niet aangepast worden!"); 
 		}

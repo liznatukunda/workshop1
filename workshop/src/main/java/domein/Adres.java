@@ -4,13 +4,13 @@ public class Adres {
 	
 	public enum AdresType {POSTADRES, FACTUURADRES, BEZORGADRES;
 		public static AdresType toAdresType(String adrestype) {
-			if (adrestype.equals("postadres")) {
+			if (adrestype.equals("postadres")||adrestype.equals("POSTADRES")) {
 				return AdresType.POSTADRES;
 			}
-			else if (adrestype.equals("bezorgadres")) {
+			else if (adrestype.equals("bezorgadres")||adrestype.equals("BEZORGADRES")) {
 				return AdresType.BEZORGADRES;
 			}
-			else if (adrestype.equals("factuuradres")) {
+			else if (adrestype.equals("factuuradres")||adrestype.equals("FACTUURADRES")) {
 				return AdresType.FACTUURADRES;
 			}
 			else return null;
@@ -67,6 +67,10 @@ public class Adres {
 	
 	public void setId(int id) {
 		this.id=id;
+	}
+	
+	public void setKlantid(int id) {
+		this.klantid=id;
 	}
 	
 	public String getStraatnaam() {
