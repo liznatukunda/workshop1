@@ -4,17 +4,18 @@ import java.util.ArrayList;
 import data.AdresDaoImplement;
 import data.AdresDaoMongoImplement;
 import data.KlantDaoImplement;
+import data.KlantDaoMongoImplement;
 import domein.Account;
 import domein.Adres;
 import domein.Klant;
 import domein.Adres.AdresType;
 
 public class KlantController {
-	private KlantDaoImplement klantDao;
+	private KlantDaoMongoImplement klantDao;
 	private AdresDaoMongoImplement adresDao;
 	
 	public KlantController(){
-		klantDao = new KlantDaoImplement();
+		klantDao = new KlantDaoMongoImplement();
 	}
 	
 	public Klant getKlant(int klantId) {

@@ -4,24 +4,27 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import data.ArtikelDaoImplement;
+import data.ArtikelDaoMongoImplement;
 import data.BestellingDaoImplement;
+import data.BestellingDaoMongoImplement;
 import data.BestelregelDaoImplement;
+import data.BestelregelDaoMongoImplement;
 import data.KlantDaoImplement;
 import domein.Artikel;
 import domein.BestelRegel;
 import domein.Bestelling;
 
 public class BestelregelController {
-private BestelregelDaoImplement bestelregelDao;
-private ArtikelDaoImplement artikelDao;
-private BestellingDaoImplement bestellingdao;
+private BestelregelDaoMongoImplement bestelregelDao;
+private ArtikelDaoMongoImplement artikelDao;
+private BestellingDaoMongoImplement bestellingdao;
 private ArrayList<Artikel>artikelen;
 
 	public BestelregelController(){
-		bestelregelDao = new BestelregelDaoImplement();
-		artikelDao = new ArtikelDaoImplement();
+		bestelregelDao = new BestelregelDaoMongoImplement();
+		artikelDao = new ArtikelDaoMongoImplement();
 		artikelen = artikelDao.getAlleArtikelen();
-		bestellingdao= new BestellingDaoImplement();
+		bestellingdao= new BestellingDaoMongoImplement();
 	}
 	
 	

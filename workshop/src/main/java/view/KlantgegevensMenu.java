@@ -206,7 +206,7 @@ public class KlantgegevensMenu {
 		while(true) {
 			System.out.println("Vul nieuwe naam in");
 			voornaam=input.nextLine();
-			if ((Validator.postcodeIsValid(voornaam))) {
+			if ((Validator.isNaamValid(voornaam))) {
 			break;
 			}
 		}

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import data.AccountDaoImplement;
 import data.AccountDaoMongoImplement;
 import data.KlantDaoImplement;
+import data.KlantDaoMongoImplement;
 import domein.Account;
 import domein.Bestelling;
 import domein.Klant;
@@ -13,11 +14,11 @@ import domein.Account.Rol;
 public class AccountController {
 
 	private  AccountDaoMongoImplement accountDao;
-	private KlantDaoImplement klantDao;
+	private KlantDaoMongoImplement klantDao;
 	
 	public AccountController(){
 		accountDao = new AccountDaoMongoImplement();
-		klantDao = new KlantDaoImplement();
+		klantDao = new KlantDaoMongoImplement();
 	}
 	
 	public AccountController(AccountDaoMongoImplement accountDao) {

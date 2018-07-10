@@ -8,7 +8,7 @@ import domein.Bestelling;
 import domein.Klant;
 
 
-public class BestellingDaoImplement {
+public class BestellingDaoImplement implements BestellingDao{
 	
 //	private  static Connection con = ConnectieDatabase.getConnection();
 	
@@ -33,7 +33,7 @@ public class BestellingDaoImplement {
 		return insertId;
 	}
 	
-	public Bestelling getBestelling(int bestellingId, int klantId){
+	public Bestelling getBestelling(int bestellingId){
 		String sql = "SELECT * FROM Bestelling WHERE id=?";
 		Bestelling returnedBestelling = null;
 		try (Connection con= ConnectieDatabase.getConnection();
@@ -45,8 +45,8 @@ public class BestellingDaoImplement {
 
                 int id1 = resultSet.getInt(1);
                  BigDecimal totaalprijs =  resultSet.getBigDecimal(2);
-               int Klant_id =  resultSet.getInt(3);             
-                returnedBestelling = new Bestelling (id1, totaalprijs, klantId);
+               int klant_id =  resultSet.getInt(3);             
+                returnedBestelling = new Bestelling (id1, totaalprijs, klant_id);
                 
                 
             //    returnedBestelling.setId(id1);

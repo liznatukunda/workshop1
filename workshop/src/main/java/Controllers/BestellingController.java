@@ -4,22 +4,24 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import data.BestellingDaoImplement;
+import data.BestellingDaoMongoImplement;
 import data.BestelregelDaoImplement;
 import data.KlantDaoImplement;
+import data.KlantDaoMongoImplement;
 import domein.BestelRegel;
 import domein.Bestelling;
 import domein.Klant;
 
 public class BestellingController {
 	
-private BestellingDaoImplement bestellingDaoImplement;
-private KlantDaoImplement klantDao;
+private BestellingDaoMongoImplement bestellingDaoImplement;
+private KlantDaoMongoImplement klantDao;
 
 
 
 	public BestellingController(){
-		bestellingDaoImplement = new BestellingDaoImplement();
-		klantDao = new KlantDaoImplement();
+		bestellingDaoImplement = new BestellingDaoMongoImplement();
+		klantDao = new KlantDaoMongoImplement();
 		
 	}	
 	public boolean voegBestellingToe(int klantId){
@@ -32,7 +34,7 @@ private KlantDaoImplement klantDao;
 
 	public boolean deleteBestelling(int bestellingId, int klantId){
 		Klant klant= klantDao.getKlant(klantId);
-		Bestelling bestelling = bestellingDaoImplement.getBestelling(bestellingId, klantId);          
+		Bestelling bestelling = bestellingDaoImplement.getBestelling(bestellingId);          
 		if(bestelling == null){
 			return false;
 		}
@@ -50,7 +52,7 @@ private KlantDaoImplement klantDao;
 	
 	public String zoekBestelling(int bestellingId, int klantId){		
 	Klant klant= klantDao.getKlant(klantId);
-	Bestelling bestelling = bestellingDaoImplement.getBestelling(bestellingId, klantId);           
+	Bestelling bestelling = bestellingDaoImplement.getBestelling(bestellingId);           
 	if(bestelling == null){
 		return "bestelling niet gevonden ";
 	}

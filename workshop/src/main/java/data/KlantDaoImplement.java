@@ -14,7 +14,7 @@ import domein.Klant;
 import domein.Adres.AdresType;
 import domein.Bestelling;
 
-public class KlantDaoImplement {
+public class KlantDaoImplement implements KlantDao{
 //private  static Connection con = ConnectieDatabase.getConnection();
 	
 	
@@ -214,7 +214,7 @@ public class KlantDaoImplement {
 	}
 */	
 	
-	public ArrayList <Bestelling> getBestellingen(int klantId){
+/*	public ArrayList <Bestelling> getBestellingen(int klantId){
 		Klant klant=getKlant(klantId); // Is dit niet verkeerd, omdat ik een nieuw klant object aanmaak, waardoor er nu 2 gelijke zijn?
 		String sql = "SELECT * FROM Bestelling WHERE Klant_idKlant = ?";
 		try ( Connection con= ConnectieDatabase.getConnection();
@@ -239,7 +239,7 @@ public class KlantDaoImplement {
 		
 		return klant.leesAlleBestellingen();
 	
-	}
+	}*/
 	public ArrayList<Klant> getAlleKlantenPerAccount(int accountId){
 		String sql = "SELECT * FROM klant WHERE account_id=?";
 		ArrayList<Klant> returnedKlant = new ArrayList<>();

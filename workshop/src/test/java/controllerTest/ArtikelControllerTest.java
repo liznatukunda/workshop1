@@ -211,11 +211,15 @@ public class ArtikelControllerTest {
 		
 		Mockito.when(artikelDaoImplement.getArtikel(anyInt())).thenReturn(nieuweArtikel1);
 		ArrayList<Artikel> artikelen = new ArrayList<Artikel>(); artikelen.add(nieuweArtikel1) ;
+		
 		Mockito.when(artikelDaoImplement.getAlleArtikelen()).thenReturn(artikelen);
 		String[] actual = artikelController.getAlleArtikelen(); 	
-		System.out.println(Arrays.toString(actual)+ " test4");
+		//System.out.println(Arrays.toString(actual)+ " test4");
+		
 		String inVoorraad = nieuweArtikel1.getVoorraad() > 0 ? nieuweArtikel1.getVoorraad() + " in voorraad." : "UITVERKOCHT!";
+		
 		String[] expected=new String[] {"nummer :" + id1 + " naam: " + nieuweArtikel1.getNaam() + ". €" + nieuweArtikel1.getPrijs().toPlainString() + " voorraad: " + inVoorraad};
+		//System.out.println(Arrays.toString(actual)+ "test 5");
 		Assert.assertEquals(Arrays.toString(actual),Arrays.toString(expected));
 		 
 		

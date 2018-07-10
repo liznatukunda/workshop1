@@ -13,7 +13,7 @@ public class Validator {
 		    String zipCodePattern = "^[0-9]{4}\\s*[a-zA-Z]{2}$";
 		    retval = postcode.matches(zipCodePattern);
 		    if (!retval) {
-		    String msg = "Geen geldige postcode:" + postcode + "\r\n";
+		    String msg = "Geen geldige postcode:" + postcode + "het juiste format is: 4 cijfers gevolgd door 2 letters " + "\r\n";
 
 		    System.out.println(msg + "\r\n");
 		    }

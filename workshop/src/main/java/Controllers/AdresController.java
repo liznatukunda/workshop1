@@ -8,6 +8,7 @@ import domein.Adres;
 import domein.Adres.AdresType;
 import domein.Klant;
 import data.KlantDaoImplement;
+import data.KlantDaoMongoImplement;
 
 public class AdresController {
 	
@@ -20,7 +21,7 @@ public class AdresController {
 	}
 	
 	public void setKlant(int klantId) {
-		KlantDaoImplement klantDao=new KlantDaoImplement();
+		KlantDaoMongoImplement klantDao=new KlantDaoMongoImplement();
 		klant=klantDao.getKlant(klantId);
 	}
 
