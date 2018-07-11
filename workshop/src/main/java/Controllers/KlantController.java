@@ -1,21 +1,19 @@
 package Controllers;
 import java.util.ArrayList;
 
-import data.AdresDaoImplement;
-import data.AdresDaoMongoImplement;
-import data.KlantDaoImplement;
-import data.KlantDaoMongoImplement;
-import domein.Account;
+import data.AdresDao;
+import data.DaoFactory;
+import data.KlantDao;
 import domein.Adres;
 import domein.Klant;
 import domein.Adres.AdresType;
 
 public class KlantController {
-	private KlantDaoMongoImplement klantDao;
-	private AdresDaoMongoImplement adresDao;
+	private KlantDao klantDao;
+	private AdresDao adresDao;
 	
 	public KlantController(){
-		klantDao = new KlantDaoMongoImplement();
+		klantDao = DaoFactory.getKlantDao(FactoryController.getDatabase());
 	}
 	
 	public Klant getKlant(int klantId) {
@@ -29,7 +27,7 @@ public class KlantController {
 		Integer id = klantDao.createKlant(klant);
 		int klantid=klant.getId();
 		Adres adres =new Adres(AdresType.POSTADRES, straatnaam, huisnummer,toevoeging, postcode, woonplaats, klantid);
-		adresDao=new AdresDaoMongoImplement();
+		adresDao=DaoFactory.getAdresDao(FactoryController.getDatabase());
 		adresDao.createAdres(adres, klantid);
 		return id > 0;
 	}

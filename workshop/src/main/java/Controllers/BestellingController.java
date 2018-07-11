@@ -3,30 +3,29 @@ package Controllers;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-import data.BestellingDaoImplement;
-import data.BestellingDaoMongoImplement;
-import data.BestelregelDaoImplement;
-import data.KlantDaoImplement;
-import data.KlantDaoMongoImplement;
+import data.BestellingDao;
+import data.BestelregelDao;
+import data.DaoFactory;
+import data.KlantDao;
 import domein.BestelRegel;
 import domein.Bestelling;
 import domein.Klant;
 
 public class BestellingController {
 	
-private BestellingDaoMongoImplement bestellingDaoImplement;
-private KlantDaoMongoImplement klantDao;
+private BestellingDao bestellingDao;
+private KlantDao klantDao;
 
 
 
 	public BestellingController(){
-		bestellingDaoImplement = new BestellingDaoMongoImplement();
-		klantDao = new KlantDaoMongoImplement();
+		bestellingDao = DaoFactory.getBestellingDao(FactoryController.getDatabase());
+		klantDao = DaoFactory.getKlantDao(FactoryController.getDatabase());
 		
 	}	
 	public boolean voegBestellingToe(int klantId){
 		Klant klant= klantDao.getKlant(klantId);
-		Integer id = bestellingDaoImplement.createBestelling(new Bestelling(klant));     
+		Integer id = bestellingDao.createBestelling(new Bestelling(klant));     
 		return id > 0;
 	}
 	
@@ -34,11 +33,11 @@ private KlantDaoMongoImplement klantDao;
 
 	public boolean deleteBestelling(int bestellingId, int klantId){
 		Klant klant= klantDao.getKlant(klantId);
-		Bestelling bestelling = bestellingDaoImplement.getBestelling(bestellingId);          
+		Bestelling bestelling = bestellingDao.getBestelling(bestellingId);          
 		if(bestelling == null){
 			return false;
 		}
-		BestelregelDaoImplement brdao=new BestelregelDaoImplement();
+		BestelregelDao brdao=DaoFactory.getBestelregelDao(FactoryController.getDatabase());
 		ArrayList<BestelRegel> bestelregellijst=brdao.getAlleBestelregelsPerBestelling(bestellingId);
 		BestelregelController brContr=new BestelregelController();
 		for (int index = bestelregellijst.size(); index>=0;index--) {
@@ -46,13 +45,13 @@ private KlantDaoMongoImplement klantDao;
 			brContr.deleteBestelregel(bestelregelId);
 		}
 		
-		return bestellingDaoImplement.deleteBestellingen(bestelling);
+		return bestellingDao.deleteBestellingen(bestelling);
 	}
 	
 	
 	public String zoekBestelling(int bestellingId, int klantId){		
 	Klant klant= klantDao.getKlant(klantId);
-	Bestelling bestelling = bestellingDaoImplement.getBestelling(bestellingId);           
+	Bestelling bestelling = bestellingDao.getBestelling(bestellingId);           
 	if(bestelling == null){
 		return "bestelling niet gevonden ";
 	}
@@ -66,7 +65,7 @@ private KlantDaoMongoImplement klantDao;
 
 	public String[] zoekBestellingenPerKlant(int klantId){	
 		Klant klant= klantDao.getKlant(klantId);
-		ArrayList<Bestelling> bestellingen = bestellingDaoImplement.getAlleBestellingenPerKlant(klant);
+		ArrayList<Bestelling> bestellingen = bestellingDao.getAlleBestellingenPerKlant(klant);
 		String[] returnArray = new String[bestellingen.size()];
 		for(int i=0; i<bestellingen.size(); i++){
 			Bestelling b = bestellingen.get(i);	

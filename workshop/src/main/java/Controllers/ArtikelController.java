@@ -3,21 +3,21 @@ package Controllers;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import domein.Artikel;
-import data.ArtikelDaoImplement;
-import data.ArtikelDaoMongoImplement;
+import data.ArtikelDao;
+import data.DaoFactory;
 
 public class ArtikelController {
-private ArtikelDaoMongoImplement artikelDao;
+private ArtikelDao artikelDao;
 private ArrayList<Artikel>artikelen;
 	
 	public ArtikelController(){
-		artikelDao = new ArtikelDaoMongoImplement();
+		artikelDao = DaoFactory.getArtikelDao(FactoryController.getDatabase());
 		artikelen = artikelDao.getAlleArtikelen();
 	}
 	
 	
 	
-	public ArtikelController(ArtikelDaoMongoImplement artikelDao){
+	public ArtikelController(ArtikelDao artikelDao){
 		this.artikelDao=artikelDao;
 		
 		}  
