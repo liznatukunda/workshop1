@@ -1,27 +1,24 @@
 package Controllers;
 
-import java.sql.SQLException;
-
-import data.AdresDaoImplement;
-import data.AdresDaoMongoImplement;
+import data.AdresDao;
+import data.DaoFactory;
+import data.KlantDao;
 import domein.Adres;
 import domein.Adres.AdresType;
 import domein.Klant;
-import data.KlantDaoImplement;
-import data.KlantDaoMongoImplement;
 
 public class AdresController {
 	
-	AdresDaoMongoImplement adresDao=new AdresDaoMongoImplement();
+	AdresDao adresDao;
 	Klant klant;
 	Adres adres;
 	
 	public AdresController() {
-		adresDao=new AdresDaoMongoImplement();
+		adresDao=DaoFactory.getAdresDao(FactoryController.getDatabase());
 	}
 	
 	public void setKlant(int klantId) {
-		KlantDaoMongoImplement klantDao=new KlantDaoMongoImplement();
+		KlantDao klantDao=DaoFactory.getKlantDao(FactoryController.getDatabase());
 		klant=klantDao.getKlant(klantId);
 	}
 

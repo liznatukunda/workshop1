@@ -2,8 +2,11 @@ package Controllers;
 
 import java.util.ArrayList;
 
+import data.AccountDao;
 import data.AccountDaoImplement;
 import data.AccountDaoMongoImplement;
+import data.DaoFactory;
+import data.KlantDao;
 import data.KlantDaoImplement;
 import data.KlantDaoMongoImplement;
 import domein.Account;
@@ -13,12 +16,12 @@ import domein.Account.Rol;
 
 public class AccountController {
 
-	private  AccountDaoMongoImplement accountDao;
-	private KlantDaoMongoImplement klantDao;
+	private  AccountDao accountDao;
+	private KlantDao klantDao;
 	
 	public AccountController(){
-		accountDao = new AccountDaoMongoImplement();
-		klantDao = new KlantDaoMongoImplement();
+		accountDao = DaoFactory.getAccountDao(FactoryController.getDatabase());
+		klantDao = DaoFactory.getKlantDao(FactoryController.getDatabase());
 	}
 	
 	public AccountController(AccountDaoMongoImplement accountDao) {

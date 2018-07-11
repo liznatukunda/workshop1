@@ -1,6 +1,9 @@
 package view;
 import java.util.Scanner;
 
+import Controllers.FactoryController;
+import data.DaoFactory;
+
 
 
 public class Menu {      
@@ -26,7 +29,14 @@ public class Menu {
 				System.exit(0);
 				
 			}
+
 			else {
+				System.out.println("Kies database.");
+				System.out.println("Kies en type in wat u wilt doen:  1 :MySQL Database");
+				System.out.println( "Kies en type in wat u wilt doen:  2 :Mongo Database");
+				int database=input.nextInt();
+				FactoryController.setDatabase(database);
+				input.nextLine();
 			 System.out.println( "Log in om verder te gaan" );
 			 System.out.println( "Usernaam?" );
 			 String user = input.nextLine();
@@ -49,7 +59,9 @@ public class Menu {
 			    	System.out.println("Onjuiste credentials! Probeer het opnieuw");
 			    	input.nextLine();
 			    
-		}	
+			    }
+			 
+			    
 		}
 		}
 	}

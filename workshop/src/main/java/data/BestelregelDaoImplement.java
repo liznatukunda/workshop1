@@ -8,7 +8,7 @@ import domein.BestelRegel;
 import domein.Bestelling;
 import domein.Artikel;
 
-public class BestelregelDaoImplement {
+public class BestelregelDaoImplement implements BestelregelDao{
 //private  static Connection con = ConnectieDatabase.getConnection();
 	
 	public int createBestelregel(BestelRegel bestelregel){		
