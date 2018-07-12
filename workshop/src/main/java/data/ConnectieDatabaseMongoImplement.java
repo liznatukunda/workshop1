@@ -11,7 +11,7 @@ public class ConnectieDatabaseMongoImplement {
    
 	   public MongoDatabase getMongoDB() {
 		   DOM dom = new DOM();
-		   mc=new MongoClient(dom.getUrl("mongo"));
+		   mc=new MongoClient(dom.getUrl("mongo"),dom.getPort("mongo"));
 		   
 		   MongoDatabase db = mc.getDatabase(dom.getDatabase("mongo"));
 		   return db;

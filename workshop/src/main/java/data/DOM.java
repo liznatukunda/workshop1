@@ -78,10 +78,10 @@ public class DOM {
 		Element dbElement = (Element) dbNode;
 		return dbElement.getElementsByTagName("password").item(0).getTextContent();
 	}
-    public String getPort(String db){
+    public int getPort(String db){
         Node dbNode = rootElement.getElementsByTagName(db.toLowerCase()).item(0);
         Element dbElement = (Element) dbNode;
-        return dbElement.getElementsByTagName("port").item(0).getTextContent();
+        return Integer.parseInt(dbElement.getElementsByTagName("port").item(0).getTextContent());
     }
     
     public String getDatabase(String db){

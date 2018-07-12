@@ -5,7 +5,8 @@
 		<password>RS4Student</password>
 	</mysql>
 	<mongo>
-		<url>"127.0.0.1",27017</url>
+		<url>127.0.0.1</url>
+		<port>27017</port>
 		<database>boerPiet_LOP</database>
 	</mongo>	
 </connectie>
