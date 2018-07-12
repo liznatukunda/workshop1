@@ -13,7 +13,7 @@ public class BestelregelDaoImplement implements BestelregelDao{
 	
 	public int createBestelregel(BestelRegel bestelregel){		
 		int insertId = -1;
-		String sql = "INSERT INTO Bestelregel (aantal,prijs,Bestelling_idBestelling,Artikel_idArtikel) VALUES (?,?,?,?);";
+		String sql = "INSERT INTO bestelregel (aantal,prijs,Bestelling_idBestelling,Artikel_idArtikel) VALUES (?,?,?,?);";
 		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);){
 			stmt.setObject(1, bestelregel.getAantal());
@@ -36,7 +36,7 @@ public class BestelregelDaoImplement implements BestelregelDao{
 	}
 	
 	public BestelRegel getBestelRegel(int id){
-		String sql = "SELECT * FROM Bestelregel WHERE id=?";
+		String sql = "SELECT * FROM bestelregel WHERE id=?";
 		BestelRegel returnedBestelRegel = null;
 		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){

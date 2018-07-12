@@ -21,7 +21,7 @@ public class KlantDaoImplement implements KlantDao{
 	public int createKlant(Klant klant){
 		
 		int insertId = -1;
-		String sql = "INSERT INTO Klant (voornaam, tussenvoegsel, achternaam, account_id) VALUES (?,?,?,?);";
+		String sql = "INSERT INTO klant (voornaam, tussenvoegsel, achternaam, account_id) VALUES (?,?,?,?);";
 		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);){
 			stmt.setObject(1, klant.getVoornaam());
@@ -43,7 +43,7 @@ public class KlantDaoImplement implements KlantDao{
 	}
 	
 	public Klant getKlant(int id){
-		String sql = "SELECT * FROM Klant WHERE id=?";
+		String sql = "SELECT * FROM klant WHERE id=?";
 		Klant returnedKlant = null;
 		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
@@ -76,7 +76,7 @@ public class KlantDaoImplement implements KlantDao{
 	}
 	
 	public ArrayList<Klant> getAlleKlanten(){
-		String sql = "SELECT * FROM Klant;";
+		String sql = "SELECT * FROM klant;";
 		ArrayList<Klant> returnedKlanten = new ArrayList<>();
 		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
@@ -104,7 +104,7 @@ public class KlantDaoImplement implements KlantDao{
 	}
 	
 	public boolean updateKlant(String voornaam, String tussenvoegsel, String achternaam, int accountId, int id){
-		String sql = "UPDATE Klant SET voornaam = ?, tussenvoegsel = ?, achternaam = ?, account_id = ? WHERE id = ?";
+		String sql = "UPDATE klant SET voornaam = ?, tussenvoegsel = ?, achternaam = ?, account_id = ? WHERE id = ?";
 		int rows = -1;
 		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
@@ -128,7 +128,7 @@ public class KlantDaoImplement implements KlantDao{
 	}
 	
 	public boolean deleteKlant(int id){
-		String sql = "DELETE FROM Klant WHERE id = ?";
+		String sql = "DELETE FROM klant WHERE id = ?";
 		int rows = -1;
 		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){

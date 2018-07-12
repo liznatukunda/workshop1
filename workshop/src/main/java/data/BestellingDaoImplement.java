@@ -14,7 +14,7 @@ public class BestellingDaoImplement implements BestellingDao{
 	
 	public int createBestelling(Bestelling bestelling){		
 		int insertId = -1;
-		String sql = "INSERT INTO Bestelling (totaalPrijs,Klant_idKlant) VALUES (?,?);";
+		String sql = "INSERT INTO bestelling (totaalPrijs,Klant_idKlant) VALUES (?,?);";
 		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);){
 			stmt.setObject(1, bestelling.getTotaalPrijs());
@@ -34,7 +34,7 @@ public class BestellingDaoImplement implements BestellingDao{
 	}
 	
 	public Bestelling getBestelling(int bestellingId){
-		String sql = "SELECT * FROM Bestelling WHERE id=?";
+		String sql = "SELECT * FROM bestelling WHERE id=?";
 		Bestelling returnedBestelling = null;
 		try (Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
@@ -128,7 +128,7 @@ public class BestellingDaoImplement implements BestellingDao{
 	}
 	
 	public ArrayList<Bestelling> getAlleBestellingenPerKlant(Klant klant){
-		String sql = "SELECT * FROM Bestelling WHERE Klant_idKlant=?";
+		String sql = "SELECT * FROM bestelling WHERE Klant_idKlant=?";
 		ArrayList<Bestelling> returnedBestelling = new ArrayList<>();
 		try (Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
