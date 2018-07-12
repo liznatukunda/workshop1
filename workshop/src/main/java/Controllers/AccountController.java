@@ -20,8 +20,8 @@ public class AccountController {
 	private KlantDao klantDao;
 	
 	public AccountController(){
-		accountDao = DaoFactory.getAccountDao(FactoryController.getDatabase());
-		klantDao = DaoFactory.getKlantDao(FactoryController.getDatabase());
+		accountDao = DaoFactory.getAccountDao(MenuController.getDatabase());
+		klantDao = DaoFactory.getKlantDao(MenuController.getDatabase());
 	}
 	
 	public AccountController(AccountDaoMongoImplement accountDao) {

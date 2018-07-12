@@ -10,12 +10,12 @@ import domein.Klant;
 
 public class BestellingDaoImplement implements BestellingDao{
 	
-//	private  static Connection con = ConnectieDatabase.getConnection();
+//	private  static Connection con = ConnectieFactory.getConnection();
 	
 	public int createBestelling(Bestelling bestelling){		
 		int insertId = -1;
 		String sql = "INSERT INTO Bestelling (totaalPrijs,Klant_idKlant) VALUES (?,?);";
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);){
 			stmt.setObject(1, bestelling.getTotaalPrijs());
 			stmt.setObject(2, bestelling.GetKlantId());    
@@ -36,7 +36,7 @@ public class BestellingDaoImplement implements BestellingDao{
 	public Bestelling getBestelling(int bestellingId){
 		String sql = "SELECT * FROM Bestelling WHERE id=?";
 		Bestelling returnedBestelling = null;
-		try (Connection con= ConnectieDatabase.getConnection();
+		try (Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
 			stmt.setObject(1, bestellingId);
 			ResultSet resultSet = stmt.executeQuery();
@@ -67,7 +67,7 @@ public class BestellingDaoImplement implements BestellingDao{
 /*	public ArrayList<Bestelling> getAlleBestelling(){
 		String sql = "SELECT * FROM bestelling;";
 		ArrayList<Bestelling> returnedBestelling = new ArrayList<>();
-		try (Connection con= ConnectieDatabase.getConnection();
+		try (Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
 			ResultSet resultSet = stmt.executeQuery();
             while(resultSet.next()){
@@ -92,7 +92,7 @@ public class BestellingDaoImplement implements BestellingDao{
 	public boolean updateBestellingen(BigDecimal totaalprijs, int id){
 		String sql = "UPDATE bestelling SET totaalprijs = ? WHERE id = ?";
 		int rows = -1;
-		try (Connection con= ConnectieDatabase.getConnection();
+		try (Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
 			stmt.setObject(1, totaalprijs);
 			stmt.setObject(2, id);
@@ -113,7 +113,7 @@ public class BestellingDaoImplement implements BestellingDao{
 	public boolean deleteBestellingen(int id){
 		String sql = "DELETE FROM bestelling WHERE id = ?";
 		int rows = -1;
-		try (Connection con= ConnectieDatabase.getConnection();
+		try (Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
 			stmt.setObject(1, id);
 			rows = stmt.executeUpdate();
@@ -130,7 +130,7 @@ public class BestellingDaoImplement implements BestellingDao{
 	public ArrayList<Bestelling> getAlleBestellingenPerKlant(Klant klant){
 		String sql = "SELECT * FROM Bestelling WHERE Klant_idKlant=?";
 		ArrayList<Bestelling> returnedBestelling = new ArrayList<>();
-		try (Connection con= ConnectieDatabase.getConnection();
+		try (Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
 			stmt.setObject(1, klant.getId());
 			ResultSet resultSet = stmt.executeQuery();

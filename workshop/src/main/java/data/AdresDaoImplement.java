@@ -18,8 +18,8 @@ public class AdresDaoImplement implements AdresDao {
 
 	
 /*	private  void initialiseer() throws SQLException{
-		ConnectieDatabase.maakVerbinding();
-		con=ConnectieDatabase.getConnection();
+		ConnectieFactory.maakVerbinding();
+		con=ConnectieFactory.getConnection();
 		try {
 			pStatementVoegToe=con.prepareStatement("INSERT INTO adres (straatnaam, huisnummer, toevoeging, postcode, woonplaats, adrestype, Klant_idKlant) VALUES (?,?,?,?,?,?,?);",Statement.RETURN_GENERATED_KEYS);
 			pStatementGet=con.prepareStatement("SELECT * FROM adres WHERE id=?;");
@@ -33,7 +33,7 @@ public class AdresDaoImplement implements AdresDao {
 	}
 	
 	private  void einde() {
-		ConnectieDatabase.sluitAf();
+		ConnectieFactory.sluitAf();
 	}
 */	
 	
@@ -42,7 +42,7 @@ public class AdresDaoImplement implements AdresDao {
 		boolean created=false;
 		int insertId = -1;
 	//	initialiseer();
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 			PreparedStatement pStatementVoegToe=con.prepareStatement("INSERT INTO adres (straatnaam, huisnummer, toevoeging, postcode, woonplaats, adrestype, Klant_idKlant) VALUES (?,?,?,?,?,?,?);",Statement.RETURN_GENERATED_KEYS);){
 			pStatementVoegToe.setObject(1, adres.getStraatnaam());
 			pStatementVoegToe.setObject(2, adres.getHuisnummer());
@@ -68,7 +68,7 @@ public class AdresDaoImplement implements AdresDao {
 	
 	public  Adres getAdres(int klantid, AdresType adrestype) {
 		Adres adres=null;
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 			PreparedStatement pStatementGet=con.prepareStatement("select * from adres where klant_idKlant=? && Adrestype=?");){
 			pStatementGet.setObject(1, klantid);
 			pStatementGet.setObject(2, adrestype.toString());
@@ -101,7 +101,7 @@ public class AdresDaoImplement implements AdresDao {
 	
 	public  boolean updateAdres(Adres gewijzigdAdres, int adresId) {
 		boolean updated=false;
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 			PreparedStatement pStatementUpdate=con.prepareStatement("UPDATE adres SET straatnaam=?, huisnummer=?, toevoeging=?,postcode=?,woonplaats=?,adrestype=? WHERE id=?");){
 			pStatementUpdate.setObject(1, gewijzigdAdres.getStraatnaam());
 			pStatementUpdate.setObject(2, gewijzigdAdres.getHuisnummer());
@@ -124,7 +124,7 @@ public class AdresDaoImplement implements AdresDao {
 	
 	public boolean deleteAdres(int id) {
 		boolean deleted=false;
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 			PreparedStatement pStatementDeleteAdres=con.prepareStatement("DELETE FROM adres where id=?");){
 			pStatementDeleteAdres.setObject(1, id);
 			pStatementDeleteAdres.executeUpdate();
@@ -142,7 +142,7 @@ public class AdresDaoImplement implements AdresDao {
 	
 	
 	public boolean factuurAdresAanwezig(int klantid) {
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement pfactuurAdresAanwezig=con.prepareStatement("select * from adres where klant_idKlant= "+klantid+" && Adrestype=\"factuuradres\"");){
 			ResultSet resultSet = pfactuurAdresAanwezig.executeQuery();
 			if (resultSet.next()) {
@@ -156,7 +156,7 @@ public class AdresDaoImplement implements AdresDao {
 	}
 	
 	public boolean bezorgAdresAanwezig(int klantid) {
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement pbezorgAdresAanwezig=con.prepareStatement("select * from adres where klant_idKlant= "+klantid+" && Adrestype=\"bezorgadres\"");){
 			ResultSet resultSet = pbezorgAdresAanwezig.executeQuery();
 			if (resultSet.next()) {
@@ -171,7 +171,7 @@ public class AdresDaoImplement implements AdresDao {
 
 	public String toonPostadres(int klantId) {
 		String adres="";
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement ptoonadres=con.prepareStatement("select * from adres where klant_idKlant= "+klantId+" && Adrestype=\"postadres\"");){
 			ResultSet resultSet=ptoonadres.executeQuery();
 			if (resultSet.next()) {
@@ -190,7 +190,7 @@ public class AdresDaoImplement implements AdresDao {
 	
 	public String toonFactuuradres(int klantId) {
 		String adres="";
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement ptoonadres=con.prepareStatement("select * from adres where klant_idKlant= "+klantId+" && Adrestype=\"factuuradres\"");){
 			ResultSet resultSet=ptoonadres.executeQuery();
 			if (resultSet.next()) {
@@ -209,7 +209,7 @@ public class AdresDaoImplement implements AdresDao {
 
 	public String toonBezorgadres(int klantId) {
 		String adres="";
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement ptoonadres=con.prepareStatement("select * from adres where klant_idKlant= "+klantId+" && Adrestype=\"bezorgadres\"");){
 			ResultSet resultSet=ptoonadres.executeQuery();
 			if (resultSet.next()) {

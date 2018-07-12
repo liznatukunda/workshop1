@@ -17,10 +17,10 @@ private BestellingDao bestellingdao;
 private ArrayList<Artikel>artikelen;
 
 	public BestelregelController(){
-		bestelregelDao = DaoFactory.getBestelregelDao(FactoryController.getDatabase());
-		artikelDao = DaoFactory.getArtikelDao(FactoryController.getDatabase());
+		bestelregelDao = DaoFactory.getBestelregelDao(MenuController.getDatabase());
+		artikelDao = DaoFactory.getArtikelDao(MenuController.getDatabase());
 		artikelen = artikelDao.getAlleArtikelen();
-		bestellingdao= DaoFactory.getBestellingDao(FactoryController.getDatabase());
+		bestellingdao= DaoFactory.getBestellingDao(MenuController.getDatabase());
 	}
 	
 	

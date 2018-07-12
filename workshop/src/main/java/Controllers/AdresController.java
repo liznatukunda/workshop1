@@ -14,11 +14,11 @@ public class AdresController {
 	Adres adres;
 	
 	public AdresController() {
-		adresDao=DaoFactory.getAdresDao(FactoryController.getDatabase());
+		adresDao=DaoFactory.getAdresDao(MenuController.getDatabase());
 	}
 	
 	public void setKlant(int klantId) {
-		KlantDao klantDao=DaoFactory.getKlantDao(FactoryController.getDatabase());
+		KlantDao klantDao=DaoFactory.getKlantDao(MenuController.getDatabase());
 		klant=klantDao.getKlant(klantId);
 	}
 

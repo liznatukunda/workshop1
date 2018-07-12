@@ -29,6 +29,7 @@ public class ArtikelMenu {
 		System.out.println( "0 :Terug naar Hoofdmenu");
 		
 	   int actie = input.nextInt();
+	   input.nextLine();
        switch(actie) {             
        case 1:   	   
     		voegArtikelToe();
@@ -65,10 +66,12 @@ public class ArtikelMenu {
 			break;
 			}
 		}
-		BigDecimal prijs;
+		String prijstext;
+		BigDecimal prijs; 
 		while (true) {
 			System.out.println("Wat is de prijs van het Artikel?"); 
-			prijs = input.nextBigDecimal();
+			prijstext = input.nextLine();
+			prijs = Validator.textToBigDecimal(prijstext); 
 			if(Validator.validBigDecimal(prijs)) {
 				break;
 			}
@@ -137,10 +140,12 @@ public class ArtikelMenu {
 	}
 	
 	public void pasPrijsAan(int artikelId){
-		BigDecimal prijs;
-		while(true) {
-			System.out.println("Vul nieuwe prijs in");
-			prijs = input.nextBigDecimal();
+		String prijstext;
+		BigDecimal prijs; 
+		while (true) {
+			System.out.println("Wat is de nieuwe prijs van het Artikel?"); 
+			prijstext = input.nextLine();
+			prijs = Validator.textToBigDecimal(prijstext); 
 			if(Validator.validBigDecimal(prijs)) {
 				break;
 			}

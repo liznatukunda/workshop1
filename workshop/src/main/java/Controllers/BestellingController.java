@@ -19,8 +19,8 @@ private KlantDao klantDao;
 
 
 	public BestellingController(){
-		bestellingDao = DaoFactory.getBestellingDao(FactoryController.getDatabase());
-		klantDao = DaoFactory.getKlantDao(FactoryController.getDatabase());
+		bestellingDao = DaoFactory.getBestellingDao(MenuController.getDatabase());
+		klantDao = DaoFactory.getKlantDao(MenuController.getDatabase());
 		
 	}	
 	public boolean voegBestellingToe(int klantId){
@@ -37,7 +37,7 @@ private KlantDao klantDao;
 		if(bestelling == null){
 			return false;
 		}
-		BestelregelDao brdao=DaoFactory.getBestelregelDao(FactoryController.getDatabase());
+		BestelregelDao brdao=DaoFactory.getBestelregelDao(MenuController.getDatabase());
 		ArrayList<BestelRegel> bestelregellijst=brdao.getAlleBestelregelsPerBestelling(bestellingId);
 		BestelregelController brContr=new BestelregelController();
 		for (int index = bestelregellijst.size(); index>=0;index--) {

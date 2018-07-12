@@ -1,28 +1,17 @@
 package data;
 
-import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
-
 import domein.Account;
-import domein.Artikel;
-import domein.BestelRegel;
 import domein.Account.Rol;
 
 public class AccountDaoImplement implements AccountDao {
 	
-//private Connection con=ConnectieDatabase.getConnection();
-//private PreparedStatement stmt = null;
-
-
-
-	
-	
 	public Integer createAccount(Account account){
 		int insertId = 0;
 		
-		String sql = "INSERT INTO Account (username, password, rol) VALUES (?,?,?);";
-		try ( Connection con= ConnectieDatabase.getConnection();
+		String sql = "INSERT INTO account (username, password, rol) VALUES (?,?,?);";
+		try ( Connection con= ConnectieFactory.getConnection();
 			PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);){
 			stmt.setObject(1, account.getUserNaam());
 			stmt.setObject(2, account.getPassword()); 
@@ -42,9 +31,9 @@ public class AccountDaoImplement implements AccountDao {
 	} 
 	
 	public Account getAccount(int id){
-		String sql = "SELECT * FROM Account WHERE id=?";
+		String sql = "SELECT * FROM account WHERE id=?";
 		Account returnedAccount = null;
-		try (Connection con= ConnectieDatabase.getConnection();
+		try (Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
 			//PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setObject(1, id);
@@ -59,9 +48,6 @@ public class AccountDaoImplement implements AccountDao {
                  returnedAccount = new Account (userNaam,password,rol);
                 
                 returnedAccount.setId(id1);
-               		
-                
-             //   System.out.println("User gevonden: " + returnedAccount.getUserNaam()); 
             }
             else{
             	System.err.println("Geen User gevonden!");
@@ -75,11 +61,10 @@ public class AccountDaoImplement implements AccountDao {
 	}
 	
 	public boolean updateAccount(int id, String userNaam, String password,Rol rol ){
-		String sql = "UPDATE Account SET username = ?, password = ?, rol = ? WHERE id = ?";
+		String sql = "UPDATE account SET username = ?, password = ?, rol = ? WHERE id = ?";
 		int rows = -1;
-		try(Connection con= ConnectieDatabase.getConnection();
+		try(Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
-			//PreparedStatement stmt = con.prepareStatement(sql);
 			
 			stmt.setObject(1, userNaam);
 			stmt.setObject(2, password);
@@ -100,11 +85,10 @@ public class AccountDaoImplement implements AccountDao {
 	}
 	
 	public boolean deleteAccount(int id){
-		String sql = "DELETE FROM Account WHERE id = ?";
+		String sql = "DELETE FROM account WHERE id = ?";
 		int rows = -1;
-		try (Connection con= ConnectieDatabase.getConnection();
+		try (Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
-			//PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setObject(1, id);
 			rows = stmt.executeUpdate();
 		} catch (SQLException e) {
@@ -121,7 +105,7 @@ public class AccountDaoImplement implements AccountDao {
 	public ArrayList<Account> getAlleAccounts(){
 		String sql = "SELECT * FROM account;";
 		ArrayList<Account> returnedAccounts = new ArrayList<>();
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
 			ResultSet resultSet = stmt.executeQuery();
             while(resultSet.next()){            	

@@ -11,7 +11,7 @@ private ArtikelDao artikelDao;
 private ArrayList<Artikel>artikelen;
 	
 	public ArtikelController(){
-		artikelDao = DaoFactory.getArtikelDao(FactoryController.getDatabase());
+		artikelDao = DaoFactory.getArtikelDao(MenuController.getDatabase());
 		artikelen = artikelDao.getAlleArtikelen();
 	}
 	

@@ -10,9 +10,10 @@ public class ConnectieDatabaseMongoImplement {
 
    
 	   public MongoDatabase getMongoDB() {
-		   mc=new MongoClient("127.0.0.1",27017);
+		   DOM dom = new DOM();
+		   mc=new MongoClient(dom.getUrl("mongo"));
 		   
-		   MongoDatabase db = mc.getDatabase("boerPiet_LOP");
+		   MongoDatabase db = mc.getDatabase(dom.getDatabase("mongo"));
 		   return db;
 	   }
 	   

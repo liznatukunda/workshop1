@@ -1,7 +1,8 @@
 package view;
+import java.util.Locale;
 import java.util.Scanner;
 
-import Controllers.FactoryController;
+import Controllers.MenuController;
 import data.DaoFactory;
 
 
@@ -11,7 +12,8 @@ public class Menu {
 	private static  Scanner input = new Scanner(System.in);
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		Locale local = new Locale("nl_NL");	
+		Locale.setDefault(local);
 		Menu menu= new Menu();
 		menu.inloggen();
 		
@@ -35,16 +37,22 @@ public class Menu {
 				System.out.println("Kies en type in wat u wilt doen:  1 :MySQL Database");
 				System.out.println( "Kies en type in wat u wilt doen:  2 :Mongo Database");
 				int database=input.nextInt();
-				FactoryController.setDatabase(database);
+				MenuController.setDatabase(database);
 				input.nextLine();
-			 System.out.println( "Log in om verder te gaan" );
-			 System.out.println( "Usernaam?" );
-			 String user = input.nextLine();
-			 System.out.println( "Password?" );
-			 String password = input.nextLine(); 
-	
-			 String dbUser = "User";
-			 String dbPassword = "Password"; // credentials from the data source  
+				if(database==1) {
+					System.out.println("Kies en type in wat u wilt doen:  1 :Wel een connectiepool gebruiken " );
+					System.out.println("Kies en type in wat u wilt doen:  2 :Niet een connectiepool gebruiken " );					
+					MenuController.setConnectionPool(input.nextInt());
+					input.nextLine();
+				}
+				 System.out.println( "Log in om verder te gaan" );
+				 System.out.println( "Usernaam?" );
+				 String user = input.nextLine();
+				 System.out.println( "Password?" );
+				 String password = input.nextLine(); 
+		
+				 String dbUser = "User";
+				 String dbPassword = "Password"; // credentials from the data source  
 	
 			    if (dbUser.equals(user) && dbPassword.equals(password)) {
 			       

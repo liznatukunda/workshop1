@@ -2,9 +2,6 @@ package data;
 
 public class DaoFactory {
 	
-	public enum DatabaseSoort {
-		MYSQLDB, MONGODB;
-	}
 	
 	public static AccountDao getAccountDao(DatabaseSoort databaseSoort) {
 		AccountDao accountDao;

@@ -1,9 +1,9 @@
 package data;
 import java.sql.*;
 
-public class ConnectieDatabase{
+public  class ConnectieDatabase implements Connector{
 	
-	 private static Connection con=null;
+	 private  Connection con=null;
 	 
 	 public ConnectieDatabase() {
 		 
@@ -12,11 +12,11 @@ public class ConnectieDatabase{
 	  /**
 	   * Maakt verbinding met de database op basis van de waarden via DOM parser
 	   */
-	 public static void maakVerbinding() throws SQLException {
+	 public  void maakVerbinding() throws SQLException {
 		 DOM parser = new DOM();
-	     String url = parser.getUrl();
-	     String username = parser.getUsername();
-	     String wachtwoord = parser.getPassword();
+	     String url = parser.getUrl("mysql");
+	     String username = parser.getUsername("mysql");
+	     String wachtwoord = parser.getPassword("mysql");
 		 try {
 		     con=DriverManager.getConnection(url, username, wachtwoord);
 		 }
@@ -39,7 +39,7 @@ public class ConnectieDatabase{
 	    
 	  }
 	  */
-	  public static Connection getConnection(){
+	  public  Connection getConnection(){
 		  try {
 	            if (con == null || con.isClosed()) {
 	                maakVerbinding();

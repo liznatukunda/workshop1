@@ -13,7 +13,7 @@ public class KlantController {
 	private AdresDao adresDao;
 	
 	public KlantController(){
-		klantDao = DaoFactory.getKlantDao(FactoryController.getDatabase());
+		klantDao = DaoFactory.getKlantDao(MenuController.getDatabase());
 	}
 	
 	public Klant getKlant(int klantId) {
@@ -27,7 +27,7 @@ public class KlantController {
 		Integer id = klantDao.createKlant(klant);
 		int klantid=klant.getId();
 		Adres adres =new Adres(AdresType.POSTADRES, straatnaam, huisnummer,toevoeging, postcode, woonplaats, klantid);
-		adresDao=DaoFactory.getAdresDao(FactoryController.getDatabase());
+		adresDao=DaoFactory.getAdresDao(MenuController.getDatabase());
 		adresDao.createAdres(adres, klantid);
 		return id > 0;
 	}

@@ -9,12 +9,12 @@ import domein.Bestelling;
 import domein.Artikel;
 
 public class BestelregelDaoImplement implements BestelregelDao{
-//private  static Connection con = ConnectieDatabase.getConnection();
+//private  static Connection con = ConnectieFactory.getConnection();
 	
 	public int createBestelregel(BestelRegel bestelregel){		
 		int insertId = -1;
 		String sql = "INSERT INTO Bestelregel (aantal,prijs,Bestelling_idBestelling,Artikel_idArtikel) VALUES (?,?,?,?);";
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);){
 			stmt.setObject(1, bestelregel.getAantal());
 			stmt.setObject(2, bestelregel.getPrijs());
@@ -38,7 +38,7 @@ public class BestelregelDaoImplement implements BestelregelDao{
 	public BestelRegel getBestelRegel(int id){
 		String sql = "SELECT * FROM Bestelregel WHERE id=?";
 		BestelRegel returnedBestelRegel = null;
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
 			stmt.setObject(1, id);
 			ResultSet resultSet = stmt.executeQuery();
@@ -73,7 +73,7 @@ public class BestelregelDaoImplement implements BestelregelDao{
 	public ArrayList<BestelRegel> getAlleBestelRegel(){
 		String sql = "SELECT * FROM bestelregel;";
 		ArrayList<BestelRegel> returnedBestelRegel = new ArrayList<>();
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
 			ResultSet resultSet = stmt.executeQuery();
             while(resultSet.next()){
@@ -101,7 +101,7 @@ public class BestelregelDaoImplement implements BestelregelDao{
 	public boolean updateBestelRegel(BestelRegel bestelregel){
 		String sql = "UPDATE bestelregel SET aantal = ?, prijs = ?, Artikel_idArtikel = ? WHERE id = ?";
 		int rows = -1;
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
 			stmt.setObject(1, bestelregel.getAantal());
 			stmt.setObject(2, bestelregel.getPrijs());
@@ -124,7 +124,7 @@ public class BestelregelDaoImplement implements BestelregelDao{
 	public boolean deleteBestelRegel(int id){
 		String sql = "DELETE FROM bestelregel WHERE id = ?";
 		int rows = -1;
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
 			stmt.setObject(1, id);
 			rows = stmt.executeUpdate();
@@ -140,7 +140,7 @@ public class BestelregelDaoImplement implements BestelregelDao{
 	public ArrayList<BestelRegel> getAlleBestelregelsPerBestelling(int bestellingId){
 		String sql = "SELECT * FROM bestelregel WHERE Bestelling_idBestelling=?";
 		ArrayList<BestelRegel> returnedBestelregel = new ArrayList<>();
-		try (Connection con= ConnectieDatabase.getConnection();
+		try (Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
 			stmt.setObject(1, bestellingId);
 			ResultSet resultSet = stmt.executeQuery();

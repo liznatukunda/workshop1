@@ -1,6 +1,11 @@
 <connectie>
-	<url>jdbc:mysql://localhost:3306/applikaasie_lop?useLegacyDatetimeCode=false&amp;serverTimezone=UTC&amp;verifyServerCertificate=false&amp;useSSL=true</url>
-	<drivername>com.mysql.cj.jdbc.Driver</drivername>
-	<username>root</username>
-	<password>RS4@Student</password>
+	<mysql>
+		<url>jdbc:mysql://localhost:3306/applikaasie_lop?useLegacyDatetimeCode=false&amp;serverTimezone=UTC&amp;verifyServerCertificate=false&amp;useSSL=true</url>
+		<username>root</username>
+		<password>RS4Student</password>
+	</mysql>
+	<mongo>
+		<url>"127.0.0.1",27017</url>
+		<database>boerPiet_LOP</database>
+	</mongo>	
 </connectie>

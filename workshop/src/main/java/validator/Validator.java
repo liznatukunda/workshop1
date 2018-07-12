@@ -2,9 +2,6 @@ package validator;
 
 import java.math.BigDecimal;
 import org.apache.commons.validator.GenericValidator;
-import org.apache.commons.validator.routines.BigDecimalValidator;
-
-import domein.Account;
 
 public class Validator {
 
@@ -61,6 +58,19 @@ public class Validator {
 			return true;
 		}
 		else return false;	
+	}
+
+	public static BigDecimal textToBigDecimal(String text) {
+		String newtext = "";
+		String comma = ",";
+		for(int index =0; index<text.length();index++) {
+			if(text.charAt(index)==comma.charAt(0)) {
+				newtext = newtext + ".";
+			}
+			else
+				newtext = newtext +  text.charAt(index);																	
+		}
+		return new BigDecimal(newtext);
 	}
 	
 }

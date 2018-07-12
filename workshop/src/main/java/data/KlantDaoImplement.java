@@ -15,14 +15,14 @@ import domein.Adres.AdresType;
 import domein.Bestelling;
 
 public class KlantDaoImplement implements KlantDao{
-//private  static Connection con = ConnectieDatabase.getConnection();
+//private  static Connection con = ConnectieFactory.getConnection();
 	
 	
 	public int createKlant(Klant klant){
 		
 		int insertId = -1;
 		String sql = "INSERT INTO Klant (voornaam, tussenvoegsel, achternaam, account_id) VALUES (?,?,?,?);";
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);){
 			stmt.setObject(1, klant.getVoornaam());
 			stmt.setObject(2, klant.getTussenvoegsel());
@@ -45,7 +45,7 @@ public class KlantDaoImplement implements KlantDao{
 	public Klant getKlant(int id){
 		String sql = "SELECT * FROM Klant WHERE id=?";
 		Klant returnedKlant = null;
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
 			stmt.setObject(1, id);
 			ResultSet resultSet = stmt.executeQuery();
@@ -78,7 +78,7 @@ public class KlantDaoImplement implements KlantDao{
 	public ArrayList<Klant> getAlleKlanten(){
 		String sql = "SELECT * FROM Klant;";
 		ArrayList<Klant> returnedKlanten = new ArrayList<>();
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
 			ResultSet resultSet = stmt.executeQuery();
             while(resultSet.next()){
@@ -106,7 +106,7 @@ public class KlantDaoImplement implements KlantDao{
 	public boolean updateKlant(String voornaam, String tussenvoegsel, String achternaam, int accountId, int id){
 		String sql = "UPDATE Klant SET voornaam = ?, tussenvoegsel = ?, achternaam = ?, account_id = ? WHERE id = ?";
 		int rows = -1;
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
 			stmt.setObject(1, voornaam);
 			stmt.setObject(2, tussenvoegsel);
@@ -130,7 +130,7 @@ public class KlantDaoImplement implements KlantDao{
 	public boolean deleteKlant(int id){
 		String sql = "DELETE FROM Klant WHERE id = ?";
 		int rows = -1;
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
 			stmt.setObject(1, id);
 			rows = stmt.executeUpdate();
@@ -147,7 +147,7 @@ public class KlantDaoImplement implements KlantDao{
 	public ArrayList <Adres> getAdressen(int klantId){
 		Klant klant=getKlant(klantId); // Is dit niet verkeerd, omdat ik een nieuw klant object aanmaak, waardoor er nu 2 gelijke zijn?
 		String sql = "SELECT * FROM Adres WHERE Klant_idKlant = ? && Adrestype=\"postadres\"";
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt=con.prepareStatement(sql);){
 			stmt.setObject(1, klantId);
 			ResultSet resultSet = stmt.executeQuery();
@@ -168,7 +168,7 @@ public class KlantDaoImplement implements KlantDao{
 			e.printStackTrace();
 			}
 		sql = "SELECT * FROM Adres WHERE Klant_idKlant = ? && Adrestype=\"factuuradres\"";
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt=con.prepareStatement(sql);){
 			stmt.setObject(1, klantId);
 			ResultSet resultSet = stmt.executeQuery();
@@ -189,7 +189,7 @@ public class KlantDaoImplement implements KlantDao{
 		e.printStackTrace();
 		}
 		sql = "SELECT * FROM Adres WHERE Klant_idKlant = ? && Adrestype=\"bezorgadres\"";
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt=con.prepareStatement(sql);){
 			stmt.setObject(1, klantId);
 			ResultSet resultSet = stmt.executeQuery();
@@ -217,7 +217,7 @@ public class KlantDaoImplement implements KlantDao{
 /*	public ArrayList <Bestelling> getBestellingen(int klantId){
 		Klant klant=getKlant(klantId); // Is dit niet verkeerd, omdat ik een nieuw klant object aanmaak, waardoor er nu 2 gelijke zijn?
 		String sql = "SELECT * FROM Bestelling WHERE Klant_idKlant = ?";
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt=con.prepareStatement(sql);){
 			stmt.setObject(1, klantId);
 			ResultSet resultSet = stmt.executeQuery();
@@ -243,7 +243,7 @@ public class KlantDaoImplement implements KlantDao{
 	public ArrayList<Klant> getAlleKlantenPerAccount(int accountId){
 		String sql = "SELECT * FROM klant WHERE account_id=?";
 		ArrayList<Klant> returnedKlant = new ArrayList<>();
-		try (Connection con= ConnectieDatabase.getConnection();
+		try (Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
 			stmt.setObject(1, accountId);
 			ResultSet resultSet = stmt.executeQuery();
