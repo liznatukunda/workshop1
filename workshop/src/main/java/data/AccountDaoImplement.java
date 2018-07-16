@@ -35,7 +35,6 @@ public class AccountDaoImplement implements AccountDao {
 		Account returnedAccount = null;
 		try (Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
-			//PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setObject(1, id);
 			ResultSet resultSet = stmt.executeQuery();
             if (resultSet.isBeforeFirst()) {
@@ -59,6 +58,37 @@ public class AccountDaoImplement implements AccountDao {
 		
 		return returnedAccount;
 	}
+	
+	// login credentials
+	public Account getAccountLogin(String username){
+		String sql = "SELECT * FROM account WHERE username=? ";
+		Account returnedAccount = null;
+		try (Connection con= ConnectieFactory.getConnection();
+				PreparedStatement stmt = con.prepareStatement(sql);){
+			stmt.setObject(1, username);
+			ResultSet resultSet = stmt.executeQuery();
+            if (resultSet.isBeforeFirst()) {
+                resultSet.next();
+              
+                int id1 = resultSet.getInt(1);
+                String userNaam =  resultSet.getString(2);
+                String password =  resultSet.getString(3);
+                Rol rol = Account.Rol.toRol(resultSet.getString(4));
+                 returnedAccount = new Account (userNaam,password,rol);
+                
+                returnedAccount.setId(id1);
+            }
+            else{
+            	System.err.println("Geen User gevonden!");
+            }
+            
+		} catch (SQLException e) {
+			e.printStackTrace(); 
+		}
+		
+		return returnedAccount;
+	}
+	
 	
 	public boolean updateAccount(int id, String userNaam, String password,Rol rol ){
 		String sql = "UPDATE account SET username = ?, password = ?, rol = ? WHERE id = ?";

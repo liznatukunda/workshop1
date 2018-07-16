@@ -3,13 +3,14 @@ import java.util.Locale;
 import java.util.Scanner;
 
 import Controllers.MenuController;
-import data.DaoFactory;
+import Controllers.AccountController;
 
 
 
 public class Menu {      
 
 	private static  Scanner input = new Scanner(System.in);
+	private AccountController accountController;
 	
 	public static void main(String[] args) {
 		Locale local = new Locale("nl_NL");	
@@ -51,11 +52,15 @@ public class Menu {
 				 System.out.println( "Password?" );
 				 String password = input.nextLine(); 
 		
-				 String dbUser = "User";
-				 String dbPassword = "Password"; // credentials from the data source  
-	
-			    if (dbUser.equals(user) && dbPassword.equals(password)) {
-			       
+/*				 String dbUser = "User";
+				 String dbPassword = "Password"; // credentials from the data source 	
+			    if (dbUser.equals(user) && dbPassword.equals(password)) {         */
+				 
+			    	
+			    accountController = new AccountController();
+				if(accountController.checkcredentials(user, password)){  
+					
+				 
 			    	System.out.println("U bent succesvol ingelogd ");
 			       
 			        actie();

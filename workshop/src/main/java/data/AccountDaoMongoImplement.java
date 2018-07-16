@@ -5,7 +5,6 @@ import static com.mongodb.client.model.Sorts.descending;
 import static com.mongodb.client.model.Sorts.orderBy;
 import data.ConnectieDatabaseMongoImplement;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import org.bson.Document;
@@ -15,7 +14,6 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 
 import domein.Account;
-import domein.Artikel;
 import domein.Account.Rol;
 
 public class AccountDaoMongoImplement implements AccountDao{
@@ -114,6 +112,14 @@ public class AccountDaoMongoImplement implements AccountDao{
 	@Override
 	public boolean deleteAccount(Account account) {
 		return deleteAccount(account.getId());
+	}
+
+	@Override
+	public Account getAccountLogin(String username) {
+		MongoCollection<Document> collection = mongoConnector.getMongoDB().getCollection("account");
+        Document doc = collection.find(eq("usernaam", username)).first();
+        mongoConnector.close();
+        return convertDocumentToAccount(doc);
 	}
 
 }

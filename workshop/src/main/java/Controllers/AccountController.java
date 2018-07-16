@@ -2,15 +2,13 @@ package Controllers;
 
 import java.util.ArrayList;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import data.AccountDao;
-import data.AccountDaoImplement;
 import data.AccountDaoMongoImplement;
 import data.DaoFactory;
 import data.KlantDao;
-import data.KlantDaoImplement;
-import data.KlantDaoMongoImplement;
 import domein.Account;
-import domein.Bestelling;
 import domein.Klant;
 import domein.Account.Rol;
 
@@ -29,8 +27,9 @@ public class AccountController {
 	}
 	
 	
-	public boolean voegAccountToe(String userNaam, String password, Rol rol){
-		Integer id = accountDao.createAccount(new Account(userNaam, password, rol));  
+	public boolean voegAccountToe(String userNaam, String password, Rol rol){   //https://medium.com/@mpreziuso/password-hashing-pbkdf2-scrypt-bcrypt-1ef4bb9c19b3
+		String hashed = BCrypt.hashpw(password, BCrypt.gensalt(12));             // gensalt's log_rounds parameter determines the complexity
+		Integer id = accountDao.createAccount(new Account(userNaam, hashed, rol));  
 		return id > 0;
 	}
 	
@@ -44,7 +43,16 @@ public class AccountController {
 		return returnstring;
 		}
 	}
+
+    public boolean checkcredentials(String username, String password){
+    	Account account =accountDao.getAccountLogin(username);		
+    	if (account==null) {
+			return false;
+		}
+		return BCrypt.checkpw(password, account.getPassword()); 
+    }
 	
+    
 	public  boolean pasUserNaamAan(int accountId, String userNaam){
 		Account account = accountDao.getAccount(accountId);
 		if(account == null){
@@ -60,7 +68,8 @@ public class AccountController {
 		if(account == null){
 			return false;
 		}
-		account.setUserNaam(password);
+		String hashed = BCrypt.hashpw(password, BCrypt.gensalt(12));   
+		account.setUserNaam(hashed);
 		return accountDao.updateAccount(account); 
 	}
 	
