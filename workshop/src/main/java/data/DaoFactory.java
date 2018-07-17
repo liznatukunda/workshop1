@@ -2,81 +2,75 @@ package data;
 
 public class DaoFactory {
 	
+	static boolean databaseMYSQLGebruikt=true;
 	
-	public static AccountDao getAccountDao(DatabaseSoort databaseSoort) {
+	public static void setDatabaseMYSQL(boolean databaseMYSQLWordtGebruikt) {
+		databaseMYSQLGebruikt=databaseMYSQLWordtGebruikt;
+	}
+	
+	
+	public static AccountDao getAccountDao() {
 		AccountDao accountDao;
-		
-		switch (databaseSoort) {
-		case MYSQLDB:
-			accountDao = new AccountDaoImplement();
-			break;
-		default:
-			accountDao= new AccountDaoMongoImplement();
+		if (databaseMYSQLGebruikt) {
+			accountDao= new AccountDaoImplement();
+		}
+		else {
+			accountDao = new AccountDaoMongoImplement();
 		}
 		return accountDao;
 	}
 	
-	public static AdresDao getAdresDao(DatabaseSoort databaseSoort) {
+	public static AdresDao getAdresDao() {
 		AdresDao adresDao;
-		
-		switch (databaseSoort) {
-		case MYSQLDB:
-			adresDao = new AdresDaoImplement();
-			break;
-		default:
-			adresDao= new AdresDaoMongoImplement();
+		if (databaseMYSQLGebruikt) {
+			adresDao= new AdresDaoImplement();
+		}
+		else {
+			adresDao = new AdresDaoMongoImplement();
 		}
 		return adresDao;
 	}
 	
-	public static ArtikelDao getArtikelDao(DatabaseSoort databaseSoort) {
+	public static ArtikelDao getArtikelDao() {
 		ArtikelDao artikelDao;
-		
-		switch (databaseSoort) {
-		case MYSQLDB:
-			artikelDao = new ArtikelDaoImplement();
-			break;
-		default:
-			artikelDao= new ArtikelDaoMongoImplement();
+		if (databaseMYSQLGebruikt) {
+			artikelDao= new ArtikelDaoImplement();
+		}
+		else {
+			artikelDao = new ArtikelDaoMongoImplement();
 		}
 		return artikelDao;
 	}
 	
-	public static BestellingDao getBestellingDao(DatabaseSoort databaseSoort) {
+	public static BestellingDao getBestellingDao() {
 		BestellingDao bestellingDao;
-		
-		switch (databaseSoort) {
-		case MYSQLDB:
-			bestellingDao = new BestellingDaoImplement();
-			break;
-		default:
-			bestellingDao= new BestellingDaoMongoImplement();
+		if (databaseMYSQLGebruikt) {
+			bestellingDao= new BestellingDaoImplement();
+		}
+		else {
+			bestellingDao = new BestellingDaoMongoImplement();
 		}
 		return bestellingDao;
 	}
 	
-	public static BestelregelDao getBestelregelDao(DatabaseSoort databaseSoort) {
+	public static BestelregelDao getBestelregelDao() {
 		BestelregelDao bestelregelDao;
-		
-		switch (databaseSoort) {
-		case MYSQLDB:
-			bestelregelDao = new BestelregelDaoImplement();
-			break;
-		default:
-			bestelregelDao= new BestelregelDaoMongoImplement();
+		if (databaseMYSQLGebruikt) {
+			bestelregelDao= new BestelregelDaoImplement();
+		}
+		else {
+			bestelregelDao = new BestelregelDaoMongoImplement();
 		}
 		return bestelregelDao;
 	}
 	
-	public static KlantDao getKlantDao(DatabaseSoort databaseSoort) {
+	public static KlantDao getKlantDao() {
 		KlantDao klantDao;
-		
-		switch (databaseSoort) {
-		case MYSQLDB:
-			klantDao = new KlantDaoImplement();
-			break;
-		default:
-			klantDao= new KlantDaoMongoImplement();
+		if (databaseMYSQLGebruikt) {
+			klantDao= new KlantDaoImplement();
+		}
+		else {
+			klantDao = new KlantDaoMongoImplement();
 		}
 		return klantDao;
 	}

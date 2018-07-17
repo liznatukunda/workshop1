@@ -1,5 +1,6 @@
 package Controllers;
 
+import data.DaoFactory;
 import data.DatabaseSoort;
 
 public final class MenuController {
@@ -7,7 +8,7 @@ public final class MenuController {
 	
 	public static void setDatabase(int database) {
 		if (database==1) {
-			databasesoort=DatabaseSoort.MYSQLDB;
+			DaoFactory.setDatabaseMYSQL(true);
 		}
 		else {
 			databasesoort=DatabaseSoort.MONGODB;
