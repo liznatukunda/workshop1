@@ -21,6 +21,9 @@ public class AccountsMenu {
 	boolean logout = false;
 
 	// this menu is meant for only the administrator 
+	
+	
+	
 	while(!logout) {
 		toonAccounts();
 		System.out.println("Kies en type in wat u wilt doen?");

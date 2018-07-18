@@ -58,6 +58,27 @@ public class AccountDaoImplement implements AccountDao {
 		
 		return returnedAccount;
 	}
+	public ArrayList<Account> getKlantAccountsZonderKlant(){
+		String sql = "SELECT * FROM account a  LEFT join klant k on a.id=k.account_id where k.id is Null and a.rol = \"klant\"";
+		ArrayList<Account> returnedAccounts = new ArrayList<>();
+		try ( Connection con= ConnectieFactory.getConnection();
+				PreparedStatement stmt = con.prepareStatement(sql);){
+			ResultSet resultSet = stmt.executeQuery();
+            while(resultSet.next()){            	
+                int id1 = resultSet.getInt(1);
+                String userNaam =  resultSet.getString(2);
+                String password =  resultSet.getString(3);
+               Rol rol = Account.Rol.toRol(resultSet.getString(4));
+               Account account = new Account (userNaam,password,rol);
+               account.setId(id1);
+           	returnedAccounts.add(account);
+           }
+           
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return returnedAccounts;
+	}
 	
 	// login credentials
 	public Account getAccountLogin(String username){

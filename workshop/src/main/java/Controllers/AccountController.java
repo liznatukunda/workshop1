@@ -49,6 +49,8 @@ public class AccountController {
     	if (account==null) {
 			return false;
 		}
+    	Rol rol = account.getRol();
+    	MenuController.setRol(rol);
 		return BCrypt.checkpw(password, account.getPassword()); 
     }
 	
@@ -109,4 +111,15 @@ public class AccountController {
 		ArrayList<Klant> klanten = klantDao.getAlleKlantenPerAccount(accountId);
 		return (klanten.isEmpty());
 	}
+	
+	public String[] getBeschikbareKlantAccounts(){ 
+		ArrayList<Account> accounts = accountDao.getKlantAccountsZonderKlant();
+		String[] returnArray = new String[accounts.size()];
+		for(int i=0; i<accounts.size(); i++){
+			Account a = accounts.get(i);	
+			returnArray[i] = a.getId() + ": " + a.getUserNaam()+ " " + a.getRol().toString(); 
+		}
+		return returnArray;
+	}
+	
 }

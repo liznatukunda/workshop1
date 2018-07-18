@@ -1,5 +1,4 @@
 package view;
-import java.sql.SQLException;
 import java.util.Scanner;
 
 import Controllers.AccountController;
@@ -19,10 +18,6 @@ public class KlantgegevensMenu {
 		klantController = new KlantController();
 		accountController = new AccountController();
 	}	
-	
-	
-	
-	
 	
 	public void klantgegevensMenu() {   
 	boolean logout = false;
@@ -88,7 +83,10 @@ public class KlantgegevensMenu {
 	}
 	
 	public void voegKlantToe(){
-		
+		System.out.println("Alle klantinformatie: ");		
+		for(String s : accountController.getBeschikbareKlantAccounts()){
+			System.out.println(s);
+		}
 		System.out.println("Welk accountnummer moet een klant aan toegevoegd worden?");
 		int accountId = input.nextInt();
 		if (accountController.accountIsKlant(accountId)) {
@@ -156,7 +154,6 @@ public class KlantgegevensMenu {
 					break;
 					}
 				}
-				//System.out.println("toevoeging is: "+toevoeging);
 				if(klantController.voegKlantToe(voornaam, tussenvoegsel, achternaam,accountId, straatnaam, huisnummer, toevoeging, postcode, woonplaats)){
 					System.out.println("Klant toegevoegd!");
 				}

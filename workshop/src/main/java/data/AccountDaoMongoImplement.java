@@ -15,6 +15,7 @@ import com.mongodb.client.MongoCursor;
 
 import domein.Account;
 import domein.Account.Rol;
+import domein.Klant;
 
 public class AccountDaoMongoImplement implements AccountDao{
 	ConnectieDatabaseMongoImplement mongoConnector;
@@ -120,6 +121,35 @@ public class AccountDaoMongoImplement implements AccountDao{
         Document doc = collection.find(eq("usernaam", username)).first();
         mongoConnector.close();
         return convertDocumentToAccount(doc);
+	}
+
+	@Override
+	public ArrayList<Account> getKlantAccountsZonderKlant() {
+		ArrayList<Account> accounts = new ArrayList<>();
+        MongoCollection<Document> collection = mongoConnector.getMongoDB().getCollection("account");
+        FindIterable<Document> allDocuments = collection.find(eq("rol","klant"));
+        MongoCursor<Document> iterator = allDocuments.iterator();
+        while(iterator.hasNext()){
+            Document doc = iterator.next();
+            accounts.add(convertDocumentToAccount(doc));
+        }
+        mongoConnector.close();
+        
+        ArrayList<Klant> klanten = DaoFactory.getKlantDao().getAlleKlanten();
+       for(int index = 0; index< klanten.size(); index++) {
+    	  Klant klant = klanten.get(index);
+    	  int accountId = klant.getAccountId();
+    	  
+          	for(int i = 0; i< accounts.size(); i++) {
+        	  Account account = accounts.get(i);
+        	  int id = account.getId();
+        	  if(id == accountId) {
+        		 accounts.remove(i); 
+        	  }
+           }
+       }
+       return accounts;
+       
 	}
 
 }

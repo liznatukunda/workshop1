@@ -1,10 +1,10 @@
 package Controllers;
 
 import data.DaoFactory;
-import data.DatabaseSoort;
+import domein.Account.Rol;
 
 public final class MenuController {
-//	private static DatabaseSoort databasesoort;
+	private static  Rol ingelogdeRol  = null ;
 	
 	public static void setDatabase(int database) {
 		if (database==1) {
@@ -14,11 +14,21 @@ public final class MenuController {
 			DaoFactory.setDatabaseMYSQL(false);
 		}
 	}
+
 	
-/*	public static DatabaseSoort getDatabase() {
-		return databasesoort;
+	public  static void setRol (Rol rol) {
+		ingelogdeRol=rol;
+		
 	}
-*/
+	
+	public  static boolean isBeheerder() {
+		if(ingelogdeRol==Rol.beheerder) {
+			return true;
+		}
+		else
+		return false;
+	}
+	
 	public static void setConnectionPool(int connectionPool) {
 		if(connectionPool == 1) {
 			data.ConnectieFactory.setConnectiePool(true);
@@ -26,4 +36,6 @@ public final class MenuController {
 		else 
 			data.ConnectieFactory.setConnectiePool(false);
 	}
+	
+	
 }

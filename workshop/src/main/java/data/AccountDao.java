@@ -16,6 +16,7 @@ public interface AccountDao {
 	public abstract boolean deleteAccount(int id);
 	public abstract ArrayList<Account> getAlleAccounts();
 	public abstract boolean deleteAccount(Account account);
+	public abstract ArrayList<Account> getKlantAccountsZonderKlant();
 
 
 

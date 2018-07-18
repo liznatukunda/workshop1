@@ -11,6 +11,7 @@ public class Menu {
 
 	private static  Scanner input = new Scanner(System.in);
 	private AccountController accountController;
+
 	
 	public static void main(String[] args) {
 		Locale local = new Locale("nl_NL");	
@@ -54,14 +55,13 @@ public class Menu {
 		
 /*				 String dbUser = "User";
 				 String dbPassword = "Password"; // credentials from the data source 	
-			    if (dbUser.equals(user) && dbPassword.equals(password)) {         */
+			    if (dbUser.equals(user) && dbPassword.equals(password)) {       */ 
 				 
 			    	
 			    accountController = new AccountController();
-				if(accountController.checkcredentials(user, password)){  
+				if(accountController.checkcredentials(user, password)){  									 
 					
-				 
-			    	System.out.println("U bent succesvol ingelogd ");
+					System.out.println("U bent succesvol ingelogd ");
 			       
 			        actie();
 			        
@@ -81,26 +81,30 @@ public class Menu {
 	
 	public  void actie() {  
 		boolean logout = false;
-		while(!logout) {
-			System.out.println( "Kies en type in wat u wilt doen:  1 :Accounts bekijken");
-			System.out.println( "Kies en type in wat u wilt doen:  2 :Klanten bekijken");
-			System.out.println( "Kies en type in wat u wilt doen:  3 :Artikelen bekijken");
+		while(!logout) {			
+			System.out.println( "Kies en type in wat u wilt doen:  1 :Klanten bekijken");
+			System.out.println( "Kies en type in wat u wilt doen:  2 :Artikelen bekijken");	
+			if(MenuController.isBeheerder()) {
+				System.out.println( "Kies en type in wat u wilt doen:  3 :Accounts bekijken");	
+			}
 			System.out.println( "Kies en type in wat u wilt doen:  0 :Uitloggen");
 	         
 			int actie = input.nextInt();
 	       switch(actie) {
 	       		case 1:
-		       		AccountsMenu accountMenu = new AccountsMenu();
-		       		accountMenu.accountsMenu();
-		       		break;
-	       		case 2:
 	       			KlantgegevensMenu klantgegevensMenu = new KlantgegevensMenu();
 	       			klantgegevensMenu.klantgegevensMenu();
 	       			break;
-	       		case 3: 
+	       		case 2:
 	       			ArtikelMenu artikelmenu = new ArtikelMenu();
 	       			artikelmenu.artikelMenu();
 	       			break;
+	       		case 3: 
+	       			if(MenuController.isBeheerder()) {
+	       				AccountsMenu accountMenu = new AccountsMenu();
+	       				accountMenu.accountsMenu();
+	       			}
+		       		break;
 	       		case 0:
 	       			{ System.out.println( "Uitloggen");
 	       			logout=true;
