@@ -13,6 +13,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import data.*;
+import dataMySQL.AccountDaoImplement;
+import dataMySQL.AdresDaoImplement;
+import dataMySQL.ConnectieDatabase;
+import dataMySQL.KlantDaoImplement;
 import domein.*;
 import domein.Account.Rol;
 import domein.Adres.AdresType;
@@ -31,7 +35,7 @@ public class AdresDaoTest {
 	public static void setUpBeforeClass() throws Exception {
 		try {
 		//	ConnectieDatabase.maakVerbinding();
-		//	con=ConnectieDatabase.getConnection();
+		//	con=ConnectieFactory.getConnection();
 			
 			Account nieuweAccount=new Account("testaccount","mijnWW", Rol.klant);
 			accountDao=new AccountDaoImplement();
@@ -63,7 +67,7 @@ public class AdresDaoTest {
 
 	@Before
 	public void setUp() throws Exception {
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 			PreparedStatement pStatementCreateAdres1=con.prepareStatement("INSERT INTO adres (straatnaam, huisnummer, toevoeging, postcode, woonplaats, adrestype, Klant_idKlant) VALUES (\"mijnstraat\",33,\"1 hoog\",\"9784RT\",\"Mijn Dorp\",\"factuuradres\"," + klantId + ")" );){
 			pStatementCreateAdres1.execute();
 			
@@ -86,7 +90,7 @@ public class AdresDaoTest {
 
 	@After
 	public void tearDown() throws Exception {
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 			PreparedStatement pStatementDeleteAdressen=con.prepareStatement("delete from adres where Klant_idKlant=" + klantId);){
 			pStatementDeleteAdressen.execute();
 		}
@@ -97,15 +101,15 @@ public class AdresDaoTest {
 
 	@Test
 	public void testCreateAdres() throws SQLException {
-		AdresType adresType=AdresType.POSTADRES;
+		AdresType adresType=AdresType.FACTUURADRES;
 		String straatnaam="nieuwe straat";
 		int huisnummer=11;
 		String postcode="5678FG";
 		String plaats="De stad";
-		Adres nieuwAdres=new Adres (adresType, straatnaam , huisnummer, postcode, plaats);
+		Adres nieuwAdres=new Adres (adresType, straatnaam , huisnummer, postcode, plaats, klantId);
 		
 		assertTrue("Er is helemaal geen nieuw adres gecreëerd", adresMapper.createAdres(nieuwAdres, klantId));
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 		PreparedStatement pStatementGetAdresWaarden=con.prepareStatement("SELECT * FROM adres WHERE straatnaam=\"" + straatnaam + "\" && Klant_idKlant=" + klantId);){
 		ResultSet resultSetAdresWaarden = pStatementGetAdresWaarden.executeQuery();
 		Adres actueelAdres=null;
@@ -133,7 +137,7 @@ public class AdresDaoTest {
 			else {
 				actueleAdresType=AdresType.FACTUURADRES;
 			}
-			actueelAdres=new Adres(actueleAdresType, actueleStraatnaam , actuelehuisnummer , actueleToevoeging , actuelePostcode , actueleWoonplaats);
+			actueelAdres=new Adres(actueleAdresType, actueleStraatnaam , actuelehuisnummer , actueleToevoeging , actuelePostcode , actueleWoonplaats, klantId);
 			actueelAdres.setId(actueleId);
 		}
 		assertTrue("nieuw adres wordt niet juist opgeslagen", nieuwAdres.equals(actueelAdres));
@@ -146,18 +150,18 @@ public class AdresDaoTest {
 
 	@Test
 	public void testGetAdres() throws SQLException {
-		Adres verwachtAdres= new Adres(AdresType.FACTUURADRES, "mijnstraat",33,"1 hoog","9784RT","Mijn Dorp");
+		Adres verwachtAdres= new Adres(AdresType.FACTUURADRES, "mijnstraat",33,"1 hoog","9784RT","Mijn Dorp", klantId);
 		verwachtAdres.setId(adresId1);
-		assertTrue("Het ophalen van het adres leverde ongelijke waarden voor adres op", adresMapper.getAdres(adresId1).equals(verwachtAdres));
+		assertTrue("Het ophalen van het adres leverde ongelijke waarden voor adres op", adresMapper.getAdres(klantId, AdresType.FACTUURADRES).equals(verwachtAdres));
 	}
 
 	@Test
 	public void testUpdateAdres() throws SQLException {
 		String updatedStraatNaam="updated straatnaam";
-		Adres verwachtAdres=new Adres (AdresType.POSTADRES, updatedStraatNaam , 666, "0101GH", "updated plaats");
+		Adres verwachtAdres=new Adres (AdresType.FACTUURADRES, updatedStraatNaam , 666, "0101GH", "updated plaats", klantId);
 
 		assertTrue("Het gewijzigde adres wordt niet opgeslagen", adresMapper.updateAdres(verwachtAdres, adresId1));
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 		PreparedStatement pStatementGetAdresWaarden=con.prepareStatement("SELECT * FROM adres WHERE straatnaam=\"" + updatedStraatNaam + "\" && Klant_idKlant=" + klantId);){
 		ResultSet resultSetAdresWaarden = pStatementGetAdresWaarden.executeQuery();
 		Adres actueelAdres=null;
@@ -185,7 +189,7 @@ public class AdresDaoTest {
 			else {
 				actueleAdresType=AdresType.FACTUURADRES;
 			}
-			actueelAdres=new Adres(actueleAdresType, actueleStraatnaam , actuelehuisnummer , actueleToevoeging , actuelePostcode , actueleWoonplaats);
+			actueelAdres=new Adres(actueleAdresType, actueleStraatnaam , actuelehuisnummer , actueleToevoeging , actuelePostcode , actueleWoonplaats, klantId);
 			actueelAdres.setId(actueleId);
 		}
 		assertTrue("Het gewijzigde adres wordt niet juist opgeslagen", verwachtAdres.equals(actueelAdres));
@@ -195,7 +199,7 @@ public class AdresDaoTest {
 	@Test
 	public void testDeleteAdres() throws SQLException {
 		assertTrue("Het verwijderen van het adres kon niet worden opgeslagen", adresMapper.deleteAdres(adresId1));
-		try ( Connection con= ConnectieDatabase.getConnection();
+		try ( Connection con= ConnectieFactory.getConnection();
 		PreparedStatement pStatementGetAdresWaarden=con.prepareStatement("SELECT * FROM adres WHERE id="+adresId1);){
 		ResultSet resultSetAdresWaarden = pStatementGetAdresWaarden.executeQuery();
 		if (resultSetAdresWaarden.isBeforeFirst()) {

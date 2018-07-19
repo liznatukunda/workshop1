@@ -3,6 +3,8 @@ package validator;
 import java.math.BigDecimal;
 import org.apache.commons.validator.GenericValidator;
 
+import data.DaoFactory;
+
 public class Validator {
 
 	public static boolean postcodeIsValid(String postcode) { 
@@ -23,7 +25,7 @@ public class Validator {
 		return aantal>=0;
 	}
 	
-	public static boolean validBigDecimal(BigDecimal prijs){
+	public static boolean validPrijs(BigDecimal prijs){
 		
 		if ((prijs.compareTo(new BigDecimal ("0")))==-1) return false;
 			
@@ -59,18 +61,7 @@ public class Validator {
 		}
 		else return false;	
 	}
-
-	public static BigDecimal textToBigDecimal(String text) {
-		String newtext = "";
-		String comma = ",";
-		for(int index =0; index<text.length();index++) {
-			if(text.charAt(index)==comma.charAt(0)) {
-				newtext = newtext + ".";
-			}
-			else
-				newtext = newtext +  text.charAt(index);																	
-		}
-		return new BigDecimal(newtext);
-	}
+	
+	
 	
 }

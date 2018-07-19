@@ -27,7 +27,7 @@ import static org.mockito.Mockito.*;
 
 import org.mockito.*;
 import Controllers.ArtikelController;
-import data.ArtikelDaoImplement;
+import dataMySQL.ArtikelDaoImplement;
 import domein.Artikel;
 import junit.framework.Assert;
 

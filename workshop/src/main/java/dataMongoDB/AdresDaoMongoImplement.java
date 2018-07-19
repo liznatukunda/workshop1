@@ -1,4 +1,4 @@
-package data;
+package dataMongoDB;
 
 import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Sorts.descending;
@@ -8,6 +8,7 @@ import org.bson.Document;
 
 import com.mongodb.client.MongoCollection;
 
+import data.AdresDao;
 import domein.Account;
 import domein.Adres;
 import domein.Account.Rol;

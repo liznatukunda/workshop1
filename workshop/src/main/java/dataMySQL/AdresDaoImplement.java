@@ -1,10 +1,13 @@
-package data;
+package dataMySQL;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import data.AdresDao;
+import data.ConnectieFactory;
 import domein.Adres;
 import domein.Adres.AdresType;
 

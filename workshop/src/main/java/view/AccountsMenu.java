@@ -75,15 +75,11 @@ public class AccountsMenu {
 	public void zoekAccount() {
 		System.out.println("Vul  Account id  in om te zoeken");
 		int id = input.nextInt();
-		String accountInfo =accountController.zoekAccount(id);
-		if (accountInfo!=null) {
+
+			String accountInfo =accountController.zoekAccount(id);
 			System.out.println( "Account gevonden: "+ accountInfo  );
-		}
-		else {
-			System.out.println("Account niet gevonden");
-		};
-		
 	}
+	
 	public  void voegAccountToe(){
 		String userNaam="";
 		while(true) {

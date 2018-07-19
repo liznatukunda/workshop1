@@ -1,9 +1,11 @@
-package data;
+package dataMySQL;
 
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 
+import data.BestelregelDao;
+import data.ConnectieFactory;
 import domein.BestelRegel;
 import domein.Bestelling;
 import domein.Artikel;
@@ -26,7 +28,6 @@ public class BestelregelDaoImplement implements BestelregelDao{
                 resultSet.next();
                 insertId = resultSet.getInt(1);
                  bestelregel.setId(insertId);
-               System.out.println("Id " + insertId + " voor bestelregel " + bestelregel.getId());
                
             }
 		} catch (SQLException e) {

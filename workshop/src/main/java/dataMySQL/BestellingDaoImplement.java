@@ -1,9 +1,11 @@
-package data;
+package dataMySQL;
 
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 
+import data.BestellingDao;
+import data.ConnectieFactory;
 import domein.Bestelling;
 import domein.Klant;
 
@@ -24,7 +26,6 @@ public class BestellingDaoImplement implements BestellingDao{
             if (resultSet.isBeforeFirst()) {
                 resultSet.next();
                 insertId = resultSet.getInt(1);
-          //      System.out.println("Id " + insertId + " voor bestelling " + bestelling.getBestellingNummer());
                 bestelling.setId(insertId);
             }
 		} catch (SQLException e) {

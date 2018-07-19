@@ -89,33 +89,34 @@ public class KlantgegevensMenu {
 		}
 		System.out.println("Welk accountnummer moet een klant aan toegevoegd worden?");
 		int accountId = input.nextInt();
-		if (accountController.accountIsKlant(accountId)) {
-			if (accountController.accountHeeftGeenKlant(accountId)) {
-				input.nextLine();
-				String voornaam="";
-				while(true) {
-					System.out.println("Wat is de voornaam van deze klant?");
-					voornaam = input.nextLine();
-					if ((Validator.isNaamValid(voornaam))) {
-					break;
-					}
-				}	
-				System.out.println("Heeft de klant een tussenvoegsel: toets 1");
-				System.out.println("Heeft de klant geen tussenvoegsel: toets 0");
-				String tussenvoegsel="";
-				int tussenvoegselaanwezig = input.nextInt();
-				input.nextLine();
-				if (tussenvoegselaanwezig==1) {
-				System.out.println("Wat is de tussenvoegsel van deze klant?"); 
+		if(accountController.isBestaandAccountId(accountId)) {
+			if (accountController.accountIsKlant(accountId)) {
+				if (accountController.accountHeeftGeenKlant(accountId)) {
+					input.nextLine();
+					String voornaam="";
+					while(true) {
+						System.out.println("Wat is de voornaam van deze klant?");
+						voornaam = input.nextLine();
+						if ((Validator.isNaamValid(voornaam))) {
+							break;
+						}
+					}	
+					System.out.println("Heeft de klant een tussenvoegsel: toets 1");
+					System.out.println("Heeft de klant geen tussenvoegsel: toets 0");
+					String tussenvoegsel="";
+					int tussenvoegselaanwezig = input.nextInt();
+					input.nextLine();
+					if (tussenvoegselaanwezig==1) {
+						System.out.println("Wat is de tussenvoegsel van deze klant?"); 
 				
-				tussenvoegsel = input.nextLine();
-				}
-				String achternaam="";
-				while(true) {
-					System.out.println("Wat is de achternaam van deze klant?");
-					achternaam = input.nextLine();
-					if ((Validator.isNaamValid(achternaam))) {
-					break;
+						tussenvoegsel = input.nextLine();
+					}
+					String achternaam="";
+					while(true) {
+						System.out.println("Wat is de achternaam van deze klant?");
+						achternaam = input.nextLine();
+						if ((Validator.isNaamValid(achternaam))) {
+							break;
 					}
 				}	
 				String straatnaam="";
@@ -171,6 +172,7 @@ public class KlantgegevensMenu {
 		else {
 				System.err.println("Account is geen klant-account");
 			}
+		}
 	}
 	
 	public void pasKlantAan(int klantId){

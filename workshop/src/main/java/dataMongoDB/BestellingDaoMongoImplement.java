@@ -1,4 +1,4 @@
-package data;
+package dataMongoDB;
 
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Sorts.descending;
@@ -13,6 +13,7 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 
+import data.BestellingDao;
 import domein.Bestelling;
 import domein.Klant;
 

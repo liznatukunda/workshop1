@@ -1,7 +1,10 @@
-package data;
+package dataMySQL;
 
 import java.sql.*;
 import java.util.ArrayList;
+
+import data.AccountDao;
+import data.ConnectieFactory;
 import domein.Account;
 import domein.Account.Rol;
 

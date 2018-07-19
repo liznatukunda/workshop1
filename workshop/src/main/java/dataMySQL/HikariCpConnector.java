@@ -1,6 +1,10 @@
-package data;
+package dataMySQL;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+
+import data.Connector;
+import data.DOM;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import org.slf4j.Logger;

@@ -8,10 +8,12 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import data.ConnectieDatabase;
+import data.AccountDao;
+import data.DaoFactory;
+import dataMySQL.AccountDaoImplement;
+import dataMySQL.ConnectieDatabase;
 import domein.Account;
 import domein.Account.Rol;
-import data.AccountDaoImplement;
 
 import org.junit.*;
 
@@ -19,7 +21,7 @@ public class AccountDaoTest {
 	
 	ArrayList <Account> testlijst;
 	ArrayList <Account> actueleWaarden;
-	
+	AccountDao adao;
 	Account nieuweAccount1=new Account ("Boer Piet", "simpel", Account.Rol.beheerder);
 	Account nieuweAccount2=new Account ("medewerker 1", "simpel", Account.Rol.medewerker);
 	Account nieuweAccount3=new Account ("klant 1", "simpel", Account.Rol.klant);
@@ -29,7 +31,8 @@ public class AccountDaoTest {
 	Account nieuweAccount6;
 	Account nieuweAccount8=new Account ("klant 5", "easy", Account.Rol.medewerker);
 	//static ConnectieDatabase cdb=new ConnectieDatabase();
-	AccountDaoImplement adao=new AccountDaoImplement();
+//	AccountDao adao=DaoFactory.getAccountDao();
+
 	/*
 	@BeforeClass
 	public static void initialiseer() throws SQLException {
@@ -49,7 +52,8 @@ public class AccountDaoTest {
 		//testlijst.add(nieuweAccount1);
 		//testlijst.add(nieuweAccount2);
 		//testlijst.add(nieuweAccount3);
-		
+		DaoFactory.setDatabaseMYSQL(false); //deze regel al dan niet activeren voor Mongo test
+		adao=DaoFactory.getAccountDao();
 		adao.createAccount(nieuweAccount1);
 		adao.createAccount(nieuweAccount2);
 		adao.createAccount(nieuweAccount3);

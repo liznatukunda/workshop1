@@ -1,7 +1,10 @@
-package data;
+package dataMongoDB;
 
 
 import com.mongodb.client.*;
+
+import data.DOM;
+
 import com.mongodb.MongoClient;
 
 public class ConnectieDatabaseMongoImplement {

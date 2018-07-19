@@ -3,9 +3,9 @@ package mapper_test;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import data.ConnectieDatabase;
+import dataMySQL.ArtikelDaoImplement;
+import dataMySQL.ConnectieDatabase;
 import domein.Artikel;
-import data.ArtikelDaoImplement;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -13,6 +13,9 @@ import static org.junit.Assert.fail;
 import java.math.BigDecimal;
 
 import org.junit.*;
+
+import data.ArtikelDao;
+import data.DaoFactory;
 
 public class ArtikelDaoTest {
 
@@ -23,7 +26,7 @@ public class ArtikelDaoTest {
 	Artikel nieuweArtikel4=new Artikel ("brie", new BigDecimal("7.35"), 500);
 	
 		
-	ArtikelDaoImplement adao=new ArtikelDaoImplement();
+	ArtikelDao adao;
 	
 	//static ConnectieDatabase cdb=new ConnectieDatabase();
 	
@@ -36,7 +39,8 @@ public class ArtikelDaoTest {
 	
 	@Before
 	public void setUp(){
-		
+		DaoFactory.setDatabaseMYSQL(false); //deze regel al dan niet activeren voor Mongo test
+		adao=DaoFactory.getArtikelDao();
 		adao.createArtikel(nieuweArtikel1);
 		adao.createArtikel(nieuweArtikel2);
 		adao.createArtikel(nieuweArtikel3);
@@ -60,7 +64,6 @@ public class ArtikelDaoTest {
 	
 	@Test
 	public void testCreateArtikel() {
-		
 		
 		Artikel actueleArtikel1=adao.getArtikel(nieuweArtikel1.getId());
 		Artikel actueleArtikel2=adao.getArtikel(nieuweArtikel2.getId());

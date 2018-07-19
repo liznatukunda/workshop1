@@ -1,5 +1,18 @@
 package data;
 
+import dataMongoDB.AccountDaoMongoImplement;
+import dataMongoDB.AdresDaoMongoImplement;
+import dataMongoDB.ArtikelDaoMongoImplement;
+import dataMongoDB.BestellingDaoMongoImplement;
+import dataMongoDB.BestelregelDaoMongoImplement;
+import dataMongoDB.KlantDaoMongoImplement;
+import dataMySQL.AccountDaoImplement;
+import dataMySQL.AdresDaoImplement;
+import dataMySQL.ArtikelDaoImplement;
+import dataMySQL.BestellingDaoImplement;
+import dataMySQL.BestelregelDaoImplement;
+import dataMySQL.KlantDaoImplement;
+
 public class DaoFactory {
 	
 	static boolean databaseMYSQLGebruikt=true;

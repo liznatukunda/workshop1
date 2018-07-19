@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import org.mindrot.jbcrypt.BCrypt;
 
 import data.AccountDao;
-import data.AccountDaoMongoImplement;
 import data.DaoFactory;
 import data.KlantDao;
+import dataMongoDB.AccountDaoMongoImplement;
 import domein.Account;
 import domein.Klant;
 import domein.Account.Rol;
@@ -120,6 +120,12 @@ public class AccountController {
 			returnArray[i] = a.getId() + ": " + a.getUserNaam()+ " " + a.getRol().toString(); 
 		}
 		return returnArray;
+	}
+	
+	public boolean isBestaandAccountId(int accountId) {
+		if(accountDao.getAccount(accountId)==null)
+			return false;
+		else return true;
 	}
 	
 }

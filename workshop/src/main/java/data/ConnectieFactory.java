@@ -1,6 +1,8 @@
 package data;
 import java.sql.*;
 import data.Connector;
+import dataMySQL.ConnectieDatabase;
+import dataMySQL.HikariCpConnector;
 
 public class ConnectieFactory {
 	

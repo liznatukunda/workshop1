@@ -1,4 +1,4 @@
-package data;
+package dataMongoDB;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -8,7 +8,8 @@ import static com.mongodb.client.model.Sorts.descending;
 import static com.mongodb.client.model.Sorts.orderBy;
 import org.bson.Document;
 import com.mongodb.client.MongoCollection;
-import data.ConnectieDatabaseMongoImplement;
+
+import data.ArtikelDao;
 import domein.Artikel;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCursor;

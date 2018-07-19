@@ -71,8 +71,8 @@ public class ArtikelMenu {
 		while (true) {
 			System.out.println("Wat is de prijs van het Artikel?"); 
 			prijstext = input.nextLine();
-			prijs = Validator.textToBigDecimal(prijstext); 
-			if(Validator.validBigDecimal(prijs)) {
+			prijs = textToBigDecimal(prijstext); 
+			if(Validator.validPrijs(prijs)) {
 				break;
 			}
 		}
@@ -95,6 +95,7 @@ public class ArtikelMenu {
 	}
 	
 	public void pasArtikelAan(){
+		printAlleArtikelen();
 		System.out.println("Welk Artikelnummer moet aangepast worden?");
 		int artikelId = input.nextInt();    
 		System.out.println("Wat wilt u aanpassen?");
@@ -145,8 +146,8 @@ public class ArtikelMenu {
 		while (true) {
 			System.out.println("Wat is de nieuwe prijs van het Artikel?"); 
 			prijstext = input.nextLine();
-			prijs = Validator.textToBigDecimal(prijstext); 
-			if(Validator.validBigDecimal(prijs)) {
+			prijs = textToBigDecimal(prijstext); 
+			if(Validator.validPrijs(prijs)) {
 				break;
 			}
 		}
@@ -178,6 +179,7 @@ public class ArtikelMenu {
 	}
 	
 	public void zoekArtikel(){
+		printAlleArtikelen();
 		System.out.println("Vul  artikelnummer in om te zoeken");
 		int artikelId = input.nextInt();
 		String artikelInfo =artikelController.zoekArtikel(artikelId);
@@ -191,6 +193,7 @@ public class ArtikelMenu {
 	}
 		
 	public void deleteArtikel(){
+		printAlleArtikelen();
 		System.out.println("Wat is het artikel nummer om te verwijderen?");
 		int artikelId = input.nextInt();
 		if(artikelController.deleteArtikel(artikelId)){ 
@@ -206,6 +209,12 @@ public class ArtikelMenu {
 		for(String s : artikelController.getAlleArtikelen()){
 			System.out.println(s);
 		}
+	}
+	
+	private BigDecimal textToBigDecimal(String text) {
+		String nieuweText=text.replace(',','.');
+		BigDecimal prijs=new BigDecimal(nieuweText);
+		return prijs;
 	}
 
 }

@@ -75,7 +75,13 @@ public class KlantController {
 			return "";
 		}
 		klant.setId(id);
-		return (klant.getId() + ": " + klant.getVoornaam() + "‚ " + klant.getTussenvoegsel() + ", " + klant.getAchternaam() + " " + klant.getAccountId());
+		if (klant.getTussenvoegsel()!=null) {
+			return (klant.getId() + ": " + klant.getVoornaam()  + klant.getTussenvoegsel() + " " + klant.getAchternaam() + " " + klant.getAccountId());
+		}
+		else {
+			return klant.getId() + ": " + klant.getVoornaam()  + " " + klant.getAchternaam() + " " + klant.getAccountId();
+		}
+		
 		
 	}
 	
@@ -83,8 +89,13 @@ public class KlantController {
 		ArrayList<Klant> klanten = klantDao.getAlleKlanten();
 		String[] returnArray = new String[klanten.size()];
 		for(int i=0; i<klanten.size(); i++){
-			Klant klant = klanten.get(i);	
-			returnArray[i] = klant.getId() + ": " + klant.getVoornaam() + "‚ " + klant.getTussenvoegsel() + ", " + klant.getAchternaam() + ", " + klant.getAccountId();
+			Klant klant = klanten.get(i);
+			if (klant.getTussenvoegsel()!=null) {
+				returnArray[i] = klant.getId() + ": " + klant.getVoornaam() + " " + klant.getTussenvoegsel() + " " + klant.getAchternaam() + " " + "accountId: "+klant.getAccountId();
+			}
+			else {
+				returnArray[i] = klant.getId() + ": " + klant.getVoornaam() + " " + klant.getAchternaam() + " " + "accountId: "+klant.getAccountId();
+			}
 		}
 		return returnArray;
 	}

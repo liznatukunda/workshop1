@@ -3,13 +3,13 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import data.ConnectieDatabase;
-import data.KlantDaoImplement;
+import dataMySQL.AccountDaoImplement;
+import dataMySQL.BestellingDaoImplement;
+import dataMySQL.ConnectieDatabase;
+import dataMySQL.KlantDaoImplement;
 import domein.Account;
-import data.AccountDaoImplement;
 import domein.Klant;
 import domein.Bestelling;
-import data.BestellingDaoImplement;
 
 import static org.junit.Assert.*;
 import org.junit.*;
@@ -17,7 +17,7 @@ import org.junit.*;
 public class BestellingDaoTest {
 
 	Account nieuweAccount1=new Account ("klant 1", "simpel", Account.Rol.klant);
-	Klant nieuweKlant1=new Klant ("Jan", "der", "Boy",nieuweAccount1.getId());
+	Klant nieuweKlant1;
 
 	
 	Bestelling bestelling1 = new Bestelling ();
@@ -25,7 +25,7 @@ public class BestellingDaoTest {
 	Bestelling bestelling3 = new Bestelling ();
 
 	
-	static ConnectieDatabase cdb=new ConnectieDatabase();
+	// static ConnectieDatabase cdb=new ConnectieDatabase();
 	AccountDaoImplement adao=new AccountDaoImplement();
 	KlantDaoImplement kdao=new KlantDaoImplement();
 	BestellingDaoImplement bdao = new BestellingDaoImplement();
@@ -38,10 +38,17 @@ public class BestellingDaoTest {
 		@Before
 		public void setUp(){
 			adao.createAccount(nieuweAccount1);
+			nieuweKlant1=new Klant ("Jan", "der", "Boy",nieuweAccount1.getId());
 			kdao.createKlant(nieuweKlant1);
+			
+			bestelling1 = new Bestelling (nieuweKlant1);
+			bestelling2 = new Bestelling (nieuweKlant1);
+			bestelling3 = new Bestelling (nieuweKlant1);
+			
 			bdao.createBestelling(bestelling1);
 			bdao.createBestelling(bestelling2);
 			bdao.createBestelling(bestelling3);
+			
 		}
 		
 		@After
@@ -74,7 +81,7 @@ public class BestellingDaoTest {
 
 	@Test
 	public void testGetAlleBestelling() {
-		ArrayList<Bestelling> actueleWaarden = bdao.getAlleBestelling();
+		ArrayList<Bestelling> actueleWaarden = bdao.getAlleBestellingenPerKlant(nieuweKlant1);
 		ArrayList <Bestelling> testlijst=new ArrayList <>();
 		testlijst.add(bestelling1);
 		testlijst.add(bestelling2);

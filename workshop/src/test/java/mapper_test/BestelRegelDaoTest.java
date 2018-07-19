@@ -4,17 +4,16 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import data.KlantDaoImplement;
+import dataMySQL.AccountDaoImplement;
+import dataMySQL.ArtikelDaoImplement;
+import dataMySQL.BestellingDaoImplement;
+import dataMySQL.BestelregelDaoImplement;
+import dataMySQL.KlantDaoImplement;
 import domein.Account;
-import data.AccountDaoImplement;
 import domein.Klant;
 import domein.Bestelling;
-import data.BestellingDaoImplement;
 import domein.BestelRegel;
-import data.BestelregelDaoImplement;
 import domein.Artikel;
-import data.ArtikelDaoImplement;
-
 
 import static org.junit.Assert.*;
 import org.junit.*;
@@ -23,12 +22,12 @@ public class BestelRegelDaoTest {
 
 	
 	Account nieuweAccount1=new Account ("klant 1", "simpel", Account.Rol.klant);
-	Klant nieuweKlant1=new Klant ("Jan", "der", "Boy",nieuweAccount1.getId());
+	Klant nieuweKlant1;
 	Bestelling bestelling1 = new Bestelling ();
 	Artikel artikel1 = new Artikel ("oude kaas", new BigDecimal("10.10"), 100);
-	BestelRegel bestelregel1 = new BestelRegel(artikel1, 10);
-	BestelRegel bestelregel2 = new BestelRegel(artikel1, 20);
-	BestelRegel bestelregel3 = new BestelRegel(artikel1, 30);
+	BestelRegel bestelregel1;
+	BestelRegel bestelregel2;
+	BestelRegel bestelregel3;
 	
 
 	AccountDaoImplement accountdao=new AccountDaoImplement();
@@ -42,15 +41,22 @@ public class BestelRegelDaoTest {
 	@Before
 	public void setUp(){
 		accountdao.createAccount(nieuweAccount1);
+		nieuweKlant1=new Klant ("Jan", "der", "Boy",nieuweAccount1.getId());
 		klantdao.createKlant(nieuweKlant1);
-		bestellingdao.createBestelling(bestelling1);		
+		
+		
+		bestelling1 = new Bestelling (nieuweKlant1);
+		bestellingdao.createBestelling(bestelling1);
 		artikeldao.createArtikel(artikel1);
-		bestelregeldao.createBestelregel(bestelregel1,bestelling1.getId(),artikel1.getId());
-		bestelregel1.setArtikel(artikel1);
-		bestelregeldao.createBestelregel(bestelregel2,bestelling1.getId(),artikel1.getId());
-		bestelregel2.setArtikel(artikel1);
-		bestelregeldao.createBestelregel(bestelregel3,bestelling1.getId(),artikel1.getId());
-		bestelregel3.setArtikel(artikel1);
+		bestelregel1=new BestelRegel(10,bestelling1.getId(), artikel1);
+		bestelregel2=new BestelRegel(20,bestelling1.getId(), artikel1);
+		bestelregel3=new BestelRegel(30,bestelling1.getId(), artikel1);
+		bestelregeldao.createBestelregel(bestelregel1);
+		//bestelregel1.setArtikel(artikel1);
+		bestelregeldao.createBestelregel(bestelregel2);
+		//bestelregel2.setArtikel(artikel1);
+		bestelregeldao.createBestelregel(bestelregel3);
+		//bestelregel3.setArtikel(artikel1);
 		
 	}
 	@After
@@ -102,7 +108,7 @@ public class BestelRegelDaoTest {
 
 	@Test
 	public void testUpdateBestelRegelIntInt() {
-		boolean updatesucces = bestelregeldao.updateBestelRegel(10005, bestelregel1.getId());
+		boolean updatesucces = bestelregeldao.updateBestelRegel(bestelregel2);
 		assertTrue("klant niet ge-update", updatesucces);
 	}
 
@@ -115,14 +121,14 @@ public class BestelRegelDaoTest {
 
 	@Test
 	public void testDeleteBestelRegelInt() {
-		bestelregeldao.createBestelregel(bestelregel1, bestelling1.getId(),artikel1.getId());
+		bestelregeldao.createBestelregel(bestelregel1);
 		boolean deletesucces = bestelregeldao.deleteBestelRegel(bestelregel1.getId());
 		 assertTrue("bestelling 1 niet deleted",deletesucces);
 	}
 
 	@Test
-	public void testDeleteBestelRegelBestelRegel() {
-		bestelregeldao.createBestelregel(bestelregel1, bestelling1.getId(),artikel1.getId());
+	public void testDeleteBestelRegel() {
+		bestelregeldao.createBestelregel(bestelregel1);
 		boolean deletesucces = bestelregeldao.deleteBestelRegel(bestelregel1);
 		 assertTrue("bestelling 1 niet deleted",deletesucces);
 	}
