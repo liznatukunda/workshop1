@@ -55,23 +55,29 @@ public class BestellingenMenu {
 	public void selecteerBestelling(int klantId) {
 		System.out.println("Welk bestellingnummer wilt u selecteren?");
 		int bestellingId = input.nextInt();
-		for(String s : bestelregelController.zoekBestelregelsPerBestelling(bestellingId)){
-			System.out.println(s);
+		if (bestellingController.isBestaandeBestelling(bestellingId)) {
+			for(String s : bestelregelController.zoekBestelregelsPerBestelling(bestellingId)){
+				System.out.println(s);
+			}
+			System.out.println("Kies en type in wat u wilt doen?");
+			System.out.println( "1 :pas bestelling aan");
+			System.out.println( "2 :deletebestelling");		
+			System.out.println( "0 :Terug naar bestellingmenu");
+			 int actie = input.nextInt();
+		       switch(actie) {   
+			case 1:
+				bestelregelMenu.bestelregelMenu(bestellingId);
+				break;
+			case 2: 
+				deleteBestelling(bestellingId, klantId);
+			case 0: 
+				break;
+		       }
 		}
-		System.out.println("Kies en type in wat u wilt doen?");
-		System.out.println( "1 :pas bestelling aan");
-		System.out.println( "2 :deletebestelling");		
-		System.out.println( "0 :Terug naar bestellingmenu");
-		 int actie = input.nextInt();
-	       switch(actie) {   
-		case 1:
-			bestelregelMenu.bestelregelMenu(bestellingId);
-			break;
-		case 2: 
-			deleteBestelling(bestellingId, klantId);
-		case 0: 
-			break;
-	       }
+		else {
+			System.out.println("Opgegeven bestellingnummer is geen bestaande bestelling.");
+		}
+		
 	}
 	public void zoekBestellingenPerKlant(int klantId) {
 			for(String s : bestellingController.zoekBestellingenPerKlant(klantId)){
@@ -89,8 +95,11 @@ public class BestellingenMenu {
 	}
 	
 	public  void voegBestellingToe(int klantId){
-		if(bestellingController.voegBestellingToe(klantId)){
+		int id=bestellingController.voegBestellingToe(klantId);
+		if(id>0){
 			System.out.println("Bestelling toegevoegd!");
+			BestelregelMenu bestelregelmenu=new BestelregelMenu();
+			bestelregelmenu.bestelregelMenu(id);
 		}
 		else{
 			System.err.println("Kon Bestelling niet toevoegen!");

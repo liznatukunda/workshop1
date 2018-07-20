@@ -94,15 +94,18 @@ public class BestelregelMenu {
 		}
 		System.out.println("Voer artikel nummer in ");
 		int artikelIndex = input.nextInt();
-		int aantal=0;
-		while(true) {
-		System.out.println("Voer het aantal in.");
-		aantal = input.nextInt();
-		if (Validator.aantalIsPositief(aantal)) {
-			break;
+		if (artikelController.isBestaandArtikelnr(artikelIndex)) {
+			int aantal=0;
+			while(true) {
+			System.out.println("Voer het aantal in.");
+			aantal = input.nextInt();
+			if (Validator.aantalIsPositief(aantal)) {
+				break;
+				}
 			}
+			System.out.println(bestelregelController.voegBestelregelToe(bestellingId, artikelIndex, aantal));
 		}
-		System.out.println(bestelregelController.voegBestelregelToe(bestellingId, artikelIndex, aantal));
+		
 		
 			
 		

@@ -104,6 +104,17 @@ private ArrayList<Artikel>artikelen;
 		}
 		return false;
 	}
+
+
+
+	public boolean isBestaandArtikelnr(int artikelIndex) {
+		if (artikelIndex<artikelen.size()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 	
 	
 }

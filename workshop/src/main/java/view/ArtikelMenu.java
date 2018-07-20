@@ -97,29 +97,35 @@ public class ArtikelMenu {
 	public void pasArtikelAan(){
 		printAlleArtikelen();
 		System.out.println("Welk Artikelnummer moet aangepast worden?");
-		int artikelId = input.nextInt();    
-		System.out.println("Wat wilt u aanpassen?");
-		System.out.println("1: naam aanpassen");
-		System.out.println("2: prijs aanpassen");
-		System.out.println("3: voorraad aanpassen");		
-		System.out.println("4: Annuleer");
-		int keuze = input.nextInt();
-		switch(keuze){
-		case 1:
-			pasNaamAan(artikelId);
-			break;
-		case 2:
-			pasPrijsAan(artikelId);
-			break;
-		case 3:
-			pasVoorraadAan(artikelId);
-			break;
-		case 4:
-			break;
-		default:
-			System.out.println("Ongeldige keuze");
-			pasArtikelAan();
+		int artikelId = input.nextInt();
+		if (artikelController.isBestaandArtikelnr(artikelId)) {
+			System.out.println("Wat wilt u aanpassen?");
+			System.out.println("1: naam aanpassen");
+			System.out.println("2: prijs aanpassen");
+			System.out.println("3: voorraad aanpassen");		
+			System.out.println("4: Annuleer");
+			int keuze = input.nextInt();
+			switch(keuze){
+			case 1:
+				pasNaamAan(artikelId);
+				break;
+			case 2:
+				pasPrijsAan(artikelId);
+				break;
+			case 3:
+				pasVoorraadAan(artikelId);
+				break;
+			case 4:
+				break;
+			default:
+				System.out.println("Ongeldige keuze");
+				pasArtikelAan();
+			}
 		}
+		else {
+			System.out.println("Het ingegeven artikelnummer bestaat niet.");
+		}
+		
 	}
 	
 	public void pasNaamAan(int artikelId){
@@ -194,14 +200,20 @@ public class ArtikelMenu {
 		
 	public void deleteArtikel(){
 		printAlleArtikelen();
-		System.out.println("Wat is het artikel nummer om te verwijderen?");
+		System.out.println("Wat is het artikelnummer om te verwijderen?");
 		int artikelId = input.nextInt();
-		if(artikelController.deleteArtikel(artikelId)){ 
-			System.out.println("Artikel deleted!");
+		if (artikelController.isBestaandArtikelnr(artikelId)) {
+			if(artikelController.deleteArtikel(artikelId)){ 
+				System.out.println("Artikel deleted!");
+			}
+			else{
+				System.err.println("Kon artikel niet deleten!");
+			}
 		}
-		else{
-			System.err.println("Kon artikel niet deleten!");
+		else {
+			System.out.println("Het ingegeven artikelnummer bestaat niet.");
 		}
+		
 		
 	}
 	

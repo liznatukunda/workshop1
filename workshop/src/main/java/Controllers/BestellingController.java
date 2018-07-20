@@ -23,10 +23,10 @@ private KlantDao klantDao;
 		klantDao = DaoFactory.getKlantDao();
 		
 	}	
-	public boolean voegBestellingToe(int klantId){
+	public int voegBestellingToe(int klantId){
 		Klant klant= klantDao.getKlant(klantId);
 		Integer id = bestellingDao.createBestelling(new Bestelling(klant));     
-		return id > 0;
+		return id;
 	}
 	
 
@@ -72,7 +72,14 @@ private KlantDao klantDao;
 			returnArray[i] = "bestellingnummer: " + b.getId() + " prijs: " + b.getTotaalPrijs()+ " , klantnummer: " + b.GetKlantId(); 
 		}
 		return returnArray;
-	}	
+	}
+	
+	public boolean isBestaandeBestelling(int bestellingId) {
+		if(bestellingDao.getBestelling(bestellingId)!=null) {
+			return true;
+		}
+		else return false;
+	}
 	
 	
 	

@@ -99,6 +99,13 @@ public class KlantController {
 		}
 		return returnArray;
 	}
+
+	public boolean isBestaandeKlant(int klantId) {
+		if(zoekKlant(klantId).equals("")){
+			return false;
+		}
+		else return true;
+	}
  
 	
 }

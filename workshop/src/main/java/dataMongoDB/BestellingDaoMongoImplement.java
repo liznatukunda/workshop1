@@ -26,9 +26,14 @@ private ConnectieDatabaseMongoImplement mongoConnector;
     }
 	
 	private Bestelling convertDocumentToBestelling(Document doc){
-        Bestelling bestelling= new Bestelling(doc.getInteger("id"),new BigDecimal ( (doc.getString("totaalprijs"))), (doc.getInteger("klantid")));
-        bestelling.setId(doc.getInteger("id"));
-        return bestelling;
+		if (doc!=null) {
+			Bestelling bestelling= new Bestelling(doc.getInteger("id"),new BigDecimal ( (doc.getString("totaalprijs"))), (doc.getInteger("klantid")));
+	        bestelling.setId(doc.getInteger("id"));
+	        return bestelling;
+		}
+		else {
+			return null;
+		}
     }		
 	
 	 private Document convertBestellingToDocument(Bestelling bestelling){

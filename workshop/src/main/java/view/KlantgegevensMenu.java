@@ -55,31 +55,37 @@ public class KlantgegevensMenu {
 	public void selecteerKlant() {
 		System.out.println("Welk klantnummer wilt u selecteren?");
 		int klantId = input.nextInt();
-		System.out.println("Kies en type in wat u wilt doen?");
-		System.out.println( "1 :pas klantgegevens aan");
-		System.out.println( "2 :deleteklant");		
-		System.out.println( "3 :wijzig bestellingen van klant");
-		System.out.println( "4 :ga naar adressen van klant"); 
-		System.out.println( "0 :Terug naar Hoofdmenu");
-		 int actie = input.nextInt();
-	       switch(actie) {   
-		case 1:
-			pasKlantAan(klantId);
-			break;
-		case 2: 
-			deleteKlant(klantId);
-			break;
-		case 3: 
-			bestellingenMenu.bestellingMenu(klantId);
-			break;
-		case 4:
-			AdresMenu adresmenu=new AdresMenu(klantId);
-			break;
-		case 0:
-			break;
-		default:
-			break;
-	       }
+		if (klantController.isBestaandeKlant(klantId)) {
+			System.out.println("Kies en type in wat u wilt doen?");
+			System.out.println( "1 :pas klantgegevens aan");
+			System.out.println( "2 :deleteklant");		
+			System.out.println( "3 :wijzig bestellingen van klant");
+			System.out.println( "4 :ga naar adressen van klant"); 
+			System.out.println( "0 :Terug naar Hoofdmenu");
+			 int actie = input.nextInt();
+		       switch(actie) {   
+			case 1:
+				pasKlantAan(klantId);
+				break;
+			case 2: 
+				deleteKlant(klantId);
+				break;
+			case 3: 
+				bestellingenMenu.bestellingMenu(klantId);
+				break;
+			case 4:
+				AdresMenu adresmenu=new AdresMenu(klantId);
+				break;
+			case 0:
+				break;
+			default:
+				break;
+		       }
+		}
+		else {
+			System.out.println("Opgegeven klantnummer bestaat niet.");
+		}
+		
 	}
 	
 	public void voegKlantToe(){
