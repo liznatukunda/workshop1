@@ -27,9 +27,12 @@ public class AccountDaoMongoImplement implements AccountDao{
     }
 	
     private Account convertDocumentToAccount(Document doc){
-        Account account= new Account(doc.getString("usernaam"),doc.getString("password"),Rol.toRol(doc.getString("rol")));
-        account.setId(doc.getInteger("id"));
-        return account;
+        if(doc!=null) {
+        	Account account= new Account(doc.getString("usernaam"),doc.getString("password"),Rol.toRol(doc.getString("rol")));
+        	account.setId(doc.getInteger("id"));
+        	return account;
+        }
+        else return null;
     }
     
     private Document convertAccountToDoc(Account account){
