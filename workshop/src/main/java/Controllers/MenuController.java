@@ -33,8 +33,9 @@ public final class MenuController {
 		if(connectionPool == 1) {
 			data.ConnectieFactory.setConnectiePool(true);
 		}
-		else 
+		else {
 			data.ConnectieFactory.setConnectiePool(false);
+		}
 	}
 	
 	
