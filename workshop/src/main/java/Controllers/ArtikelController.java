@@ -116,5 +116,11 @@ private ArrayList<Artikel>artikelen;
 		}
 	}
 	
+	public BigDecimal textToBigDecimal(String text) {
+		String nieuweText=text.replace(',','.');
+		BigDecimal prijs=new BigDecimal(nieuweText);
+		return prijs;
+	}
+	
 	
 }

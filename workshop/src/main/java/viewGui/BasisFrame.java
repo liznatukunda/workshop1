@@ -97,7 +97,6 @@ public class BasisFrame extends JFrame {
 		public static int haalIdUitString(String s) {
 			int index=s.indexOf(':');
 			String nieuweString=s.substring(0, index);
-			System.out.println(Integer.parseInt(nieuweString));
 			return Integer.parseInt(nieuweString);
 		}
 		
@@ -150,7 +149,7 @@ public class BasisFrame extends JFrame {
 			
 			gaNaarArtikelItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					//nog in te vullen
+					ArtikelPane artikelPane=new ArtikelPane();
 				}
 			});
 			

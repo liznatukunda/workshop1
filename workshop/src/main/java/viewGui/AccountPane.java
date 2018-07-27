@@ -71,6 +71,7 @@ public class AccountPane {
 	}
 	
 	private void setAccountPane() {
+		BasisFrame.reset();
 		accountToevoegButton=new JButton("Voeg account toe");
 		accountVerwijderOfWijzigButton=new JButton("Verwijder of wijzig een account");
 		accountToevoegButton.setBounds(20,40,300,20);

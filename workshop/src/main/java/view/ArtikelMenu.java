@@ -71,7 +71,7 @@ public class ArtikelMenu {
 		while (true) {
 			System.out.println("Wat is de prijs van het Artikel?"); 
 			prijstext = input.nextLine();
-			prijs = textToBigDecimal(prijstext); 
+			prijs = artikelController.textToBigDecimal(prijstext); 
 			if(Validator.validPrijs(prijs)) {
 				break;
 			}
@@ -152,7 +152,7 @@ public class ArtikelMenu {
 		while (true) {
 			System.out.println("Wat is de nieuwe prijs van het Artikel?"); 
 			prijstext = input.nextLine();
-			prijs = textToBigDecimal(prijstext); 
+			prijs = artikelController.textToBigDecimal(prijstext); 
 			if(Validator.validPrijs(prijs)) {
 				break;
 			}
@@ -223,10 +223,6 @@ public class ArtikelMenu {
 		}
 	}
 	
-	private BigDecimal textToBigDecimal(String text) {
-		String nieuweText=text.replace(',','.');
-		BigDecimal prijs=new BigDecimal(nieuweText);
-		return prijs;
-	}
+	
 
 }
