@@ -76,7 +76,10 @@ public class AccountPane {
 		accountVerwijderOfWijzigButton=new JButton("Verwijder of wijzig een account");
 		accountToevoegButton.setBounds(20,40,300,20);
 		accountVerwijderOfWijzigButton.setBounds(20,80,300,20);
-		contentPane.add(accountToevoegButton);
+		if(BasisFrame.getIsBeheerder()) {
+				contentPane.add(accountToevoegButton);
+		}
+		
 		contentPane.add(accountVerwijderOfWijzigButton);
 		BasisFrame.rebuild();
 		accountToevoegButton.addActionListener(new ActionListener() {

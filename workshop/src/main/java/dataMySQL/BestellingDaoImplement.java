@@ -65,7 +65,7 @@ public class BestellingDaoImplement implements BestellingDao{
 		return returnedBestelling;
 	}
 	
-/*	public ArrayList<Bestelling> getAlleBestelling(){
+	public ArrayList<Bestelling> getAlleBestelling(){
 		String sql = "SELECT * FROM bestelling;";
 		ArrayList<Bestelling> returnedBestelling = new ArrayList<>();
 		try (Connection con= ConnectieFactory.getConnection();
@@ -89,7 +89,7 @@ public class BestellingDaoImplement implements BestellingDao{
 		}
 		return returnedBestelling;
 	}
-*/	
+	
 	public boolean updateBestellingen(BigDecimal totaalprijs, int id){
 		String sql = "UPDATE bestelling SET totaalprijs = ? WHERE id = ?";
 		int rows = -1;

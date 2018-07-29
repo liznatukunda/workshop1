@@ -28,7 +28,7 @@ private ArrayList<Artikel>artikelen;
 		for(int i=0; i<artikelen.size(); i++){
 			Artikel a = artikelen.get(i);
 			String inVoorraad = a.getVoorraad() > 0 ? a.getVoorraad() + " in voorraad." : "UITVERKOCHT!";
-			returnArray[i] = "nummer :" + i + " naam: " + a.getNaam() + " euro " + a.getPrijs().toPlainString() + " voorraad: " + inVoorraad;
+			returnArray[i] = "nummer: " + i + " naam: " + a.getNaam() + " euro " + a.getPrijs().toPlainString() + " voorraad: " + inVoorraad;
 		}
 		return returnArray;
 	}

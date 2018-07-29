@@ -2,6 +2,9 @@ package viewGui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -12,6 +15,7 @@ import javax.swing.JTextPane;
 import Controllers.AdresController;
 import domein.Account;
 import domein.Account.Rol;
+import validator.Validator;
 
 
 public class AdresPane {
@@ -171,6 +175,23 @@ public class AdresPane {
 		postcodeTextField.setBounds(150, 110, 250, 20);
 		plaatsTextField.setBounds(150, 140, 250, 20);
 		
+		postcodeTextField.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusGained(FocusEvent arg0) {				
+			}
+
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				if(!Validator.postcodeIsValid(postcodeTextField.getText())) {
+					JOptionPane.showMessageDialog(BasisFrame.getCenterPane(), "Postcode voldoet niet aan format 1234AA" + System.lineSeparator() + "Probeer het opnieuw.");
+					postcodeTextField.setText("");
+				}
+				
+			}
+			
+		});
+		
 		voegAdresToeButton.setBounds(150, 180, 200, 20);
 		voegAdresToeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -261,7 +282,12 @@ public class AdresPane {
 				break;
 			case "Pas de postcode aan":
 				postcode=JOptionPane.showInputDialog("Geef de nieuwe postcode op");
-				adresController.wijzigPostcode(postcode);
+				if (Validator.postcodeIsValid(postcode)) {
+					adresController.wijzigPostcode(postcode);
+				}
+				else {
+					JOptionPane.showMessageDialog(BasisFrame.getCenterPane(), "Postcode voldoet niet aan format 1234AA" + System.lineSeparator() + "Niets is gewijzigd");
+				}
 				break;
 			case "Pas de plaats aan":
 				woonplaats=JOptionPane.showInputDialog("Geef de nieuwe plaats op");

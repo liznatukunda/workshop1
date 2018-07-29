@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import Controllers.ArtikelController;
+import validator.Validator;
 
 
 public class ArtikelPane {
@@ -46,8 +47,14 @@ public class ArtikelPane {
 	private void artikelToevoegen() {
 		String naam = JOptionPane.showInputDialog("Wat is de naam van het nieuwe artikel");
 		BigDecimal prijs =artController.textToBigDecimal(JOptionPane.showInputDialog("Wat is de prijs van het nieuwe artikel"));
-		int voorraad=Integer.parseInt(JOptionPane.showInputDialog("Wat is de voorraad van het nieuwe artikel"));
-		artController.voegArtikelToe(naam, prijs, voorraad);
+		if(Validator.validPrijs(prijs)) {
+			int voorraad=Integer.parseInt(JOptionPane.showInputDialog("Wat is de voorraad van het nieuwe artikel"));
+			artController.voegArtikelToe(naam, prijs, voorraad);
+		}
+		else {
+			JOptionPane.showMessageDialog(BasisFrame.getCenterPane(), "Onjuiste prijs: prijs mag niet negatief zijn." + System.lineSeparator() + "Probeer het opnieuw.");
+
+		}
 	}
 	
 	private void artikelVerwijderenOfWijzigen() {
@@ -77,7 +84,14 @@ public class ArtikelPane {
 					break;
 				case "Pas de prijs van het artikel aan":
 					BigDecimal prijs =artController.textToBigDecimal(JOptionPane.showInputDialog("Wat is de nieuwe prijs van het artikel"));
-					artController.pasPrijsAan(artikelId, prijs);
+/*					if(Validator.validPrijs(prijs)) {
+						artController.pasPrijsAan(artikelId, prijs);
+					}
+					else {
+						JOptionPane.showMessageDialog(BasisFrame.getCenterPane(), "Onjuiste prijs: prijs mag niet negatief zijn." + System.lineSeparator() + "Probeer het opnieuw.");
+
+					}
+*/					
 					break;
 				case "Pas de voorraad van het artikel aan":
 					int voorraad=Integer.parseInt(JOptionPane.showInputDialog("Wat is de voorraad van het nieuwe artikel"));

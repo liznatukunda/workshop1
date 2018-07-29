@@ -29,6 +29,15 @@ public final class MenuController {
 		return false;
 	}
 	
+	public static boolean isKlant() {
+		if (ingelogdeRol==Rol.klant) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
 	public static void setConnectionPool(int connectionPool) {
 		if(connectionPool == 1) {
 			data.ConnectieFactory.setConnectiePool(true);

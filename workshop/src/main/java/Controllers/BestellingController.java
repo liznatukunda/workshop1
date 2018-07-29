@@ -83,14 +83,14 @@ private KlantDao klantDao;
 	
 	
 	
-/*	public String[] getAlleBestelling(){ 
-		bestellingen = bestellingDaoImplement.getAlleBestelling();
+	public String[] getAlleBestelling(){ 
+		ArrayList <Bestelling> bestellingen = bestellingDao.getAlleBestelling();
 		String[] returnArray = new String[bestellingen.size()];
 		for(int i=0; i<bestellingen.size(); i++){
 			Bestelling b = bestellingen.get(i);	
-			returnArray[i] = i + ": " + b.getTotaalPrijs() + ", " + b.GetKlantId(); 
+			returnArray[i] = "bestellingnummer: " + b.getId() + " prijs: " + b.getTotaalPrijs()+ " , klantnummer: " + b.GetKlantId(); 
 		}
 		return returnArray;
 	}
-*/
+
 }

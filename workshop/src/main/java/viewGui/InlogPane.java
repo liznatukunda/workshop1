@@ -102,6 +102,8 @@ public class InlogPane extends JPanel {
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (accountController.checkcredentials(gebruikersnaamTextField.getText(), wachtwoordTextField.getText())) {
+					BasisFrame.setIsBeheerder(MenuController.isBeheerder());
+					BasisFrame.setIsKlant(MenuController.isKlant());
 					BasisFrame.setInlogStatus(true);
 					BasisFrame.reset();
 				}

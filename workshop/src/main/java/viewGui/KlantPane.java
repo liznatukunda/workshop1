@@ -2,6 +2,8 @@ package viewGui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -13,6 +15,7 @@ import javax.swing.JTextField;
 
 import Controllers.AccountController;
 import Controllers.KlantController;
+import validator.Validator;
 
 public class KlantPane {
 
@@ -156,6 +159,22 @@ public class KlantPane {
 				setKlantPane();
 			}
 		});
+		postcodeTextField.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusGained(FocusEvent arg0) {				
+			}
+
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				if(!Validator.postcodeIsValid(postcodeTextField.getText())) {
+					JOptionPane.showMessageDialog(BasisFrame.getCenterPane(), "Postcode voldoet niet aan format 1234AA" + System.lineSeparator() + "Probeer het opnieuw.");
+					postcodeTextField.setText("");
+				}
+				
+			}
+			
+		});
 	}
 	
 	private void selecteerKlant() {
@@ -179,7 +198,7 @@ public class KlantPane {
 			AdresPane adresPane=new AdresPane(klantId);
 		}
 		else {
-			// start bestellingPane
+			BestellingPane bestellingPane=new BestellingPane(klantId);
 		}
 	}
 	

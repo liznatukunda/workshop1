@@ -27,6 +27,8 @@ public class BasisFrame extends JFrame {
 	private static ButtonGroup gaNaarGroep;
 	private static boolean isIngelogd=false;
 	private static JMenuBar menubalk;
+	private static boolean isKlant=false;
+	private static boolean isBeheerder=false;
 	
 	
 	
@@ -126,12 +128,16 @@ public class BasisFrame extends JFrame {
 			gaNaarKlantItem=new JRadioButtonMenuItem("Ga naar het klantmenu");
 			gaNaarGroep.add(gaNaarKlantItem);
 			gaNaarMenu.add(gaNaarKlantItem);
-			gaNaarArtikelItem=new JRadioButtonMenuItem("Ga naar het artikelmenu");
-			gaNaarGroep.add(gaNaarArtikelItem);
-			gaNaarMenu.add(gaNaarArtikelItem);
-			gaNaarBestellingItem=new JRadioButtonMenuItem("Ga naar het bestellingmenu");
-			gaNaarGroep.add(gaNaarBestellingItem);
-			gaNaarMenu.add(gaNaarBestellingItem);
+			if(!isKlant) {
+				gaNaarArtikelItem=new JRadioButtonMenuItem("Ga naar het artikelmenu");
+				gaNaarGroep.add(gaNaarArtikelItem);
+				gaNaarMenu.add(gaNaarArtikelItem);
+			}
+			if(!isKlant) {
+				gaNaarBestellingItem=new JRadioButtonMenuItem("Ga naar het bestellingmenu");
+				gaNaarGroep.add(gaNaarBestellingItem);
+				gaNaarMenu.add(gaNaarBestellingItem);
+			}
 			menubalk.add(bestandMenu);
 			menubalk.add(gaNaarMenu);
 			
@@ -155,9 +161,34 @@ public class BasisFrame extends JFrame {
 			
 			gaNaarBestellingItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					//nog in te vullen
+					BestellingPane bestellingPane=new BestellingPane();
 				}
 			});
+			uitlogMenuItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					reset();
+					setInlogStatus(false);
+					rebuild();
+					InlogPane inlogPane=new InlogPane();
+					
+				}
+			});
+		}
+		
+		public static void setIsKlant(boolean isWelKlant) {
+			isKlant=isWelKlant;
+		}
+		
+		public static void setIsBeheerder (boolean isWelBeheerder) {
+			isBeheerder=isWelBeheerder;
+		}
+		
+		public static boolean getIsBeheerder () {
+			return isBeheerder;
+		}
+		
+		public static boolean getIsKlant() {
+			return isKlant;
 		}
 		
 		

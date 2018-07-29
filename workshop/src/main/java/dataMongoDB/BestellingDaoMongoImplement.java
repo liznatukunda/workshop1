@@ -14,6 +14,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 
 import data.BestellingDao;
+import domein.Account;
 import domein.Bestelling;
 import domein.Klant;
 
@@ -114,6 +115,20 @@ private ConnectieDatabaseMongoImplement mongoConnector;
 		ArrayList<Bestelling> bestellingen = new ArrayList<>();
         MongoCollection<Document> collection = mongoConnector.getMongoDB().getCollection("bestelling");
         FindIterable<Document> allDocuments = collection.find(eq("klantid", klant.getId()));
+        MongoCursor<Document> iterator = allDocuments.iterator();
+        while(iterator.hasNext()){
+            Document doc = iterator.next();
+            bestellingen.add(convertDocumentToBestelling(doc));
+        }
+        mongoConnector.close();
+        return bestellingen;
+	}
+
+	@Override
+	public ArrayList<Bestelling> getAlleBestelling() {
+		ArrayList<Bestelling> bestellingen = new ArrayList<>();
+        MongoCollection<Document> collection = mongoConnector.getMongoDB().getCollection("bestelling");
+        FindIterable<Document> allDocuments = collection.find();
         MongoCursor<Document> iterator = allDocuments.iterator();
         while(iterator.hasNext()){
             Document doc = iterator.next();

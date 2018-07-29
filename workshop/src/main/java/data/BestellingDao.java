@@ -15,4 +15,5 @@ public interface BestellingDao {
 	public abstract boolean deleteBestellingen(int id);
 	public abstract boolean deleteBestellingen(Bestelling bestellingen);
 	public abstract ArrayList<Bestelling> getAlleBestellingenPerKlant(Klant klant);
+	public abstract ArrayList<Bestelling> getAlleBestelling();
 }

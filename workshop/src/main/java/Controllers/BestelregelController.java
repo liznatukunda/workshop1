@@ -138,7 +138,7 @@ private ArrayList<Artikel>artikelen;
 		String[] returnArray = new String[bestelregels.size()];
 		for(int i=0; i<bestelregels.size(); i++){
 			BestelRegel b = bestelregels.get(i);	
-			returnArray[i] = ("id: " + b.getId() + " aantal: " + b.getAantal() + "‚prijs: " + b.getPrijs() + ",bestellingId: " + b.getBestellingId()+ ", artikelId: " + b.getArtikel().getId());
+			returnArray[i] = ("id: " + b.getId() + " aantal: " + b.getAantal() + "prijs: euro " + b.getPrijs() + ",bestellingId: " + b.getBestellingId()+ ", artikelId: " + b.getArtikel().getId());
 		}
 		return returnArray;
 	}	
