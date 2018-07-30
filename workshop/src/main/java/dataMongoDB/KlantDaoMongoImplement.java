@@ -120,14 +120,14 @@ public class KlantDaoMongoImplement implements KlantDao{
 	}
 
 	@Override
-	public ArrayList<Klant> getAlleKlantenPerAccount(int accountId) {
-		ArrayList<Klant> klanten = new ArrayList<>();
+	public Klant getAlleKlantenPerAccount(int accountId) {
+		Klant klanten = null;
         MongoCollection<Document> collection = mongoConnector.getMongoDB().getCollection("klant");
         FindIterable<Document> allDocuments = collection.find((eq("accountid", accountId)));
         MongoCursor<Document> iterator = allDocuments.iterator();
         while(iterator.hasNext()){
             Document doc = iterator.next();
-            klanten.add(convertDocumentToKlant(doc));
+            klanten=(convertDocumentToKlant(doc));
         }
         mongoConnector.close();
         return klanten;

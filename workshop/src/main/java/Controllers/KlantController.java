@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import data.AdresDao;
 import data.DaoFactory;
 import data.KlantDao;
+import domein.Account;
 import domein.Adres;
 import domein.Klant;
 import domein.Adres.AdresType;
@@ -55,7 +56,7 @@ public class KlantController {
 		if(Klant == null){
 			return false;
 		}
-		Klant.setVoornaam(achternaam);
+		Klant.setAchternaam(achternaam);
 		return klantDao.updateKlant(Klant);      
 		
 	}
@@ -98,6 +99,11 @@ public class KlantController {
 			}
 		}
 		return returnArray;
+	}
+	
+	public int getKlantIdvanAccount(Account account) {
+		Klant klant=klantDao.getAlleKlantenPerAccount(account.getId());
+		return klant.getId();
 	}
 
 	public boolean isBestaandeKlant(int klantId) {

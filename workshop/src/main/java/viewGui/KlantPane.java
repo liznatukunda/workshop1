@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 
 import Controllers.AccountController;
 import Controllers.KlantController;
+import Controllers.MenuController;
 import validator.Validator;
 
 public class KlantPane {
@@ -28,7 +29,8 @@ public class KlantPane {
 	private String voornaam;
 	private String tussenvoegsel=null;
 	private String achternaam;
-	private int accountId;
+	private int accountId=Integer.MIN_VALUE;
+	int klantId=Integer.MIN_VALUE;
 	
 
 	public KlantPane() {
@@ -39,13 +41,32 @@ public class KlantPane {
 	}
 	
 	private void setKlantPane() {
+		if (BasisFrame.getIsKlant()) {
+			accountId=MenuController.getIngelogdeAccount().getId();
+		}
 		BasisFrame.reset();
 		klantToevoegButton=new JButton("Voeg klant toe");
 		kiesKlantButton=new JButton("Kies een bestaande klant");
 		klantToevoegButton.setBounds(20,40,300,20);
 		kiesKlantButton.setBounds(20,80,300,20);
-		contentPane.add(klantToevoegButton);
-		contentPane.add(kiesKlantButton);
+		
+		if (!BasisFrame.getIsKlant()) {
+			contentPane.add(klantToevoegButton);
+			contentPane.add(kiesKlantButton);
+		}
+		else {
+			if(accountController.accountHeeftGeenKlant(MenuController.getIngelogdeAccount())) {
+				contentPane.add(klantToevoegButton);
+//				contentPane.add(kiesKlantButton);
+
+			}
+			else {
+//				contentPane.add(klantToevoegButton);
+				contentPane.add(kiesKlantButton);
+			}
+		}
+		
+		
 		BasisFrame.rebuild();
 		
 		klantToevoegButton.addActionListener(new ActionListener() {
@@ -71,6 +92,18 @@ public class KlantPane {
 		JTextField tussenvoegselTextfield=new JTextField();
 		JTextField achternaamTextfield=new JTextField();
 		JComboBox accountkeuzeComboBox=new JComboBox(accountController.getBeschikbareKlantAccounts());
+		JLabel accountkeuzeLabel=new JLabel();
+		
+
+		if (BasisFrame.getIsKlant()) {
+			accountkeuzeLabel.setText(accountController.zoekAccount(MenuController.getIngelogdeAccount()));
+			accountkeuzeLabel.setBounds(150, 20, 250, 20);
+			contentPane.add(accountkeuzeLabel);
+		}
+		else {
+			accountkeuzeComboBox.setBounds(150, 20, 250, 20);
+			contentPane.add(accountkeuzeComboBox);
+		}
 		
 		JButton volgendeButton=new JButton("Ga door naar volgende stap");
 		
@@ -78,7 +111,7 @@ public class KlantPane {
 		voornaamLabel.setBounds(20, 50, 120, 20);
 		tussenvoegselLabel.setBounds(20, 80, 120, 20);
 		achternaamLabel.setBounds(20, 110, 120, 20);
-		accountkeuzeComboBox.setBounds(150, 20, 250, 20);
+		
 		voornaamTextfield.setBounds(150, 50, 250, 20);
 		tussenvoegselTextfield.setBounds(150, 80, 250, 20);
 		achternaamTextfield.setBounds(150, 110, 250, 20);
@@ -91,7 +124,7 @@ public class KlantPane {
 		contentPane.add(voornaamTextfield);
 		contentPane.add(tussenvoegselTextfield);
 		contentPane.add(achternaamTextfield);
-		contentPane.add(accountkeuzeComboBox);
+		
 		contentPane.add(volgendeButton);
 		
 		volgendeButton.addActionListener(new ActionListener() {
@@ -99,11 +132,12 @@ public class KlantPane {
 				voornaam=voornaamTextfield.getText();
 				tussenvoegsel=tussenvoegselTextfield.getText();
 				achternaam=achternaamTextfield.getText();
-				accountId=BasisFrame.haalIdUitString(accountkeuzeComboBox.getSelectedItem().toString());
+				if (!BasisFrame.getIsKlant()) {
+					accountId=BasisFrame.haalIdUitString(accountkeuzeComboBox.getSelectedItem().toString());
+				}
 				voegKlantPostAdresToe();
 			}
 		});
-		
 		BasisFrame.rebuild();		
 		
 	}
@@ -184,8 +218,16 @@ public class KlantPane {
 		}
 		
 		Object[] klantenlijst = klanten.toArray();
-		Object selectedKlantValue = JOptionPane.showInputDialog(contentPane, "Selecteer een klant", null,JOptionPane.INFORMATION_MESSAGE, null, klantenlijst, klantenlijst[0]);
-		int klantId=BasisFrame.haalIdUitString(selectedKlantValue.toString());
+		if (!BasisFrame.getIsKlant()) {
+			Object selectedKlantValue = JOptionPane.showInputDialog(contentPane, "Selecteer een klant", null,JOptionPane.INFORMATION_MESSAGE, null, klantenlijst, klantenlijst[0]);
+			klantId=BasisFrame.haalIdUitString(selectedKlantValue.toString());
+		}
+		else {
+			klantId=klantController.getKlantIdvanAccount(MenuController.getIngelogdeAccount());
+		}
+		
+		
+			
 		Object[] opties = { "Wijzig klant" , "Verwijder klant" , "Ga naar adressen van deze klant" , "Ga naar bestellingen van deze klant"};
 		Object selectedOptieValue = JOptionPane.showInputDialog(contentPane, "Selecteer een optie", null,JOptionPane.INFORMATION_MESSAGE, null, opties, opties[0]);
 		if (selectedOptieValue.equals("Wijzig klant")) {

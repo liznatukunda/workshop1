@@ -37,14 +37,14 @@ private KlantDao klantDao;
 		if(bestelling == null){
 			return false;
 		}
-		BestelregelDao brdao=DaoFactory.getBestelregelDao();
+/*		BestelregelDao brdao=DaoFactory.getBestelregelDao();
 		ArrayList<BestelRegel> bestelregellijst=brdao.getAlleBestelregelsPerBestelling(bestellingId);
 		BestelregelController brContr=new BestelregelController();
 		for (int index = bestelregellijst.size(); index>=0;index--) {
 			int bestelregelId=bestelregellijst.get(index).getBestellingId();
 			brContr.deleteBestelregel(bestelregelId);
 		}
-		
+*/		
 		return bestellingDao.deleteBestellingen(bestelling);
 	}
 	

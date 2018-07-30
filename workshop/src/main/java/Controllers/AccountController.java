@@ -16,6 +16,7 @@ public class AccountController {
 
 	private  AccountDao accountDao;
 	private KlantDao klantDao;
+	private Account account;
 	
 	public AccountController(){
 		accountDao = DaoFactory.getAccountDao();
@@ -33,8 +34,12 @@ public class AccountController {
 		return id > 0;
 	}
 	
+	public String zoekAccount(Account account) {
+		return zoekAccount(account.getId());
+	}
+	
 	public String zoekAccount(int accountId) {
-		Account account =accountDao.getAccount(accountId);
+		account =accountDao.getAccount(accountId);
 		if (account==null) {
 			return null;
 		}
@@ -45,18 +50,19 @@ public class AccountController {
 	}
 
     public boolean checkcredentials(String username, String password){
-    	Account account =accountDao.getAccountLogin(username);		
+    	account =accountDao.getAccountLogin(username);		
     	if (account==null) {
 			return false;
 		}
     	Rol rol = account.getRol();
     	MenuController.setRol(rol);
+    	MenuController.setIngelogdeAccount(account);
 		return BCrypt.checkpw(password, account.getPassword()); 
     }
 	
     
 	public  boolean pasUserNaamAan(int accountId, String userNaam){
-		Account account = accountDao.getAccount(accountId);
+		account = accountDao.getAccount(accountId);
 		if(account == null){
 			return false;
 		}
@@ -66,7 +72,7 @@ public class AccountController {
 	
 	
 	public  boolean pasUserPasswordAan(int accountId, String password){
-		Account account = accountDao.getAccount(accountId);
+		account = accountDao.getAccount(accountId);
 		if(account == null){
 			return false;
 		}
@@ -77,7 +83,7 @@ public class AccountController {
 	
 	
 	public  boolean pasRolAan(int accountId, Rol rol){
-		Account account = accountDao.getAccount(accountId);
+		account = accountDao.getAccount(accountId);
 		if(account == null){
 			return false;
 		}
@@ -86,7 +92,7 @@ public class AccountController {
 	}
 	
 	public  boolean deleteAccount(int accountId){
-		Account account = accountDao.getAccount(accountId);
+		account = accountDao.getAccount(accountId);
 		if(account == null){
 			return false;
 		}
@@ -104,12 +110,16 @@ public class AccountController {
 		return returnArray;
 	}
 	public boolean accountIsKlant(int accountId) {
-		Account account =accountDao.getAccount(accountId);
+		account =accountDao.getAccount(accountId);
 		return (account.getRol()==Account.Rol.klant);
 	}
 	public boolean accountHeeftGeenKlant(int accountId) {
-		ArrayList<Klant> klanten = klantDao.getAlleKlantenPerAccount(accountId);
-		return (klanten.isEmpty());
+		Klant klanten = klantDao.getAlleKlantenPerAccount(accountId);
+		return (klanten==null);
+	}
+	
+	public boolean accountHeeftGeenKlant(Account account) {
+		return accountHeeftGeenKlant(account.getId());
 	}
 	
 	public String[] getBeschikbareKlantAccounts(){ 

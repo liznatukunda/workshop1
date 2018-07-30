@@ -255,6 +255,7 @@ public class BestellingPane {
 	}
 	
 	private void verwijderBestellingActie() {
+		//System.out.println(bestellingId+" "+klantId);
 		bestelContr.deleteBestelling(bestellingId, klantId);
 		setBestellingPane();
 	}

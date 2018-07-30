@@ -1,10 +1,12 @@
 package Controllers;
 
 import data.DaoFactory;
+import domein.Account;
 import domein.Account.Rol;
 
 public final class MenuController {
 	private static  Rol ingelogdeRol  = null ;
+	private static Account ingelogdeAccount;
 	
 	public static void setDatabase(int database) {
 		if (database==1) {
@@ -13,6 +15,13 @@ public final class MenuController {
 		else {
 			DaoFactory.setDatabaseMYSQL(false);
 		}
+	}
+	
+	public static void setIngelogdeAccount(Account account) {
+		ingelogdeAccount=account;
+	}
+	public static Account getIngelogdeAccount() {
+		return ingelogdeAccount;
 	}
 
 	

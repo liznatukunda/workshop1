@@ -242,13 +242,14 @@ public class KlantDaoImplement implements KlantDao{
 		return klant.leesAlleBestellingen();
 	
 	}*/
-	public ArrayList<Klant> getAlleKlantenPerAccount(int accountId){
+	public Klant getAlleKlantenPerAccount(int accountId){
 		String sql = "SELECT * FROM klant WHERE account_id=?";
-		ArrayList<Klant> returnedKlant = new ArrayList<>();
+		Klant klanten = null;
 		try (Connection con= ConnectieFactory.getConnection();
 				PreparedStatement stmt = con.prepareStatement(sql);){
 			stmt.setObject(1, accountId);
 			ResultSet resultSet = stmt.executeQuery();
+			
 			 while(resultSet.next()){
 	            	
 				 int id1 = resultSet.getInt(1);
@@ -256,15 +257,18 @@ public class KlantDaoImplement implements KlantDao{
 	                String tussenvoegsel =  resultSet.getString(3);
 	                String achternaam =  resultSet.getString(4);
 	                int accountid = resultSet.getInt(5);
-	            	Klant klanten = new Klant (voornaam,tussenvoegsel,achternaam, accountid);
+	            	klanten = new Klant (voornaam,tussenvoegsel,achternaam, accountid);
+	            	klanten.setId(id1);
 
-	            	returnedKlant.add(klanten);
+	            	
 	            }
 	            
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			return returnedKlant;
+		
+			//System.out.println("klantID KlantDaoImpl: "+returnedKlant.get(0).getId()+System.lineSeparator()+"accountId: "+accountId+System.lineSeparator()+"klantvoornaam: "+returnedKlant.get(0).getVoornaam());
+		return klanten;
 		}
 	
 }

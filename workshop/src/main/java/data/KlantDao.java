@@ -13,5 +13,5 @@ public interface KlantDao {
 	public abstract boolean updateKlant(Klant nieuwKlant);
 	public abstract boolean deleteKlant(int id);
 	public abstract boolean deleteKlant(Klant klant);
-	public abstract ArrayList<Klant> getAlleKlantenPerAccount(int accountId);
+	public abstract Klant getAlleKlantenPerAccount(int accountId);
 }

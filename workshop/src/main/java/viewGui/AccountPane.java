@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import Controllers.AccountController;
+import Controllers.MenuController;
 import domein.Account;
 import domein.Account.Rol;
 
@@ -35,8 +36,13 @@ public class AccountPane {
 	
 	private void accountVerwijderenOfWijzigen() {
 		ArrayList <String> accounts = new ArrayList<String>();
-		for(String s : accountController.getAlleAccounts()) {
+		if (!BasisFrame.getIsKlant()) {
+			for(String s : accountController.getAlleAccounts()) {
 			accounts.add(s);
+			}
+		}
+		else {
+			accounts.add(accountController.zoekAccount(MenuController.getIngelogdeAccount()));
 		}
 		Object selectedValue = JOptionPane.showInputDialog(contentPane, "Selecteer een account", null,JOptionPane.INFORMATION_MESSAGE, null, accounts.toArray(), accounts.get(0));
 		int accountId=BasisFrame.haalIdUitString(selectedValue.toString());
