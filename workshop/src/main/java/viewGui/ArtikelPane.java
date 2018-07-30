@@ -63,7 +63,7 @@ public class ArtikelPane {
 			artikelen.add(s);
 		}
 		Object selectedValue = JOptionPane.showInputDialog(contentPane, "Selecteer een artikel", null,JOptionPane.INFORMATION_MESSAGE, null, artikelen.toArray(), artikelen.get(0));
-		int indexStartCijferreeks=selectedValue.toString().indexOf(':')+1;
+		int indexStartCijferreeks=selectedValue.toString().indexOf(':')+2;
 		int indexEindeCijferreeks=selectedValue.toString().indexOf(' ' , indexStartCijferreeks);
 		String selectedValueArtikelId=selectedValue.toString().substring(indexStartCijferreeks,indexEindeCijferreeks);
 		int artikelId=Integer.parseInt(selectedValueArtikelId);
