@@ -59,7 +59,7 @@ public class BasisFrame extends JFrame {
 		
 		menubalk = new JMenuBar();
 		setJMenuBar(menubalk);
-		creëerMenubalk();
+		creeerMenubalk();
 
 		
 		contentPane = new JPanel();
@@ -112,7 +112,7 @@ public class BasisFrame extends JFrame {
 			isIngelogd=isIngelogdStatus;
 		}
 		
-		private void creëerMenubalk() {
+		private void creeerMenubalk() {
 			bestandMenu=new JMenu("Bestand");
 			menubalk.add(bestandMenu);
 			gaNaarMenu=new JMenu("Ga naar...");
