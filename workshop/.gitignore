@@ -1,4 +1,5 @@
 /target/
-/logigng.log
+/logging.log
+/workshop1_slf4j.log
 /.classpath
 /resources/
