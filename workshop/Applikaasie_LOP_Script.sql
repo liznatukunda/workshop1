@@ -10,11 +10,12 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema applikaasie_lop
 -- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `applikaasie_lop` ;
 
 -- -----------------------------------------------------
 -- Schema applikaasie_lop
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `applikaasie_lop` DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA IF NOT EXISTS `applikaasie_lop` DEFAULT CHARACTER SET utf8mb4 ;
 USE `applikaasie_lop` ;
 
 -- -----------------------------------------------------
@@ -29,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `applikaasie_lop`.`account` (
   UNIQUE INDEX `idAccount_UNIQUE` (`id` ASC),
   UNIQUE INDEX `username_UNIQUE` (`username` ASC))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -50,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `applikaasie_lop`.`klant` (
     ON DELETE  CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -74,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `applikaasie_lop`.`adres` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -89,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `applikaasie_lop`.`artikel` (
   UNIQUE INDEX `idArtikel_UNIQUE` (`id` ASC),
   UNIQUE INDEX `naam_UNIQUE` (`naam` ASC))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -108,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `applikaasie_lop`.`bestelling` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -135,7 +136,7 @@ CREATE TABLE IF NOT EXISTS `applikaasie_lop`.`bestelregel` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
